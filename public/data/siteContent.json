@@ -1,0 +1,222 @@
+{
+  "profile": {
+    "name": "Bassam El-Shoraa",
+    "eyebrow": "SQL • POWER BI • PYTHON • EXCEL • TABLEAU",
+    "headline": "Data Analyst building decision-ready BI, reports and forecasts.",
+    "subheadline": "Data Analyst at Shiny White Dental Centers and Data Instructor at Digilians & DEPI, building dashboards, automated reporting, forecasts, and practical analytics systems.",
+    "summary": "Data Analyst working across finance, marketing, operations, research, and analytics education. I build Power BI dashboards, financial and operational reports, forecasting models, SQL and Python analysis, and automated reporting workflows that help teams make clearer decisions.",
+    "roleKeywords": ["Data Analyst", "Business Intelligence", "Power BI", "Financial Reporting", "Forecasting", "Data Instructor"],
+    "toolKeywords": ["Power BI", "SQL", "Python", "Excel", "DAX", "Power Query", "Tableau", "Looker Studio", "Pandas", "Statsmodels"],
+    "location": "Cairo, Egypt",
+    "email": "Bassam.m.elshoraa@gmail.com",
+    "phone": "+201004298013",
+    "availability": "Open to analytics, BI, reporting, and training opportunities",
+    "photo": "/image/personal/bassam-elshoraa-portrait-2026.png",
+    "resume": "/Bassam_Elshoraa_resume.pdf",
+    "linkedin": "https://www.linkedin.com/in/bassam-elshoraa",
+    "github": "https://github.com/BassamElshoraa",
+    "medium": "https://bassamelshoraa.medium.com/",
+    "whatsapp": "https://wa.me/201004298013",
+    "mediumFeed": "https://medium.com/feed/@bassamelshoraa"
+  },
+  "expertise": [
+    {
+      "title": "Business Intelligence",
+      "description": "Executive dashboards, semantic models, DAX, Power Query, KPI systems, and decision-focused reporting.",
+      "skills": ["Power BI", "DAX", "Power Query", "Excel", "Tableau", "Looker Studio"]
+    },
+    {
+      "title": "Analytics & Forecasting",
+      "description": "Exploratory analysis, statistical testing, forecasting, segmentation, and predictive modeling with reproducible workflows.",
+      "skills": ["Python", "Pandas", "Statsmodels", "Scikit-learn", "Statistics"]
+    },
+    {
+      "title": "Data Engineering & Automation",
+      "description": "SQL analysis, relational modeling, ETL workflows, reporting automation, and connected operational processes.",
+      "skills": ["SQL", "SQL Server", "SSIS", "Power Automate", "n8n"]
+    },
+    {
+      "title": "Analytics Education",
+      "description": "End-to-end curricula, practical labs, capstone mentoring, and accessible storytelling for career changers and professionals.",
+      "skills": ["Curriculum Design", "Mentoring", "Assessment", "Data Storytelling"]
+    }
+  ],
+  "experience": [
+    {
+      "id": "digilians",
+      "role": "Data Analysis Instructor",
+      "company": "Digilians",
+      "period": "May 2026 — Present",
+      "location": "Cairo, Egypt",
+      "current": true,
+      "bullets": [
+        "Deliver the Digilians NanoDegree for career-changing cohorts across Python, SQL, Power BI, Tableau, and Looker Studio.",
+        "Design end-to-end curricula covering data cleaning, exploratory analysis, dashboarding, and cross-platform reporting.",
+        "Mentor capstone projects from data collection through stakeholder-ready insight delivery."
+      ]
+    },
+    {
+      "id": "shiny-white",
+      "role": "Data Analyst",
+      "company": "Shiny White Dental Centers",
+      "period": "May 2025 — Present",
+      "location": "Cairo, Egypt",
+      "current": true,
+      "bullets": [
+        "Build forecasting models with Python and Statsmodels to support proactive planning and scheduling.",
+        "Partner with finance on monthly budgets, financial statements, data accuracy, and cost-reduction initiatives.",
+        "Build dynamic Power BI KPI dashboards and automate financial and operational reporting with SQL and Python.",
+        "Deliver recommendations that improve budget allocation, reporting accuracy, and visibility for senior management."
+      ]
+    },
+    {
+      "id": "depi",
+      "role": "Data Analysis Instructor",
+      "company": "Digital Egypt Pioneers Initiative (DEPI)",
+      "period": "December 2025 — Present",
+      "location": "Cairo, Egypt",
+      "current": true,
+      "bullets": [
+        "Teach analytics fundamentals, Excel visualization, and data-driven decision making.",
+        "Deliver Power BI end to end: extraction, Power Query, modeling, DAX, and interactive reports.",
+        "Introduce Azure data services, Tableau, governance, and supervise real-world capstones."
+      ]
+    },
+    {
+      "id": "imp",
+      "role": "Data Analysis Instructor",
+      "company": "Institute of Management Professionals",
+      "period": "October 2025 — May 2026",
+      "location": "Cairo, Egypt",
+      "current": false,
+      "bullets": [
+        "Delivered advanced Excel, Power Query, Power Pivot, and DAX training.",
+        "Taught time intelligence, calculated columns, modeling, and Power BI performance optimization.",
+        "Supported learners with SQL, Pandas, Power Automate, and PL-300 preparation."
+      ]
+    },
+    {
+      "id": "neurotech",
+      "role": "Part-time Data Analysis Instructor",
+      "company": "NeuroTech",
+      "period": "December 2024 — December 2025",
+      "location": "Cairo, Egypt",
+      "current": false,
+      "bullets": [
+        "Taught Python, statistics, SQL, Power BI, and Excel through theory, labs, and real-world projects.",
+        "Designed learning materials, assessments, and one-to-one mentoring for diploma learners."
+      ]
+    },
+    {
+      "id": "freelance",
+      "role": "Freelance Data Analyst",
+      "company": "Upwork & Khamsat",
+      "period": "December 2022 — May 2025",
+      "location": "Remote",
+      "current": false,
+      "bullets": [
+        "Delivered survey design, data cleaning, analysis, visualization, and concise reporting for academic and business clients.",
+        "Produced more than 100 graphs and charts across Excel and Power BI engagements."
+      ]
+    },
+    {
+      "id": "daftar-ahwal",
+      "role": "Senior Data Researcher & Analyst",
+      "company": "Daftar Ahwal Data Research Institute",
+      "period": "January 2019 — October 2022",
+      "location": "Giza, Egypt",
+      "current": false,
+      "bullets": [
+        "Managed 19 social-data projects and more than 10,000 data points using Excel and Power BI.",
+        "Established and led the Modern Egypt program for databases documenting Egypt’s modern social history.",
+        "Led and trained a three-person team, improving project efficiency by 15%.",
+        "Delivered advanced Excel and dataset workshops that increased participants’ analysis capabilities by 50%."
+      ]
+    },
+    {
+      "id": "daftar-ahwal-junior",
+      "role": "Junior Data Analyst & Researcher",
+      "company": "Daftar Ahwal Data Research Institute",
+      "period": "September 2017 — December 2018",
+      "location": "Giza, Egypt",
+      "current": false,
+      "bullets": [
+        "Analyzed five social-data projects totaling 5,000 data points and supported exploratory research.",
+        "Authored more than 20 technical, research, and evaluation reports with an average 4.5/5 rating.",
+        "Led a team of five analysts and researchers and delivered workshops for 50+ participants rated 4.8/5."
+      ]
+    }
+  ],
+  "education": [
+    {
+      "degree": "Professional Data Science Program",
+      "school": "ALX Africa by Explore AI Academy",
+      "period": "May 2023 — August 2024",
+      "location": "Professional program",
+      "image": "/image/alx.jpg"
+    },
+    {
+      "degree": "Data Science & Machine Learning Program",
+      "school": "Microsoft Student Club — EELU",
+      "period": "October 2024 — February 2025",
+      "location": "Professional program",
+      "image": "/image/certifeca.jpeg"
+    },
+    {
+      "degree": "Bachelor's degree",
+      "school": "Faculty of Commerce and Business Administration, Helwan University",
+      "period": "May 2019",
+      "location": "Cairo, Egypt"
+    }
+  ],
+  "certifications": [
+    { "title": "Data Visualization in Power BI", "issuer": "DataCamp", "period": "Professional learning" },
+    { "title": "Data Analysis Professional Track", "issuer": "FWD & Udacity", "period": "Issued October 2021", "image": "/image/udacity_analysis_track_page_1.jpg" },
+    { "title": "Data Analysis Challenger Track", "issuer": "FWD & Udacity", "period": "Issued June 2021", "image": "/image/udacity_data_analysis_challenger_page_1.jpg" },
+    { "title": "Intro to Descriptive Statistics", "issuer": "Udacity", "period": "Issued September 2022" }
+  ],
+  "services": [
+    {
+      "id": "power-bi-dashboards",
+      "icon": "dashboard",
+      "title": "Power BI Dashboards",
+      "description": "Interactive executive and operational reports designed around the decisions your team needs to make.",
+      "deliverables": ["Data model and Power Query", "DAX measures and KPI design", "Interactive report and handover"]
+    },
+    {
+      "id": "financial-reporting",
+      "icon": "finance",
+      "title": "Financial & Operational Reporting",
+      "description": "Clear reporting for budgets, profitability, variance, performance, and day-to-day operational control.",
+      "deliverables": ["Budget and variance analysis", "P&L and KPI reporting", "Management-ready insights"]
+    },
+    {
+      "id": "reporting-automation",
+      "icon": "automation",
+      "title": "Reporting Automation",
+      "description": "Replace repetitive spreadsheet and reporting work with reliable Power Query, SQL, Python, or workflow automation.",
+      "deliverables": ["Process and data audit", "Automated refresh workflow", "Documentation and handover"]
+    },
+    {
+      "id": "data-analysis",
+      "icon": "analysis",
+      "title": "SQL & Python Analysis",
+      "description": "Clean, explore, and analyze business or research data to answer specific questions with reproducible code.",
+      "deliverables": ["Data cleaning and validation", "SQL or Python analysis", "Findings and visual summary"]
+    },
+    {
+      "id": "forecasting",
+      "icon": "forecasting",
+      "title": "Forecasting & Predictive Analytics",
+      "description": "Planning models for demand, traffic, operations, and performance using statistically sound workflows.",
+      "deliverables": ["Forecasting model", "Accuracy assessment", "Scenario and planning output"]
+    },
+    {
+      "id": "analytics-training",
+      "icon": "training",
+      "title": "Analytics Training & Workshops",
+      "description": "Practical programs for teams and learners across Excel, SQL, Power BI, Python, and data storytelling.",
+      "deliverables": ["Tailored curriculum", "Hands-on exercises", "Assessment or capstone support"]
+    }
+  ]
+}
