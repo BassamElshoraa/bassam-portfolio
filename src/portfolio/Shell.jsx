@@ -13,12 +13,12 @@ import {
 import { usePortfolioContent, useTheme } from "./context.jsx";
 
 const navItems = [
-  { label: "Work", href: "/#work" },
-  { label: "Services", href: "/#services" },
-  { label: "Capabilities", href: "/#about" },
-  { label: "Experience", href: "/#experience" },
-  { label: "Credentials", href: "/#credentials" },
-  { label: "Insights", href: "/#insights" },
+  { label: "Work", href: "#work" },
+  { label: "Services", href: "#services" },
+  { label: "Capabilities", href: "#about" },
+  { label: "Experience", href: "#experience" },
+  { label: "Credentials", href: "#credentials" },
+  { label: "Insights", href: "#insights" },
 ];
 
 export function Loader() {
@@ -73,7 +73,7 @@ export function Shell() {
 
           <nav className={menuOpen ? "nav-links is-open" : "nav-links"} aria-label="Primary navigation">
             {navItems.map((item) => (
-              <a key={item.label} href={item.href}>
+              <a key={item.label} href={`${import.meta.env.BASE_URL}${item.href}`}>
                 {item.label}
               </a>
             ))}
@@ -83,9 +83,9 @@ export function Shell() {
             <button className="icon-button" type="button" onClick={toggleTheme} aria-label={`Switch to ${theme === "dark" ? "light" : "dark"} theme`}>
               {theme === "dark" ? <Sun size={19} /> : <Moon size={19} />}
             </button>
-            <Link className="button button-small header-cta" to="/#request">
+            <a className="button button-small header-cta" href={`${import.meta.env.BASE_URL}#request`}>
               Hire me <ArrowUpRight size={16} />
-            </Link>
+            </a>
             <button className="icon-button menu-button" type="button" onClick={() => setMenuOpen((current) => !current)} aria-label="Toggle navigation">
               {menuOpen ? <X size={21} /> : <Menu size={21} />}
             </button>
