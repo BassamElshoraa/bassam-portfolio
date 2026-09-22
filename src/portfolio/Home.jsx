@@ -54,6 +54,10 @@ const toolLogos = {
   Tableau: "/image/tools/tableau.svg",
 };
 
+const toolIcons = {
+  "Looker Studio": LayoutDashboard,
+};
+
 const skillLogoAliases = {
   "Power BI": "Power BI",
   "Power Query": "Power Query",
@@ -89,7 +93,7 @@ function formatPhone(phone = "") {
 }
 
 function articleImage(article) {
-  if (article.title === "Analyzing Football Data with Python") return "/image/articles/football-data-python.png";
+  if (article.title === "Analyzing Football Data with Python") return assetUrl("image/articles/football-data-python.png");
   if (article.thumbnail) return article.thumbnail;
   const match = `${article.content || ""} ${article.description || ""}`.match(/<img[^>]+src=["']([^"']+)["']/i);
   return match?.[1] || "";
@@ -287,7 +291,7 @@ export default function Home() {
               <div className="tool-grid">
                 {(profile.toolKeywords || []).map((tool) => (
                   <span key={tool}>
-                    <i><img src={assetUrl(toolLogos[tool])} alt="" /></i>
+                    <i>{toolLogos[tool] ? <img src={assetUrl(toolLogos[tool])} alt="" /> : (() => { const Icon = toolIcons[tool]; return Icon ? <Icon size={19} aria-hidden="true" /> : null; })()}</i>
                     {tool}
                   </span>
                 ))}

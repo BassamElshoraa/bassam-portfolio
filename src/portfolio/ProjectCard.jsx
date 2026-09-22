@@ -28,7 +28,7 @@ export default function ProjectCard({ project, featured = false }) {
   return (
     <article className={featured ? "project-card project-card-featured" : "project-card"}>
       <Link className="project-image-link" to={`/projects/${project.slug}`} aria-label={`Open ${project.title}`}>
-        <img src={assetUrl(project.image)} alt="" loading="lazy" />
+        <img src={assetUrl(project.image)} alt="" loading="lazy" onError={(event) => { event.currentTarget.hidden = true; event.currentTarget.parentElement.classList.add("image-missing"); }} />
         <span className="project-category"><CategoryIcon category={category} /> {category}</span>
         <span className="project-open"><ArrowUpRight size={18} /></span>
       </Link>

@@ -2182,6 +2182,129 @@ img {
   font: 0.76rem/1.7 ui-monospace, monospace;
 }
 
+/* Final visual polish for project and article imagery */
+.project-image-link {
+  isolation: isolate;
+  padding: 0.62rem;
+  background:
+    radial-gradient(circle at 85% 10%, color-mix(in srgb, var(--blue) 28%, transparent), transparent 42%),
+    linear-gradient(145deg, var(--surface-3), var(--surface-2));
+}
+
+.project-image-link::before {
+  content: "";
+  position: absolute;
+  inset: 0.62rem;
+  z-index: -1;
+  border: 1px solid color-mix(in srgb, var(--accent) 18%, var(--line));
+  border-radius: 11px;
+  background: var(--surface);
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.2), 0 10px 24px rgba(5, 16, 31, 0.12);
+}
+
+.project-image-link::after {
+  inset: auto 0.62rem 0.62rem;
+  height: 36%;
+  border-radius: 0 0 11px 11px;
+  background: linear-gradient(to top, rgba(3, 8, 12, 0.38), transparent);
+}
+
+.project-image-link img {
+  position: relative;
+  z-index: 1;
+  object-fit: contain;
+  border-radius: 10px;
+  background: #ffffff;
+  box-shadow: 0 8px 22px rgba(8, 23, 40, 0.12);
+}
+
+.project-image-link.image-missing::after {
+  content: "Project preview";
+  inset: 50% auto auto 50%;
+  height: auto;
+  padding: 0.5rem 0.7rem;
+  border-radius: 9px;
+  background: var(--accent-soft);
+  color: var(--accent);
+  font-size: 0.75rem;
+  font-weight: 750;
+  transform: translate(-50%, -50%);
+}
+
+.project-overview-fallback {
+  background:
+    radial-gradient(circle at 18% 18%, var(--blue-soft), transparent 40%),
+    var(--surface);
+}
+
+.project-overview-fallback > img {
+  padding: 1rem;
+  object-fit: contain;
+  border-right: 1px solid var(--line);
+  background: var(--surface-2);
+}
+
+.project-overview-fallback.image-missing > img {
+  display: none;
+}
+
+.article-cover-hero {
+  max-width: 980px;
+  margin: 0 0 2.4rem;
+  overflow: hidden;
+  border: 1px solid var(--line-strong);
+  border-radius: 22px;
+  background:
+    radial-gradient(circle at 86% 15%, rgba(255, 255, 255, 0.16), transparent 35%),
+    #101a2a;
+  box-shadow: var(--shadow);
+}
+
+.article-cover-hero img {
+  display: block;
+  width: 100%;
+  max-height: 480px;
+  object-fit: contain;
+}
+
+.article-content img {
+  max-height: 620px;
+  object-fit: contain;
+  background: var(--surface-2);
+}
+
+.article-cover img {
+  background: #ffffff;
+}
+
+.tool-grid span i {
+  display: grid;
+  place-items: center;
+  color: var(--accent);
+}
+
+.tool-grid span i img {
+  width: 22px;
+  height: 22px;
+}
+
+@media (max-width: 640px) {
+  .article-cover-hero {
+    margin-bottom: 1.4rem;
+    border-radius: 16px;
+  }
+
+  .article-cover-hero img {
+    max-height: 280px;
+  }
+
+  .project-overview-fallback > img {
+    min-height: 240px;
+    border-right: 0;
+    border-bottom: 1px solid var(--line);
+  }
+}
+
 .page-loader {
   min-height: 100vh;
   display: flex;

@@ -2,11 +2,11 @@ import { useEffect, useMemo } from "react";
 import { ArrowLeft, ArrowUpRight, CalendarDays, Clock3, ExternalLink } from "lucide-react";
 import { Link, useParams } from "react-router-dom";
 import { usePortfolioContent } from "./context.jsx";
-import { plainTextFromHtml, readingTime } from "./utils.js";
+import { assetUrl, plainTextFromHtml, readingTime } from "./utils.js";
 
 function articleBlocks(html = "") {
   const documentNode = new DOMParser().parseFromString(html, "text/html");
-  const elements = [...documentNode.body.querySelectorAll("h1,h2,h3,p,blockquote,pre,figure,ul,ol")]
+  const elements = [...documentNode.body.querySelectorAll("h1,h2,h3,h4,p,blockquote,pre,figure,ul,ol")]
     .filter((element) => !element.parentElement?.closest("blockquote,figure,ul,ol"));
 
   return elements.map((element, index) => {
@@ -23,7 +23,8 @@ function articleBlocks(html = "") {
 }
 
 function articleImageSource(src = "") {
-  if (src.includes("1*MO-1iW1s45MTOW47whji9A.png")) return "/image/articles/football-data-python.png";
+  if (src.includes("1*MO-1iW1s45MTOW47whji9A.png")) return assetUrl("image/articles/football-data-python.png");
+  if (/^\/?image\//.test(src)) return assetUrl(src);
   if (src.includes("cdn-images-1.medium.com")) {
     return `https://images.weserv.nl/?url=${encodeURIComponent(src.replace(/^https?:\/\//, ""))}`;
   }
@@ -35,6 +36,8 @@ export default function ArticlePage() {
   const { articles, site } = usePortfolioContent();
   const article = articles.find((item) => item.slug === slug);
   const blocks = useMemo(() => articleBlocks(article?.content), [article]);
+  const coverBlock = blocks.find((block) => block.type === "image");
+  const bodyBlocks = coverBlock ? blocks.filter((block) => block !== coverBlock) : blocks;
 
   useEffect(() => {
     if (article) document.title = `${article.title} | Bassam El-Shoraa`;
@@ -64,12 +67,18 @@ export default function ArticlePage() {
         </div>
       </header>
 
+      {coverBlock && (
+        <figure className="article-cover-hero">
+          <img src={articleImageSource(coverBlock.src)} alt={coverBlock.alt || article.title} />
+        </figure>
+      )}
+
       <div className="article-reading-shell">
         <div className="article-progress"><span /></div>
         <div className="article-content">
-          {blocks.map((block) => {
+          {bodyBlocks.map((block) => {
             if (block.type === "image") return <img key={block.key} src={articleImageSource(block.src)} alt={block.alt} loading="lazy" />;
-            if (block.type === "h1" || block.type === "h2" || block.type === "h3") return <h2 key={block.key}>{block.text}</h2>;
+            if (block.type === "h1" || block.type === "h2" || block.type === "h3" || block.type === "h4") return <h2 key={block.key}>{block.text}</h2>;
             if (block.type === "blockquote") return <blockquote key={block.key}>{block.text}</blockquote>;
             if (block.type === "pre") return <pre key={block.key}><code>{block.text}</code></pre>;
             if (block.type === "list") {

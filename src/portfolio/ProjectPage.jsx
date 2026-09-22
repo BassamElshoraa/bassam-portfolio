@@ -87,7 +87,7 @@ export default function ProjectPage() {
 
       {!isPowerBi && !isCodeProject && (
         <section className="project-overview-fallback">
-          <img src={assetUrl(project.image)} alt={`${project.title} preview`} />
+          <img src={assetUrl(project.image)} alt={`${project.title} preview`} onError={(event) => { event.currentTarget.hidden = true; event.currentTarget.parentElement.classList.add("image-missing"); }} />
           <div><h2>Project overview</h2><p>{project.description}</p>{project.github && <a className="button button-ghost" href={project.github} target="_blank" rel="noreferrer">Open project <ArrowUpRight size={16} /></a>}</div>
         </section>
       )}

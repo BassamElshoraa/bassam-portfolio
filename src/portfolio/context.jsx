@@ -153,7 +153,7 @@ export function ContentProvider({ children }) {
 }
 
 export function ThemeProvider({ children }) {
-  const [theme, setTheme] = useState(() => localStorage.getItem("portfolio-theme") || "dark");
+  const [theme, setTheme] = useState(() => localStorage.getItem("portfolio-theme") || "light");
 
   useEffect(() => {
     document.documentElement.dataset.theme = theme;
