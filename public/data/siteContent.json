@@ -1,24 +1,45 @@
 {
   "profile": {
     "name": "Bassam El-Shoraa",
-    "eyebrow": "SQL • POWER BI • PYTHON • EXCEL • TABLEAU",
-    "headline": "Data Analyst building decision-ready BI, reports and forecasts.",
-    "subheadline": "Data Analyst at Shiny White Dental Centers and Data Instructor at Digilians & DEPI, building dashboards, automated reporting, forecasts, and practical analytics systems.",
-    "summary": "Data Analyst working across finance, marketing, operations, research, and analytics education. I build Power BI dashboards, financial and operational reports, forecasting models, SQL and Python analysis, and automated reporting workflows that help teams make clearer decisions.",
-    "roleKeywords": ["Data Analyst", "Business Intelligence", "Power BI", "Financial Reporting", "Forecasting", "Data Instructor"],
-    "toolKeywords": ["Power BI", "SQL", "Python", "Excel", "DAX", "Power Query", "Tableau", "Looker Studio", "Pandas", "Statsmodels"],
+    "eyebrow": "",
+    "headline": "Turning complex data into",
+    "rotatingWords": ["decision-ready BI.", "financial clarity.", "reliable forecasts.", "business impact."],
+    "subheadline": "I uncover the story behind the numbers and turn it into dashboards, insights, and practical decisions.",
+    "summary": "Detail-oriented Data Analyst with expertise in SQL, Excel, Power BI, and Python, dedicated to translating complex datasets into clear, impactful insights.",
+    "aboutDetails": "Skilled in data visualization, simplifying technical findings for diverse audiences, and uncovering hidden patterns beyond raw numbers. Adept at storytelling with data, crafting compelling narratives that drive informed decision-making. Experienced in designing interactive dashboards, conducting training sessions, and collaborating across teams to enhance data-driven strategies. Passionate about delivering actionable insights that bridge the gap between data and decision-makers.",
+    "roleKeywords": ["Data Analyst", "Business Intelligence Analyst", "Financial Analyst", "Data Analysis Instructor", "Reporting Analyst", "Business Analyst"],
+    "toolKeywords": ["Power BI", "SQL", "Python", "Excel", "Power Query", "Tableau"],
     "location": "Cairo, Egypt",
     "email": "Bassam.m.elshoraa@gmail.com",
     "phone": "+201004298013",
-    "availability": "Open to analytics, BI, reporting, and training opportunities",
     "photo": "/image/personal/bassam-elshoraa-portrait-2026.png",
-    "resume": "/Bassam_Elshoraa_resume.pdf",
+    "resume": "https://flowcv.com/resume/g5n4fcbmwj",
     "linkedin": "https://www.linkedin.com/in/bassam-elshoraa",
     "github": "https://github.com/BassamElshoraa",
     "medium": "https://bassamelshoraa.medium.com/",
     "whatsapp": "https://wa.me/201004298013",
     "mediumFeed": "https://medium.com/feed/@bassamelshoraa"
   },
+  "organizations": [
+    {
+      "name": "Shiny White Dental Centers",
+      "role": "Data Analyst",
+      "logo": "/image/organizations/shiny-white.png",
+      "website": "https://shinywhite.com/en/"
+    },
+    {
+      "name": "Digilians",
+      "role": "Data Analysis Instructor",
+      "logo": "/image/organizations/digilians.png",
+      "website": "https://www.digilians.gov.eg/"
+    },
+    {
+      "name": "Digital Egypt Pioneers Initiative",
+      "role": "Data Analysis Instructor",
+      "logo": "/image/organizations/depi.png",
+      "website": "https://depi.gov.eg/"
+    }
+  ],
   "expertise": [
     {
       "title": "Business Intelligence",
@@ -44,9 +65,11 @@
   "experience": [
     {
       "id": "digilians",
+      "logo": "/image/organizations/digilians.png",
       "role": "Data Analysis Instructor",
       "company": "Digilians",
-      "period": "May 2026 — Present",
+      "website": "https://www.digilians.gov.eg/",
+      "period": "May 2026 to Present",
       "location": "Cairo, Egypt",
       "current": true,
       "bullets": [
@@ -57,9 +80,11 @@
     },
     {
       "id": "shiny-white",
+      "logo": "/image/organizations/shiny-white.png",
       "role": "Data Analyst",
       "company": "Shiny White Dental Centers",
-      "period": "May 2025 — Present",
+      "website": "https://shinywhite.com/en/",
+      "period": "May 2025 to Present",
       "location": "Cairo, Egypt",
       "current": true,
       "bullets": [
@@ -71,9 +96,11 @@
     },
     {
       "id": "depi",
+      "logo": "/image/organizations/depi.png",
       "role": "Data Analysis Instructor",
       "company": "Digital Egypt Pioneers Initiative (DEPI)",
-      "period": "December 2025 — Present",
+      "website": "https://depi.gov.eg/",
+      "period": "December 2025 to Present",
       "location": "Cairo, Egypt",
       "current": true,
       "bullets": [
@@ -84,9 +111,11 @@
     },
     {
       "id": "imp",
+      "logo": "/image/organizations/imp.png",
       "role": "Data Analysis Instructor",
       "company": "Institute of Management Professionals",
-      "period": "October 2025 — May 2026",
+      "website": "https://imanagementpro.com/en/",
+      "period": "October 2025 to May 2026",
       "location": "Cairo, Egypt",
       "current": false,
       "bullets": [
@@ -97,9 +126,11 @@
     },
     {
       "id": "neurotech",
+      "logo": "/image/organizations/neurotech.png",
       "role": "Part-time Data Analysis Instructor",
       "company": "NeuroTech",
-      "period": "December 2024 — December 2025",
+      "website": "https://neurotecheg.com/",
+      "period": "December 2024 to December 2025",
       "location": "Cairo, Egypt",
       "current": false,
       "bullets": [
@@ -109,9 +140,14 @@
     },
     {
       "id": "freelance",
+      "logos": ["/image/organizations/upwork.svg", "/image/organizations/khamsat.png"],
       "role": "Freelance Data Analyst",
       "company": "Upwork & Khamsat",
-      "period": "December 2022 — May 2025",
+      "companyLinks": [
+        { "label": "Upwork", "website": "https://www.upwork.com/" },
+        { "label": "Khamsat", "website": "https://khamsat.com/" }
+      ],
+      "period": "December 2022 to May 2025",
       "location": "Remote",
       "current": false,
       "bullets": [
@@ -123,7 +159,7 @@
       "id": "daftar-ahwal",
       "role": "Senior Data Researcher & Analyst",
       "company": "Daftar Ahwal Data Research Institute",
-      "period": "January 2019 — October 2022",
+      "period": "January 2019 to October 2022",
       "location": "Giza, Egypt",
       "current": false,
       "bullets": [
@@ -137,7 +173,7 @@
       "id": "daftar-ahwal-junior",
       "role": "Junior Data Analyst & Researcher",
       "company": "Daftar Ahwal Data Research Institute",
-      "period": "September 2017 — December 2018",
+      "period": "September 2017 to December 2018",
       "location": "Giza, Egypt",
       "current": false,
       "bullets": [
@@ -151,14 +187,14 @@
     {
       "degree": "Professional Data Science Program",
       "school": "ALX Africa by Explore AI Academy",
-      "period": "May 2023 — August 2024",
+      "period": "May 2023 to August 2024",
       "location": "Professional program",
       "image": "/image/alx.jpg"
     },
     {
       "degree": "Data Science & Machine Learning Program",
-      "school": "Microsoft Student Club — EELU",
-      "period": "October 2024 — February 2025",
+      "school": "Microsoft Student Club, EELU",
+      "period": "October 2024 to February 2025",
       "location": "Professional program",
       "image": "/image/certifeca.jpeg"
     },
@@ -205,11 +241,11 @@
       "deliverables": ["Data cleaning and validation", "SQL or Python analysis", "Findings and visual summary"]
     },
     {
-      "id": "forecasting",
-      "icon": "forecasting",
-      "title": "Forecasting & Predictive Analytics",
-      "description": "Planning models for demand, traffic, operations, and performance using statistically sound workflows.",
-      "deliverables": ["Forecasting model", "Accuracy assessment", "Scenario and planning output"]
+      "id": "learner-project-mentoring",
+      "icon": "mentoring",
+      "title": "Learner Mentoring & Project Follow-up",
+      "description": "Structured follow-up for learners and project teams, from choosing the right question to presenting a finished dashboard, notebook, or analysis with confidence.",
+      "deliverables": ["Project planning and milestones", "Technical review and practical feedback", "Portfolio and presentation readiness"]
     },
     {
       "id": "analytics-training",

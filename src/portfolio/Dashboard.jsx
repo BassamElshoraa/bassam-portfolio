@@ -217,8 +217,11 @@ export default function Dashboard() {
 
   const setProfile = (name, value) => setDraftSite((current) => ({ ...current, profile: { ...current.profile, [name]: value } }));
   const setProfileList = (name, value) => setProfile(name, value.split(",").map((item) => item.trim()).filter(Boolean));
+  const setOrganization = (index, name, value) => setDraftSite((current) => ({ ...current, organizations: (current.organizations || []).map((item, itemIndex) => itemIndex === index ? { ...item, [name]: value } : item) }));
+  const addOrganization = () => setDraftSite((current) => ({ ...current, organizations: [...(current.organizations || []), { name: "New organization", role: "Role", logo: "", website: "" }] }));
+  const removeOrganization = (index) => setDraftSite((current) => ({ ...current, organizations: (current.organizations || []).filter((_, itemIndex) => itemIndex !== index) }));
   const setExperience = (index, name, value) => setDraftSite((current) => ({ ...current, experience: current.experience.map((item, itemIndex) => itemIndex === index ? { ...item, [name]: value } : item) }));
-  const addExperience = () => setDraftSite((current) => ({ ...current, experience: [{ id: `experience-${Date.now()}`, role: "New role", company: "Company", period: "Period", location: "Location", current: false, bullets: ["Achievement or responsibility"] }, ...current.experience] }));
+  const addExperience = () => setDraftSite((current) => ({ ...current, experience: [{ id: `experience-${Date.now()}`, role: "New role", company: "Company", website: "", period: "Period", location: "Location", current: false, bullets: ["Achievement or responsibility"] }, ...current.experience] }));
   const removeExperience = (index) => setDraftSite((current) => ({ ...current, experience: current.experience.filter((_, itemIndex) => itemIndex !== index) }));
   const setService = (index, name, value) => setDraftSite((current) => ({ ...current, services: (current.services || []).map((item, itemIndex) => itemIndex === index ? { ...item, [name]: value } : item) }));
   const addService = () => setDraftSite((current) => ({ ...current, services: [...(current.services || []), { id: `service-${Date.now()}`, icon: "dashboard", title: "New service", description: "Describe the business value of this service.", deliverables: ["First deliverable"] }] }));
@@ -282,9 +285,9 @@ export default function Dashboard() {
                   <div className="experience-editor-head"><strong>{item.title}</strong><button className="icon-button danger" type="button" onClick={() => removeService(index)} aria-label="Remove service"><Trash2 size={16} /></button></div>
                   <div className="editor-grid">
                     <label className="field"><span>Service title</span><input value={item.title || ""} onChange={(event) => setService(index, "title", event.target.value)} /></label>
-                    <label className="field"><span>Icon key</span><input value={item.icon || "dashboard"} onChange={(event) => setService(index, "icon", event.target.value)} placeholder="dashboard, finance, automation, analysis, forecasting, training" /></label>
+                    <label className="field"><span>Icon key</span><input value={item.icon || "dashboard"} onChange={(event) => setService(index, "icon", event.target.value)} placeholder="dashboard, finance, automation, analysis, mentoring, training" /></label>
                     <label className="field field-span-2"><span>Description</span><textarea rows="3" value={item.description || ""} onChange={(event) => setService(index, "description", event.target.value)} /></label>
-                    <label className="field field-span-2"><span>Deliverables — one per line</span><textarea rows="4" value={(item.deliverables || []).join("\n")} onChange={(event) => setService(index, "deliverables", event.target.value.split("\n").map((value) => value.trim()).filter(Boolean))} /></label>
+                    <label className="field field-span-2"><span>Deliverables, one per line</span><textarea rows="4" value={(item.deliverables || []).join("\n")} onChange={(event) => setService(index, "deliverables", event.target.value.split("\n").map((value) => value.trim()).filter(Boolean))} /></label>
                   </div>
                 </article>
               ))}
@@ -296,12 +299,30 @@ export default function Dashboard() {
           <section className="admin-section form-section">
             <div className="admin-section-head"><div><h2>Public profile</h2><p>Edit the main story, contact links, availability, and resume.</p></div><button className="button" type="button" onClick={() => persist()}><Save size={17} /> Save profile</button></div>
             <div className="editor-grid">
-              {["name", "eyebrow", "headline", "subheadline", "location", "availability", "email", "phone", "linkedin", "github", "medium", "whatsapp", "resume", "photo"].map((name) => (
+              {["name", "eyebrow", "headline", "subheadline", "location", "email", "phone", "linkedin", "github", "medium", "whatsapp", "resume", "photo"].map((name) => (
                 <label className={name === "headline" || name === "subheadline" ? "field field-span-2" : "field"} key={name}><span>{name.replace(/([A-Z])/g, " $1")}</span>{name === "subheadline" ? <textarea rows="4" value={draftSite.profile[name] || ""} onChange={(event) => setProfile(name, event.target.value)} /> : <input value={draftSite.profile[name] || ""} onChange={(event) => setProfile(name, event.target.value)} />}</label>
               ))}
               <label className="field field-span-2"><span>Summary</span><textarea rows="5" value={draftSite.profile.summary || ""} onChange={(event) => setProfile("summary", event.target.value)} /></label>
-              <label className="field field-span-2"><span>Role keywords — comma separated</span><textarea rows="3" value={(draftSite.profile.roleKeywords || []).join(", ")} onChange={(event) => setProfileList("roleKeywords", event.target.value)} /></label>
-              <label className="field field-span-2"><span>Tool keywords — comma separated</span><textarea rows="3" value={(draftSite.profile.toolKeywords || []).join(", ")} onChange={(event) => setProfileList("toolKeywords", event.target.value)} /></label>
+              <label className="field field-span-2"><span>About details</span><textarea rows="5" value={draftSite.profile.aboutDetails || ""} onChange={(event) => setProfile("aboutDetails", event.target.value)} /></label>
+              <label className="field field-span-2"><span>Rotating hero outcomes, comma separated</span><textarea rows="3" value={(draftSite.profile.rotatingWords || []).join(", ")} onChange={(event) => setProfileList("rotatingWords", event.target.value)} /></label>
+              <label className="field field-span-2"><span>Role keywords, comma separated</span><textarea rows="3" value={(draftSite.profile.roleKeywords || []).join(", ")} onChange={(event) => setProfileList("roleKeywords", event.target.value)} /></label>
+              <label className="field field-span-2"><span>Tool keywords, comma separated</span><textarea rows="3" value={(draftSite.profile.toolKeywords || []).join(", ")} onChange={(event) => setProfileList("toolKeywords", event.target.value)} /></label>
+            </div>
+            <div className="dashboard-subsection">
+              <div className="admin-section-head"><div><span className="eyebrow">About section</span><h3>Organizations</h3></div><button className="button button-ghost button-small" type="button" onClick={addOrganization}><Plus size={16} /> Add organization</button></div>
+              <div className="experience-editor-list">
+                {(draftSite.organizations || []).map((item, index) => (
+                  <article className="experience-editor" key={`${item.name}-${index}`}>
+                    <div className="experience-editor-head"><strong>{item.name}</strong><button className="icon-button danger" type="button" onClick={() => removeOrganization(index)} aria-label="Remove organization"><Trash2 size={16} /></button></div>
+                    <div className="editor-grid">
+                      <label className="field"><span>Name</span><input value={item.name || ""} onChange={(event) => setOrganization(index, "name", event.target.value)} /></label>
+                      <label className="field"><span>Role</span><input value={item.role || ""} onChange={(event) => setOrganization(index, "role", event.target.value)} /></label>
+                      <label className="field field-span-2"><span>Official website</span><input value={item.website || ""} onChange={(event) => setOrganization(index, "website", event.target.value)} placeholder="https://company.com/" /></label>
+                      <label className="field field-span-2"><span>Logo path</span><input value={item.logo || ""} onChange={(event) => setOrganization(index, "logo", event.target.value)} placeholder="/image/organizations/logo.png" /></label>
+                    </div>
+                  </article>
+                ))}
+              </div>
             </div>
           </section>
         )}
@@ -316,9 +337,12 @@ export default function Dashboard() {
                   <div className="editor-grid">
                     <label className="field"><span>Role</span><input value={item.role} onChange={(event) => setExperience(index, "role", event.target.value)} /></label>
                     <label className="field"><span>Company</span><input value={item.company} onChange={(event) => setExperience(index, "company", event.target.value)} /></label>
+                    <label className="field"><span>Official website</span><input value={item.website || ""} onChange={(event) => setExperience(index, "website", event.target.value)} placeholder="https://company.com/" /></label>
                     <label className="field"><span>Period</span><input value={item.period} onChange={(event) => setExperience(index, "period", event.target.value)} /></label>
                     <label className="field"><span>Location</span><input value={item.location} onChange={(event) => setExperience(index, "location", event.target.value)} /></label>
-                    <label className="field field-span-2"><span>Achievements — one per line</span><textarea rows="5" value={(item.bullets || []).join("\n")} onChange={(event) => setExperience(index, "bullets", event.target.value.split("\n"))} /></label>
+                    <label className="field field-span-2"><span>Logo path</span><input value={item.logo || ""} onChange={(event) => setExperience(index, "logo", event.target.value)} placeholder="/image/organizations/logo.png" /></label>
+                    <label className="field field-span-2"><span>Additional logo paths (one per line)</span><textarea rows="2" value={(item.logos || []).join("\n")} onChange={(event) => setExperience(index, "logos", event.target.value.split("\n").map((value) => value.trim()).filter(Boolean))} placeholder="/image/organizations/logo.svg" /></label>
+                    <label className="field field-span-2"><span>Achievements, one per line</span><textarea rows="5" value={(item.bullets || []).join("\n")} onChange={(event) => setExperience(index, "bullets", event.target.value.split("\n"))} /></label>
                   </div>
                 </article>
               ))}

@@ -25,7 +25,7 @@ export default function ServiceRequestForm({ email, services = [], initialServic
 
   const submit = (event) => {
     event.preventDefault();
-    const subject = `Service request: ${form.service} — ${form.name}`;
+    const subject = `Service request: ${form.service}, ${form.name}`;
     const body = [
       `Name: ${form.name}`,
       `Email: ${form.email}`,
@@ -47,7 +47,7 @@ export default function ServiceRequestForm({ email, services = [], initialServic
       <div className="request-form-heading">
         <span className="eyebrow"><Mail size={15} /> Start a project</span>
         <h3>Tell me what you need.</h3>
-        <p>Share the business problem, your available data, and the result you want. Your email app will open with a structured request ready to send.</p>
+        <p>Share the problem, the data you have, and the result you want.</p>
       </div>
 
       <div className="request-form-grid">
@@ -75,8 +75,8 @@ export default function ServiceRequestForm({ email, services = [], initialServic
           <select name="budget" value={form.budget} onChange={update}>
             <option value="">Let’s discuss</option>
             <option value="Under $250">Under $250</option>
-            <option value="$250–$500">$250–$500</option>
-            <option value="$500–$1,000">$500–$1,000</option>
+            <option value="$250 to $500">$250 to $500</option>
+            <option value="$500 to $1,000">$500 to $1,000</option>
             <option value="$1,000+">$1,000+</option>
           </select>
         </label>
@@ -91,7 +91,6 @@ export default function ServiceRequestForm({ email, services = [], initialServic
       </div>
 
       <div className="request-form-footer">
-        <p>No account or data upload is required. You review the email before sending it.</p>
         <button className="button" type="submit"><Send size={17} /> Prepare email request</button>
       </div>
       {ready && <p className="request-ready" role="status">Your request is ready in your email app.</p>}

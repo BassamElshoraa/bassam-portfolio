@@ -22,6 +22,14 @@ function articleBlocks(html = "") {
   }).filter((item) => item && (item.text || item.src || item.items?.length));
 }
 
+function articleImageSource(src = "") {
+  if (src.includes("1*MO-1iW1s45MTOW47whji9A.png")) return "/image/articles/football-data-python.png";
+  if (src.includes("cdn-images-1.medium.com")) {
+    return `https://images.weserv.nl/?url=${encodeURIComponent(src.replace(/^https?:\/\//, ""))}`;
+  }
+  return src;
+}
+
 export default function ArticlePage() {
   const { slug } = useParams();
   const { articles, site } = usePortfolioContent();
@@ -44,7 +52,7 @@ export default function ArticlePage() {
 
   return (
     <article className="article-page inner-page section-pad">
-      <Link className="back-link" to="/#insights"><ArrowLeft size={17} /> Back to insights</Link>
+      <Link className="back-link" to="/#articles"><ArrowLeft size={17} /> Back to articles</Link>
       <header className="article-header">
         <span className="eyebrow">Data note</span>
         <h1>{article.title}</h1>
@@ -60,7 +68,7 @@ export default function ArticlePage() {
         <div className="article-progress"><span /></div>
         <div className="article-content">
           {blocks.map((block) => {
-            if (block.type === "image") return <img key={block.key} src={block.src} alt={block.alt} loading="lazy" />;
+            if (block.type === "image") return <img key={block.key} src={articleImageSource(block.src)} alt={block.alt} loading="lazy" />;
             if (block.type === "h1" || block.type === "h2" || block.type === "h3") return <h2 key={block.key}>{block.text}</h2>;
             if (block.type === "blockquote") return <blockquote key={block.key}>{block.text}</blockquote>;
             if (block.type === "pre") return <pre key={block.key}><code>{block.text}</code></pre>;
