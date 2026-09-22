@@ -1,5 +1,6 @@
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { AlertCircle, BookOpen, Code2, ExternalLink, FileCode2, LoaderCircle } from "lucide-react";
+import codeFileIndex from "./codeFileIndex.json";
 import { decodeGithubContent, parseGithubUrl } from "./utils.js";
 
 const supportedExtensions = [".ipynb", ".sql", ".py"];
@@ -7,7 +8,7 @@ const supportedExtensions = [".ipynb", ".sql", ".py"];
 function isSupported(path = "", kind = "") {
   const lower = path.toLowerCase();
   if (kind === "Python") return lower.endsWith(".ipynb") || lower.endsWith(".py");
-  if (kind === "SQL") return lower.endsWith(".sql");
+  if (kind === "SQL") return lower.endsWith(".sql") || lower.endsWith(".ipynb");
   return supportedExtensions.some((extension) => lower.endsWith(extension));
 }
 
@@ -31,6 +32,66 @@ function CodeBlock({ value, language }) {
   );
 }
 
+function notebookText(value = "") {
+  return Array.isArray(value) ? value.join("") : `${value || ""}`;
+}
+
+function notebookMarkdown(value = "") {
+  return value.replace(/!\[[^\]]*\]\([^)]*\)/g, "")
+    .replace(/\[([^\]]+)\]\([^)]*\)/g, "$1")
+    .replace(/<[^>]+>/g, " ")
+    .replace(/[`*_]/g, "")
+    .replace(/^#{1,6}\s*/gm, "")
+    .replace(/\s+/g, " ").trim();
+}
+
+function PlotlyFigure({ figure }) {
+  const plotRef = useRef(null);
+  const [failed, setFailed] = useState(false);
+
+  useEffect(() => {
+    let active = true;
+    let plotly;
+    const target = plotRef.current;
+    import("plotly.js-basic-dist-min").then(async (module) => {
+      if (!active || !target) return;
+      plotly = module.default || module;
+      const layout = { ...figure.layout, autosize: true, height: Math.min(720, Math.max(340, figure.layout?.height || 420)), paper_bgcolor: "#fff", plot_bgcolor: "#fff", font: { ...figure.layout?.font, color: "#243447" } };
+      await plotly.newPlot(target, figure.data || [], layout, { responsive: true, displaylogo: false });
+    }).catch(() => { if (active) setFailed(true); });
+    return () => { active = false; if (plotly && target) plotly.purge(target); };
+  }, [figure]);
+
+  if (failed) return <p className="notebook-output-note">This interactive chart could not load in the preview.</p>;
+  return <div className="notebook-plot" ref={plotRef} role="img" aria-label="Notebook chart output" />;
+}
+
+function NotebookTable({ html }) {
+  const { rows, totalRows } = useMemo(() => {
+    const doc = new DOMParser().parseFromString(notebookText(html), "text/html");
+    const tableRows = [...doc.querySelectorAll("table tr")];
+    return { totalRows: tableRows.length, rows: tableRows.slice(0, 30).map((row) => ({
+      header: Boolean(row.querySelector("th")),
+      cells: [...row.querySelectorAll("th, td")].slice(0, 18).map((cell) => cell.textContent?.trim() || ""),
+    })) };
+  }, [html]);
+  if (!rows.length) return null;
+  return <div className="notebook-table-wrap"><table className="notebook-table"><tbody>{rows.map((row, index) => <tr key={index}>{row.cells.map((cell, cellIndex) => row.header ? <th key={cellIndex}>{cell}</th> : <td key={cellIndex}>{cell}</td>)}</tr>)}</tbody></table>{totalRows > rows.length && <small>Showing the first {rows.length} of {totalRows} rows.</small>}</div>;
+}
+
+function NotebookOutput({ output }) {
+  const data = output.data || {};
+  const figure = data["application/vnd.plotly.v1+json"];
+  const image = data["image/png"] || data["image/jpeg"];
+  const table = data["text/html"] && notebookText(data["text/html"]).includes("<table");
+  const text = notebookText(output.text || data["text/plain"] || output.traceback);
+  if (figure) return <div className="notebook-output"><PlotlyFigure figure={figure} /></div>;
+  if (image) return <div className="notebook-output notebook-output-image"><img src={`data:${data["image/png"] ? "image/png" : "image/jpeg"};base64,${notebookText(image).replace(/\s/g, "")}`} alt="Notebook result" loading="lazy" /></div>;
+  if (table) return <div className="notebook-output"><NotebookTable html={data["text/html"]} /></div>;
+  if (text.trim()) return <div className="notebook-output"><pre>{text.replaceAll(String.fromCharCode(27), "")}</pre></div>;
+  return null;
+}
+
 function Notebook({ source }) {
   const notebook = useMemo(() => {
     try {
@@ -42,17 +103,24 @@ function Notebook({ source }) {
 
   if (!notebook) return <CodeBlock value={source} language="json" />;
 
-  const codeCells = (notebook.cells || []).filter((cell) => cell.cell_type === "code");
-  if (!codeCells.length) return <div className="viewer-empty"><p>This notebook does not contain code cells.</p></div>;
+  const cells = notebook.cells || [];
+  if (!cells.length) return <div className="viewer-empty"><p>This notebook is empty.</p></div>;
 
   return (
     <div className="notebook-view">
-      {codeCells.map((cell, index) => {
-        const cellSource = Array.isArray(cell.source) ? cell.source.join("") : cell.source || "";
+      {cells.map((cell, index) => {
+        const cellSource = notebookText(cell.source);
+        if (cell.cell_type === "markdown") {
+          const paragraphs = cellSource.split(/\n\s*\n/).map(notebookMarkdown).filter(Boolean);
+          const summary = paragraphs[0] || "Notebook notes";
+          return <details className="notebook-markdown" key={index}><summary>{summary.slice(0, 115)}{summary.length > 115 ? "…" : ""}</summary><div>{paragraphs.map((paragraph, paragraphIndex) => <p key={paragraphIndex}>{paragraph}</p>)}</div></details>;
+        }
+        if (cell.cell_type !== "code") return null;
         return (
           <div className="notebook-cell" key={index}>
             <span className="cell-prompt">In [{cell.execution_count ?? " "}]</span>
             <CodeBlock value={cellSource} language="python" />
+            {(cell.outputs || []).map((output, outputIndex) => <NotebookOutput output={output} key={outputIndex} />)}
           </div>
         );
       })}
@@ -60,7 +128,7 @@ function Notebook({ source }) {
   );
 }
 
-export default function GithubViewer({ url, title, kind = "", compactHeader = false }) {
+export default function GithubViewer({ url, title, slug, kind = "", compactHeader = false }) {
   const [files, setFiles] = useState([]);
   const [selectedFile, setSelectedFile] = useState(null);
   const [source, setSource] = useState("");
@@ -79,6 +147,16 @@ export default function GithubViewer({ url, title, kind = "", compactHeader = fa
       setSource("");
       setLoadingFiles(true);
       setError("");
+
+      const indexedPaths = codeFileIndex[slug]?.filter((path) => isSupported(path, kind));
+      if (indexedPaths?.length) {
+        const indexedFiles = indexedPaths.sort((a, b) => filePriority(a) - filePriority(b) || a.localeCompare(b)).map((path) => ({ path, branch: parsed.branch || "main" }));
+        if (active) {
+          setFiles(indexedFiles);
+          setSelectedFile(indexedFiles[0]);
+        }
+        return;
+      }
 
       const repositoryResponse = await fetch(`https://api.github.com/repos/${parsed.owner}/${parsed.repo}`);
       if (!repositoryResponse.ok) throw new Error("GitHub temporarily blocked the repository preview. Use the repository link instead.");
@@ -115,7 +193,7 @@ export default function GithubViewer({ url, title, kind = "", compactHeader = fa
 
     discoverFiles().catch((fetchError) => active && setError(fetchError.message)).finally(() => active && setLoadingFiles(false));
     return () => { active = false; };
-  }, [parsed, kind]);
+  }, [parsed, kind, slug]);
 
   useEffect(() => {
     let active = true;
@@ -123,14 +201,20 @@ export default function GithubViewer({ url, title, kind = "", compactHeader = fa
       if (!selectedFile || !parsed) return;
       setLoadingSource(true);
       setError("");
-      const endpoint = `https://api.github.com/repos/${parsed.owner}/${parsed.repo}/contents/${selectedFile.path.split("/").map(encodeURIComponent).join("/")}?ref=${encodeURIComponent(selectedFile.branch)}`;
-      const response = await fetch(endpoint);
-      if (!response.ok) throw new Error("This file could not be previewed. It may be too large for the GitHub API.");
-      const payload = await response.json();
-      let fileSource = payload.content ? decodeGithubContent(payload.content) : "";
-      if (!fileSource && payload.download_url) {
-        const rawResponse = await fetch(payload.download_url);
-        if (rawResponse.ok) fileSource = await rawResponse.text();
+      const encodedPath = selectedFile.path.split("/").map(encodeURIComponent).join("/");
+      const rawUrl = `https://raw.githubusercontent.com/${parsed.owner}/${parsed.repo}/${encodeURIComponent(selectedFile.branch)}/${encodedPath}`;
+      const rawResponse = await fetch(rawUrl);
+      let fileSource = rawResponse.ok ? await rawResponse.text() : "";
+      if (!fileSource) {
+        const endpoint = `https://api.github.com/repos/${parsed.owner}/${parsed.repo}/contents/${encodedPath}?ref=${encodeURIComponent(selectedFile.branch)}`;
+        const response = await fetch(endpoint);
+        if (!response.ok) throw new Error("This file could not be previewed right now.");
+        const payload = await response.json();
+        fileSource = payload.content ? decodeGithubContent(payload.content) : "";
+        if (!fileSource && payload.download_url) {
+          const downloadResponse = await fetch(payload.download_url);
+          if (downloadResponse.ok) fileSource = await downloadResponse.text();
+        }
       }
       if (!fileSource) throw new Error("GitHub did not return previewable file content.");
       if (active) setSource(fileSource);

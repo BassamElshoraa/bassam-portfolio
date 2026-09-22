@@ -52,15 +52,13 @@ const toolLogos = {
   Excel: "/image/tools/microsoftexcel.svg",
   "Power Query": "/image/tools/microsoftexcel.svg",
   Tableau: "/image/tools/tableau.svg",
-};
-
-const toolIcons = {
-  "Looker Studio": LayoutDashboard,
+  "Looker Studio": "/image/tools/looker.svg",
 };
 
 const skillLogoAliases = {
   "Power BI": "Power BI",
   "Power Query": "Power Query",
+  "Looker Studio": "Looker Studio",
   Excel: "Excel",
   Tableau: "Tableau",
   Python: "Python",
@@ -70,7 +68,6 @@ const skillLogoAliases = {
 
 const skillIcons = {
   DAX: BarChart3,
-  "Looker Studio": LayoutDashboard,
   Pandas: Database,
   Statsmodels: Activity,
   "Scikit-learn": Activity,
@@ -291,7 +288,7 @@ export default function Home() {
               <div className="tool-grid">
                 {(profile.toolKeywords || []).map((tool) => (
                   <span key={tool}>
-                    <i>{toolLogos[tool] ? <img src={assetUrl(toolLogos[tool])} alt="" /> : (() => { const Icon = toolIcons[tool]; return Icon ? <Icon size={19} aria-hidden="true" /> : null; })()}</i>
+                    <i><img src={assetUrl(toolLogos[tool])} alt="" /></i>
                     {tool}
                   </span>
                 ))}

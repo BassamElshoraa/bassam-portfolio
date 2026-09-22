@@ -43,13 +43,13 @@
   "expertise": [
     {
       "title": "Business Intelligence",
-      "description": "Executive dashboards, semantic models, DAX, Power Query, KPI systems, and decision-focused reporting.",
-      "skills": ["Power BI", "DAX", "Power Query", "Excel", "Tableau", "Looker Studio"]
+      "description": "Executive dashboards, semantic models, Power Query, KPI systems, and decision-focused reporting.",
+      "skills": ["Power BI", "Power Query", "Excel", "Tableau", "Looker Studio"]
     },
     {
       "title": "Analytics & Forecasting",
       "description": "Exploratory analysis, statistical testing, forecasting, segmentation, and predictive modeling with reproducible workflows.",
-      "skills": ["Python", "Pandas", "Statsmodels", "Scikit-learn", "Statistics"]
+      "skills": ["Python", "Statsmodels", "Statistics"]
     },
     {
       "title": "Data Engineering & Automation",
@@ -59,7 +59,7 @@
     {
       "title": "Analytics Education",
       "description": "End-to-end curricula, practical labs, capstone mentoring, and accessible storytelling for career changers and professionals.",
-      "skills": ["Curriculum Design", "Mentoring", "Assessment", "Data Storytelling"]
+      "skills": ["Curriculum Design", "Mentoring", "Assessment"]
     }
   ],
   "experience": [

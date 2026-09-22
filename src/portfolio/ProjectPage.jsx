@@ -81,7 +81,7 @@ export default function ProjectPage() {
             <div><Code2 size={18} /><span><strong>{category} source code</strong><small>Browse the project files and scroll through the code without leaving the portfolio.</small></span></div>
             <a href={project.github} target="_blank" rel="noreferrer">GitHub <ExternalLink size={15} /></a>
           </div>
-          <GithubViewer url={project.github} title={project.title} kind={category} compactHeader />
+          <GithubViewer url={project.github} title={project.title} slug={project.slug} kind={category} compactHeader />
         </section>
       )}
 

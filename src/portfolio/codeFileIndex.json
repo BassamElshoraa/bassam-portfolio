@@ -1,0 +1,29 @@
+{
+  "mo-salah-premier-league-matches-analysis": ["Mo Salah PL Matches analysis.ipynb"],
+  "diamond-price-analysis-and-forecasting": ["Diamond Price Analysis.ipynb"],
+  "forecasting-website-traffic-case-study": ["Forecasting Website Traffic.ipynb"],
+  "craigslist-used-vehicles-dataset-analysis": ["Craigslist_used_cars_EDA.ipynb"],
+  "us-health-insurance-eda": ["US Health Insurance EDA.ipynb"],
+  "reddit-daily-public-opinions-analysis-on-the-palestinian-israel-7th-oct-war": ["Daily_Public_Opinion_on_Pse-Isr_War.ipynb"],
+  "auto-mpg-dataset-analysis": ["Auto MPG Dataset Analysis.ipynb"],
+  "restoring-maji-ndogos-water-access-exploreai-academy-data-science-program-project": [
+    "Integrated_Project_Maji_Ndogo_Part_1/Integrated_Project_Maji_Ndogo_Part_1.ipynb",
+    "Integrated_Project_Maji_Ndogo_Part_1/md_water_services.sql",
+    "Integrated_Project_Maji_Ndogo_Part_2/Integrated_Project_Maji_Ndogo_Part_2.ipynb",
+    "Integrated_Project_Maji_Ndogo_Part_2/md_water_services.sql",
+    "Integrated_Project_Maji_Ndogo_Part_3/Integrated Project Maji Ndogo Part 3.ipynb",
+    "Integrated_Project_Maji_Ndogo_Part_3/md_water_services.sql",
+    "Integrated_Project_Maji_Ndogo_Part_4/Integrated Project Maji Ndogo Part 4.ipynb",
+    "Integrated_Project_Maji_Ndogo_Part_4/md_water_services.sql"
+  ],
+  "tmdb-movie-database-exploreai-academy-data-science-program-project": ["SQL_Exam_MoviesDB.ipynb"],
+  "us-bike-share-udacity-data-analyst-graduation-project": ["1st project - Bike share/bikeshare.py"],
+  "investigate-a-dataset-udacity-data-analyst-graduation-project": ["2nd project - Investigate a Dataset/Investigate_a_Dataset.ipynb"],
+  "diabetes-prediction-model-using-regression-meriskill-internship": ["Diabetes_patients.ipynb"],
+  "alibaba-sql-project-placementdost-internship": ["Alibaba Data SQLQuery.sql"],
+  "restaurant-orders-placementdost-internship": ["DA  Restaurant orders/DA _Restaurant_orders.ipynb"],
+  "hotel-reservation-analysis-mentorness-internship": ["Hotel Reservation SQLQuery.sql"],
+  "adventureworks-sql-business-analysis-project": ["SQL for Data Analysis Project.sql"],
+  "ab-testing-and-sql-analysis-with-python": ["AB Testing and SQL Analysis with Python.ipynb"],
+  "medical-appointment-no-show-dataset-analysis": ["Medical Appointment Dataset Analysis.ipynb"]
+}

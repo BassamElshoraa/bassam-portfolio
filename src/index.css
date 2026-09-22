@@ -2064,6 +2064,18 @@ img {
   font-size: 0.78rem;
 }
 
+.notebook-markdown summary {
+  color: #d4e5f4;
+  font-size: 0.78rem;
+  font-weight: 650;
+  cursor: pointer;
+}
+
+.notebook-markdown > div {
+  margin-top: 0.6rem;
+  color: #b8cbdb;
+}
+
 .notebook-output {
   overflow: auto;
   margin: 0.45rem 0 0;
@@ -2072,6 +2084,65 @@ img {
   background: #0a121a;
   color: #b5c5d5;
   font: 0.68rem/1.6 ui-monospace, monospace;
+}
+
+.notebook-output pre {
+  margin: 0;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+  font: inherit;
+}
+
+.notebook-output-image img {
+  display: block;
+  max-width: 100%;
+  height: auto;
+  margin: 0 auto;
+  border-radius: 8px;
+  background: #fff;
+}
+
+.notebook-table-wrap {
+  max-width: 100%;
+  overflow-x: auto;
+}
+
+.notebook-table {
+  width: 100%;
+  border-collapse: collapse;
+  color: #e2ecf5;
+  font: 0.73rem/1.5 ui-monospace, monospace;
+}
+
+.notebook-table th,
+.notebook-table td {
+  padding: 0.42rem 0.65rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  text-align: left;
+  white-space: nowrap;
+}
+
+.notebook-table th {
+  color: #97c4fb;
+  font-weight: 700;
+}
+
+.notebook-table-wrap small {
+  display: block;
+  margin-top: 0.6rem;
+  color: #9ab0c3;
+}
+
+.notebook-plot {
+  min-height: 340px;
+  overflow: hidden;
+  border-radius: 8px;
+  background: #fff;
+}
+
+.notebook-output-note {
+  margin: 0;
+  color: #ffb9b9;
 }
 
 .related-projects {
@@ -5721,13 +5792,14 @@ img {
 
 .expertise-card .expertise-tools {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(132px, 1fr));
+  grid-template-columns: repeat(6, minmax(0, 1fr));
   gap: 0.62rem;
   width: 100%;
 }
 
 .expertise-card .expertise-tools .skill-badge {
   display: flex;
+  grid-column: span 2;
   min-width: 0;
   min-height: 50px;
   align-items: center;
@@ -5738,6 +5810,11 @@ img {
   background: color-mix(in srgb, var(--surface) 88%, var(--accent-soft));
   color: var(--text-soft);
   box-shadow: 0 7px 18px rgba(17, 71, 138, 0.05);
+}
+
+.expertise-card .expertise-tools .skill-badge:nth-last-child(2):nth-child(4),
+.expertise-card .expertise-tools .skill-badge:nth-last-child(1):nth-child(5) {
+  grid-column: span 3;
 }
 
 .skill-badge-visual {
@@ -5815,7 +5892,7 @@ img {
   }
 
   .expertise-card .expertise-tools {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
+    grid-template-columns: repeat(6, minmax(0, 1fr));
   }
 
   .article-grid {
@@ -5825,6 +5902,16 @@ img {
 
 @media (max-width: 420px) {
   .expertise-card .expertise-tools {
-    grid-template-columns: 1fr;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .expertise-card .expertise-tools .skill-badge,
+  .expertise-card .expertise-tools .skill-badge:nth-last-child(2):nth-child(4),
+  .expertise-card .expertise-tools .skill-badge:nth-last-child(1):nth-child(5) {
+    grid-column: span 1;
+  }
+
+  .expertise-card .expertise-tools .skill-badge:last-child:nth-child(odd) {
+    grid-column: span 2;
   }
 }
