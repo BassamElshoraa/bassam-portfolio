@@ -47,10 +47,10 @@ export default function ProjectPage() {
   const isCodeProject = ["Python", "SQL"].includes(category) && Boolean(project.github);
 
   const story = [
-    { icon: <Target size={20} />, label: "Challenge", value: project.challenge || `Translate the ${category.toLowerCase()} work into a clear, decision-ready analysis.` },
-    { icon: <Lightbulb size={20} />, label: "Approach", value: project.approach || `Combined data preparation, analysis, and clear communication using ${technologies.slice(0, 4).join(", ")}.` },
-    { icon: <CheckCircle2 size={20} />, label: "Outcome", value: project.impact || project.description },
-  ];
+    { icon: <Target size={20} />, label: "Challenge", value: project.challenge },
+    { icon: <Lightbulb size={20} />, label: "Approach", value: project.approach },
+    { icon: <CheckCircle2 size={20} />, label: "Outcome", value: project.impact },
+  ].filter((item) => item.value);
 
   return (
     <div className="project-page inner-page section-pad">
@@ -81,7 +81,7 @@ export default function ProjectPage() {
             <div><Code2 size={18} /><span><strong>{category} source code</strong><small>Browse the project files and scroll through the code without leaving the portfolio.</small></span></div>
             <a href={project.github} target="_blank" rel="noreferrer">GitHub <ExternalLink size={15} /></a>
           </div>
-          <GithubViewer url={project.github} title={project.title} slug={project.slug} kind={category} compactHeader />
+          <GithubViewer url={project.github} title={project.title} slug={project.slug} kind={category} fallbackImage={project.image} compactHeader />
         </section>
       )}
 
@@ -92,11 +92,11 @@ export default function ProjectPage() {
         </section>
       )}
 
-      <section className="case-story case-story-after-viewer">
+      {story.length > 0 && <section className="case-story case-story-after-viewer">
         {story.map((item) => (
           <article key={item.label}><div className="story-icon">{item.icon}</div><span>{item.label}</span><p>{item.value}</p></article>
         ))}
-      </section>
+      </section>}
 
       {related.length > 0 && (
         <section className="related-projects">

@@ -1,6 +1,7 @@
 {
   "profile": {
     "name": "Bassam El-Shoraa",
+    "displayName": "Bassam Elshoraa",
     "eyebrow": "",
     "headline": "Turning complex data into",
     "rotatingWords": ["decision-ready BI.", "financial clarity.", "reliable forecasts.", "business impact."],
@@ -8,11 +9,16 @@
     "summary": "Detail-oriented Data Analyst with expertise in SQL, Excel, Power BI, and Python, dedicated to translating complex datasets into clear, impactful insights.",
     "aboutDetails": "Skilled in data visualization, simplifying technical findings for diverse audiences, and uncovering hidden patterns beyond raw numbers. Adept at storytelling with data, crafting compelling narratives that drive informed decision-making. Experienced in designing interactive dashboards, conducting training sessions, and collaborating across teams to enhance data-driven strategies. Passionate about delivering actionable insights that bridge the gap between data and decision-makers.",
     "roleKeywords": ["Data Analyst", "Business Intelligence Analyst", "Financial Analyst", "Data Analysis Instructor", "Reporting Analyst", "Business Analyst"],
+    "roleGroups": [
+      { "label": "Analyze", "roles": ["Data Analyst", "Financial Analyst", "Business Analyst"] },
+      { "label": "Build", "roles": ["Business Intelligence Analyst", "Reporting Analyst"] },
+      { "label": "Teach", "roles": ["Data Analysis Instructor"] }
+    ],
     "toolKeywords": ["Power BI", "SQL", "Python", "Excel", "Tableau", "Looker Studio"],
     "location": "Cairo, Egypt",
     "email": "Bassam.m.elshoraa@gmail.com",
     "phone": "+201004298013",
-    "photo": "/image/personal/bassam-elshoraa-portrait-2026.png",
+    "photo": "/image/personal/bassam-elshoraa-portrait-2026-optimized.jpg",
     "resume": "https://flowcv.com/resume/g5n4fcbmwj",
     "linkedin": "https://www.linkedin.com/in/bassam-elshoraa",
     "github": "https://github.com/BassamElshoraa",
@@ -20,6 +26,46 @@
     "whatsapp": "https://wa.me/201004298013",
     "mediumFeed": "https://medium.com/feed/@bassamelshoraa"
   },
+  "ui": {
+    "brand": "By Bassam",
+    "footerTagline": "Data made clear. Decisions made better.",
+    "aboutTitle": "About",
+    "experienceTitle": "Experience",
+    "skillsTitle": "Skills",
+    "projectsTitle": "Projects",
+    "servicesTitle": "Services",
+    "servicesDescription": "Analytics work you can hire me for.",
+    "articlesTitle": "Articles",
+    "contactTitle": "Let’s build something useful.",
+    "contactDescription": "Tell me what you need and I’ll reply with the clearest next step.",
+    "seoTitle": "Bassam El-Shoraa | Data Analyst & Data Instructor",
+    "seoDescription": "Business intelligence, financial reporting, forecasting, data modeling, and practical analytics education.",
+    "seoImage": "image/personal/bassam-elshoraa-portrait-2026-optimized.jpg"
+  },
+  "navigation": [
+    { "label": "Home", "anchor": "home" },
+    { "label": "About", "anchor": "about" },
+    { "label": "Experience", "anchor": "experience" },
+    { "label": "Skills", "anchor": "skills" },
+    { "label": "Projects", "anchor": "projects" },
+    { "label": "Services", "anchor": "services" },
+    { "label": "Articles", "anchor": "articles" },
+    { "label": "Contact", "anchor": "contact" }
+  ],
+  "toolLogos": {
+    "Power BI": "image/tools/powerbi.svg",
+    "SQL": "image/tools/microsoftsqlserver.svg",
+    "Python": "image/tools/python.svg",
+    "Excel": "image/tools/microsoftexcel.svg",
+    "Power Query": "image/tools/microsoftexcel.svg",
+    "Tableau": "image/tools/tableau.svg",
+    "Looker Studio": "image/tools/looker.svg"
+  },
+  "aboutHighlights": [
+    { "title": "Decision-ready BI", "description": "From scattered data to clear KPIs and reports." },
+    { "title": "Financial clarity", "description": "Budgets, forecasts, performance, and variance analysis." },
+    { "title": "Practical teaching", "description": "Hands-on analytics training built around real work." }
+  ],
   "organizations": [
     {
       "name": "Shiny White Dental Centers",
@@ -35,6 +81,7 @@
     },
     {
       "name": "Digital Egypt Pioneers Initiative",
+      "shortName": "DEPI",
       "role": "Data Analysis Instructor",
       "logo": "/image/organizations/depi.png",
       "website": "https://depi.gov.eg/"
@@ -43,21 +90,25 @@
   "expertise": [
     {
       "title": "Business Intelligence",
+      "icon": "dashboard",
       "description": "Executive dashboards, semantic models, Power Query, KPI systems, and decision-focused reporting.",
       "skills": ["Power BI", "Power Query", "Excel", "Tableau", "Looker Studio"]
     },
     {
       "title": "Analytics & Forecasting",
+      "icon": "activity",
       "description": "Exploratory analysis, statistical testing, forecasting, segmentation, and predictive modeling with reproducible workflows.",
       "skills": ["Python", "Statsmodels", "Statistics"]
     },
     {
       "title": "Data Engineering & Automation",
+      "icon": "workflow",
       "description": "SQL analysis, relational modeling, ETL workflows, reporting automation, and connected operational processes.",
       "skills": ["SQL", "SQL Server", "SSIS", "Power Automate", "n8n"]
     },
     {
       "title": "Analytics Education",
+      "icon": "teaching",
       "description": "End-to-end curricula, practical labs, capstone mentoring, and accessible storytelling for career changers and professionals.",
       "skills": ["Curriculum Design", "Mentoring", "Assessment"]
     }

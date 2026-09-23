@@ -50,7 +50,8 @@ async function writeJson(target, value) {
 
 function safePath(base, requestPath) {
   const candidate = path.resolve(base, `.${requestPath}`);
-  return candidate.startsWith(path.resolve(base)) ? candidate : null;
+  const relative = path.relative(path.resolve(base), candidate);
+  return relative && !relative.startsWith("..") && !path.isAbsolute(relative) ? candidate : null;
 }
 
 async function serveFile(response, filePath) {
@@ -69,11 +70,12 @@ const server = createServer(async (request, response) => {
 
   if (pathname === "/api/local-content" && request.method === "GET") {
     try {
-      const [site, projects] = await Promise.all([
+      const [site, projects, articles] = await Promise.all([
         fs.readFile(path.join(publicRoot, "data", "siteContent.json"), "utf8").then(JSON.parse),
         fs.readFile(path.join(publicRoot, "data", "portfolioProjects.json"), "utf8").then(JSON.parse),
+        fs.readFile(path.join(publicRoot, "data", "articles.json"), "utf8").then(JSON.parse),
       ]);
-      return sendJson(response, 200, { site, projects });
+      return sendJson(response, 200, { site, projects, articles });
     } catch (error) {
       return sendJson(response, 500, { error: error.message });
     }
@@ -82,12 +84,13 @@ const server = createServer(async (request, response) => {
   if (pathname === "/api/local-content" && request.method === "PUT") {
     try {
       const payload = JSON.parse(await readBody(request));
-      if (!payload.site || typeof payload.site !== "object" || !Array.isArray(payload.projects)) {
-        return sendJson(response, 400, { error: "Expected a site object and a projects array." });
+      if (!payload.site || typeof payload.site !== "object" || !Array.isArray(payload.projects) || !Array.isArray(payload.articles)) {
+        return sendJson(response, 400, { error: "Expected site, projects, and articles content." });
       }
       await Promise.all([
         writeJson(path.join(publicRoot, "data", "siteContent.json"), payload.site),
         writeJson(path.join(publicRoot, "data", "portfolioProjects.json"), payload.projects),
+        writeJson(path.join(publicRoot, "data", "articles.json"), payload.articles),
       ]);
       return sendJson(response, 200, { saved: true });
     } catch (error) {
@@ -98,24 +101,25 @@ const server = createServer(async (request, response) => {
   if (pathname === "/api/local-upload" && request.method === "POST") {
     try {
       const payload = JSON.parse(await readBody(request));
-      const match = /^data:(image\/(?:png|jpeg|webp));base64,(.+)$/i.exec(payload.dataUrl || "");
-      if (!match) return sendJson(response, 400, { error: "Only PNG, JPG, and WEBP images are supported." });
-      const extension = match[1].split("/")[1].replace("jpeg", "jpg");
+      const match = /^data:(image\/(?:png|jpeg|webp|svg\+xml)|application\/pdf);base64,(.+)$/i.exec(payload.dataUrl || "");
+      if (!match) return sendJson(response, 400, { error: "Use PNG, JPG, WEBP, SVG, or PDF." });
+      const extension = match[1] === "application/pdf" ? "pdf" : match[1] === "image/svg+xml" ? "svg" : match[1].split("/")[1].replace("jpeg", "jpg");
       const baseName = path.basename(payload.name || "project-image", path.extname(payload.name || ""))
         .toLowerCase().replace(/[^a-z0-9-]+/g, "-").replace(/^-+|-+$/g, "") || "project-image";
       const filename = `${Date.now()}-${baseName}.${extension}`;
       const buffer = Buffer.from(match[2], "base64");
       if (buffer.byteLength > 4 * 1024 * 1024) return sendJson(response, 400, { error: "Image must be smaller than 4 MB." });
-      const uploadDirectory = path.join(publicRoot, "image", "project", "uploads");
+      const directory = match[1] === "application/pdf" ? "files" : "image";
+      const uploadDirectory = path.join(publicRoot, directory, "uploads");
       await fs.mkdir(uploadDirectory, { recursive: true });
       await fs.writeFile(path.join(uploadDirectory, filename), buffer);
-      return sendJson(response, 200, { path: `image/project/uploads/${filename}` });
+      return sendJson(response, 200, { path: `${directory}/uploads/${filename}` });
     } catch (error) {
       return sendJson(response, 400, { error: error.message });
     }
   }
 
-  const publicFile = (pathname.startsWith("/data/") || pathname.startsWith("/image/") || pathname.endsWith(".pdf"))
+  const publicFile = (pathname.startsWith("/data/") || pathname.startsWith("/image/") || pathname.startsWith("/files/") || pathname.endsWith(".pdf"))
     ? safePath(publicRoot, pathname)
     : null;
   if (publicFile && await serveFile(response, publicFile)) return;

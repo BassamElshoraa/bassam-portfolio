@@ -10,7 +10,7 @@ function localPortfolioContent() {
   const dataDirectory = path.join(__dirname, "public", "data");
   const siteFile = path.join(dataDirectory, "siteContent.json");
   const projectsFile = path.join(dataDirectory, "portfolioProjects.json");
-  const uploadsDirectory = path.join(__dirname, "public", "image", "project", "uploads");
+  const articlesFile = path.join(dataDirectory, "articles.json");
 
   const sendJson = (response, statusCode, payload) => {
     response.statusCode = statusCode;
@@ -42,11 +42,12 @@ function localPortfolioContent() {
 
         if (pathname === "/api/local-content" && request.method === "GET") {
           try {
-            const [site, projects] = await Promise.all([
+            const [site, projects, articles] = await Promise.all([
               fs.readFile(siteFile, "utf8").then(JSON.parse),
               fs.readFile(projectsFile, "utf8").then(JSON.parse),
+              fs.readFile(articlesFile, "utf8").then(JSON.parse),
             ]);
-            return sendJson(response, 200, { site, projects });
+            return sendJson(response, 200, { site, projects, articles });
           } catch (error) {
             return sendJson(response, 500, { error: error.message });
           }
@@ -55,13 +56,14 @@ function localPortfolioContent() {
         if (pathname === "/api/local-content" && request.method === "PUT") {
           try {
             const payload = JSON.parse(await readBody(request));
-            if (!payload.site || typeof payload.site !== "object" || !Array.isArray(payload.projects)) {
-              return sendJson(response, 400, { error: "Expected a site object and a projects array." });
+            if (!payload.site || typeof payload.site !== "object" || !Array.isArray(payload.projects) || !Array.isArray(payload.articles)) {
+              return sendJson(response, 400, { error: "Expected site, projects, and articles content." });
             }
             await fs.mkdir(dataDirectory, { recursive: true });
             await Promise.all([
               writeJsonAtomically(siteFile, payload.site),
               writeJsonAtomically(projectsFile, payload.projects),
+              writeJsonAtomically(articlesFile, payload.articles),
             ]);
             return sendJson(response, 200, { saved: true });
           } catch (error) {
@@ -72,10 +74,10 @@ function localPortfolioContent() {
         if (pathname === "/api/local-upload" && request.method === "POST") {
           try {
             const payload = JSON.parse(await readBody(request, 6 * 1024 * 1024));
-            const match = /^data:(image\/(?:png|jpeg|webp));base64,(.+)$/i.exec(payload.dataUrl || "");
-            if (!match) return sendJson(response, 400, { error: "Only PNG, JPG, and WEBP images are supported." });
+            const match = /^data:(image\/(?:png|jpeg|webp|svg\+xml)|application\/pdf);base64,(.+)$/i.exec(payload.dataUrl || "");
+            if (!match) return sendJson(response, 400, { error: "Use PNG, JPG, WEBP, SVG, or PDF." });
 
-            const extension = match[1].split("/")[1].replace("jpeg", "jpg");
+            const extension = match[1] === "application/pdf" ? "pdf" : match[1] === "image/svg+xml" ? "svg" : match[1].split("/")[1].replace("jpeg", "jpg");
             const baseName = path.basename(payload.name || "project-image", path.extname(payload.name || ""))
               .toLowerCase()
               .replace(/[^a-z0-9-]+/g, "-")
@@ -84,9 +86,11 @@ function localPortfolioContent() {
             const buffer = Buffer.from(match[2], "base64");
             if (buffer.byteLength > 4 * 1024 * 1024) return sendJson(response, 400, { error: "Image must be smaller than 4 MB." });
 
-            await fs.mkdir(uploadsDirectory, { recursive: true });
-            await fs.writeFile(path.join(uploadsDirectory, filename), buffer);
-            return sendJson(response, 200, { path: `image/project/uploads/${filename}` });
+            const directory = match[1] === "application/pdf" ? "files" : "image";
+            const uploadDirectory = path.join(__dirname, "public", directory, "uploads");
+            await fs.mkdir(uploadDirectory, { recursive: true });
+            await fs.writeFile(path.join(uploadDirectory, filename), buffer);
+            return sendJson(response, 200, { path: `${directory}/uploads/${filename}` });
           } catch (error) {
             return sendJson(response, 400, { error: error.message });
           }

@@ -2,7 +2,7 @@
 
 Professional portfolio for **Bassam El-Shoraa**, Data Analyst, Business Intelligence specialist, forecasting practitioner, and Data Instructor.
 
-The website presents interactive Power BI reports, scrollable Python notebooks and SQL files, professional experience, credentials, Medium articles, and paid analytics services. It also includes a local content dashboard for maintaining the portfolio without editing source files manually.
+The website presents interactive Power BI reports, scrollable Python notebooks and SQL files, professional experience, credentials, articles, and paid analytics services. Its content dashboard works locally or on the published site with a limited GitHub token.
 
 ## Live website
 
@@ -18,9 +18,10 @@ The production site is deployed automatically to GitHub Pages:
 - GitHub-style viewers for `.ipynb`, `.py`, and `.sql` project files.
 - Project search and technology filters.
 - Professional experience, education, and certification sections.
-- Medium article reader.
+- Locally cached article reader, independent of Medium availability.
 - Paid-services catalogue and structured email request form.
-- Local dashboard for adding, editing, deleting, and reordering portfolio content.
+- Content dashboard for projects, articles, skills, services, experience, credentials, presentation, media, and backups.
+- Direct route documents and metadata for every project and article.
 - Automated GitHub Pages deployment after every push to `main`.
 
 ## Technology
@@ -57,24 +58,34 @@ For development:
 npm run dev
 ```
 
-## Editing workflow
+## Editing from any device
+
+1. Open the [published dashboard](https://bassamelshoraa.github.io/bassam-portfolio/dashboard/).
+2. Create a **fine-grained personal access token** in GitHub Settings. Limit repository access to `BassamElshoraa/bassam-portfolio` and set **Contents: Read and write**. No broader scope is needed.
+3. Enter the token in the dashboard. It stays in page memory only, not local storage or repository files. Refreshing or closing the tab ends the session.
+4. Edit the content and save. The dashboard creates a Git commit on `main`; GitHub Pages publishes it shortly afterward. A save message means the commit succeeded, not that deployment has already finished.
+5. Sign out when done, and revoke the token in GitHub Settings if you no longer need it.
+
+Do not paste a token into messages, screenshots, or shared devices. Publishing from the dashboard requires permission to push to this repository. If the branch is protected, GitHub will reject the commit instead of silently storing changes in the browser.
+
+## Local editing workflow
 
 1. Open the local dashboard at `http://127.0.0.1:4173/dashboard`.
-2. Edit projects, services, profile, experience, education, or certifications.
+2. Edit projects, articles, skills, services, profile, presentation, experience, education, or certifications.
 3. Save changes. The local server writes them to the project files.
 4. Review the portfolio locally.
 5. Commit and push the changes to `main`.
 6. GitHub Actions rebuilds and publishes the new version automatically.
 
-The public GitHub Pages site is static. Its dashboard is not used for production editing; permanent edits are made through the local dashboard and then published.
+The local dashboard and published dashboard edit the same JSON content schema. GitHub Pages itself remains a static site; remote saves go through the GitHub API and Actions deployment.
 
 ## Content and assets
 
 - `public/data/portfolioProjects.json` — project catalogue and links.
 - `public/data/siteContent.json` — profile, services, experience, education, and certifications.
+- `public/data/articles.json` — local copies of article content and cover paths.
 - `public/image/project` — project thumbnails and uploads.
-- `public/image/personal` — profile photography.
-- `public/Bassam_Elshoraa_resume.pdf` — downloadable resume.
+- `public/image/personal` — original and optimized profile photography.
 - `src/portfolio` — active portfolio and dashboard components.
 
 ## Project presentation rules
@@ -86,13 +97,14 @@ The public GitHub Pages site is static. Its dashboard is not used for production
 
 ## Service requests
 
-The current request form prepares a structured email addressed to `Bassam.m.elshoraa@gmail.com` and opens the visitor's email application for review and sending. A hosted form provider or serverless endpoint can be connected later if direct background delivery is required.
+The request form prepares a structured email addressed to `Bassam.m.elshoraa@gmail.com` and opens the visitor's email application. It does **not** claim that a request was sent. Visitors can also copy the request text if no email application opens. Direct background delivery requires a form provider or backend.
 
 ## Quality checks
 
 ```bash
 npm run lint
-npm run build
+npm run build:pages
+npm run verify:pages
 ```
 
 The deployment workflow also runs a clean install and `npm run build:pages` before every GitHub Pages release.

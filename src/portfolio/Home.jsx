@@ -39,13 +39,17 @@ const serviceIcons = {
 };
 
 const expertiseIcons = {
+  dashboard: LayoutDashboard,
+  activity: Activity,
+  workflow: Workflow,
+  teaching: GraduationCap,
   "Business Intelligence": LayoutDashboard,
   "Analytics & Forecasting": Activity,
   "Data Engineering & Automation": Workflow,
   "Analytics Education": GraduationCap,
 };
 
-const toolLogos = {
+const defaultToolLogos = {
   "Power BI": "/image/tools/powerbi.svg",
   SQL: "/image/tools/microsoftsqlserver.svg",
   Python: "/image/tools/python.svg",
@@ -90,8 +94,7 @@ function formatPhone(phone = "") {
 }
 
 function articleImage(article) {
-  if (article.title === "Analyzing Football Data with Python") return assetUrl("image/articles/football-data-python.png");
-  if (article.thumbnail) return article.thumbnail;
+  if (article.thumbnail) return assetUrl(article.thumbnail);
   const match = `${article.content || ""} ${article.description || ""}`.match(/<img[^>]+src=["']([^"']+)["']/i);
   return match?.[1] || "";
 }
@@ -118,14 +121,14 @@ function ExperienceCompany({ item }) {
   return <p><CompanyLink href={item.website}>{item.company}</CompanyLink></p>;
 }
 
-function SkillBadge({ skill }) {
+function SkillBadge({ skill, logos }) {
   const logoKey = skillLogoAliases[skill];
   const Icon = skillIcons[skill] || BarChart3;
 
   return (
     <span className="skill-badge">
       <i className={logoKey ? "skill-badge-visual has-logo" : "skill-badge-visual"} aria-hidden="true">
-        {logoKey ? <img src={assetUrl(toolLogos[logoKey])} alt="" /> : <Icon size={17} />}
+        {logoKey ? <img src={assetUrl(logos[logoKey])} alt="" /> : <Icon size={17} />}
       </i>
       <b>{skill}</b>
     </span>
@@ -137,14 +140,16 @@ function RotatingOutcome({ words = [] }) {
 
   useEffect(() => {
     if (words.length < 2) return undefined;
+    const motion = window.matchMedia("(prefers-reduced-motion: reduce)");
+    if (motion.matches) return undefined;
     const timer = window.setInterval(() => {
       setActiveWord((current) => (current + 1) % words.length);
-    }, 2600);
+    }, 5200);
     return () => window.clearInterval(timer);
   }, [words.length]);
 
   return (
-    <span className="rotating-outcome" aria-live="polite">
+    <span className="rotating-outcome">
       <span className="rotating-outcome-word" key={words[activeWord] || "impact"}>
         {words[activeWord] || "business impact."}
       </span>
@@ -222,7 +227,11 @@ export default function Home() {
     education,
     certifications,
     services = [],
+    ui = {},
+    aboutHighlights = [],
+    toolLogos: customToolLogos = {},
   } = site;
+  const toolLogos = { ...defaultToolLogos, ...customToolLogos };
 
   const sortedProjects = useMemo(
     () => [...projects].sort((a, b) => Number(Boolean(b.featured)) - Number(Boolean(a.featured)) || Number(b.id) - Number(a.id)),
@@ -233,7 +242,9 @@ export default function Home() {
     (category) => category === "All" || projects.some((project) => projectCategory(project) === category),
   );
 
+  const showFeaturedOnly = activeCategory === "All" && !search.trim() && sortedProjects.some((project) => project.featured);
   const filteredProjects = sortedProjects
+    .filter((project) => !showFeaturedOnly || project.featured)
     .filter((project) => activeCategory === "All" || projectCategory(project) === activeCategory)
     .filter((project) => `${project.title} ${project.description} ${(project.badges || []).join(" ")}`.toLowerCase().includes(search.toLowerCase()));
 
@@ -258,10 +269,10 @@ export default function Home() {
     })),
   ].sort((a, b) => (credentialPriority[a.title] ?? 99) - (credentialPriority[b.title] ?? 99));
 
-  const shinyWhite = organizations.find((item) => item.name.includes("Shiny White"));
-  const teachingOrganizations = organizations
-    .filter((item) => item.name.includes("Digilians") || item.name.includes("Digital Egypt"))
-    .sort((a, b) => Number(b.name.includes("Digital Egypt")) - Number(a.name.includes("Digital Egypt")));
+  const currentRoleGroups = organizations.filter((item) => item.role).reduce((groups, item) => {
+    (groups[item.role] ||= []).push(item);
+    return groups;
+  }, {});
   const scrollProjects = (direction) => projectRailRef.current?.scrollBy({ left: direction * 420, behavior: "smooth" });
 
   return (
@@ -271,8 +282,8 @@ export default function Home() {
         <div className="hero-orb hero-orb-two" />
         <div className="hero-grid">
           <div className="hero-copy reveal">
-            <div className="hero-nameplate" aria-label="Bassam Elshoraa">
-              <span>Bassam</span> Elshoraa
+            <div className="hero-nameplate" aria-label={profile.displayName || profile.name}>
+              <span>{(profile.displayName || profile.name).split(" ")[0]}</span> {(profile.displayName || profile.name).split(" ").slice(1).join(" ")}
             </div>
             <h1>
               {profile.headline}{" "}
@@ -280,15 +291,20 @@ export default function Home() {
             </h1>
             <p className="hero-subtitle">{profile.subheadline}</p>
 
-            <div className="role-keywords" aria-label="Professional roles">
-              {(profile.roleKeywords || []).map((role) => <span key={role}>{role}</span>)}
+            <div className="role-portfolio" aria-label="Professional roles">
+              {(profile.roleGroups || [{ label: "Expertise", roles: profile.roleKeywords || [] }]).map((group, index) => (
+                <div className={`role-portfolio-group role-portfolio-group-${index + 1}`} key={group.label}>
+                  <span className="role-portfolio-label"><i /> {group.label}</span>
+                  <div>{(group.roles || []).map((role) => <span className="role-portfolio-item" key={role}>{role}</span>)}</div>
+                </div>
+              ))}
             </div>
 
             <div className="tool-stack" aria-label="Tools I use">
               <div className="tool-grid">
                 {(profile.toolKeywords || []).map((tool) => (
                   <span key={tool}>
-                    <i><img src={assetUrl(toolLogos[tool])} alt="" /></i>
+                    <i>{toolLogos[tool] ? <img src={assetUrl(toolLogos[tool])} alt="" /> : <BarChart3 size={18} />}</i>
                     {tool}
                   </span>
                 ))}
@@ -296,30 +312,10 @@ export default function Home() {
             </div>
 
             <div className="current-work" aria-label="Current roles">
-              {shinyWhite && (
-                <div className="current-work-row">
-                  <div className="current-work-logos"><img src={assetUrl(shinyWhite.logo)} alt="Shiny White" /></div>
-                  <p><strong>Data Analyst</strong><span><CompanyLink href={shinyWhite.website} className="current-company-link">Shiny White Dental Centers</CompanyLink></span></p>
-                </div>
-              )}
-              <div className="current-work-row">
-                <div className="current-work-logos stacked-logos">
-                  {teachingOrganizations.map((organization) => <img src={assetUrl(organization.logo)} alt={organization.name} key={organization.name} />)}
-                </div>
-                <p>
-                  <strong>Data Analysis Instructor</strong>
-                  <span className="current-company-links">
-                    {teachingOrganizations.map((organization, index) => (
-                      <span key={organization.name}>
-                        {index > 0 && <span className="current-company-separator"> and </span>}
-                        <CompanyLink href={organization.website} className="current-company-link">
-                          {organization.name.includes("Digital Egypt") ? "DEPI" : organization.name}
-                        </CompanyLink>
-                      </span>
-                    ))}
-                  </span>
-                </p>
-              </div>
+              {Object.entries(currentRoleGroups).map(([role, group]) => <div className="current-work-row" key={role}>
+                <div className={group.length > 1 ? "current-work-logos stacked-logos" : "current-work-logos"}>{group.map((organization) => <img src={assetUrl(organization.logo)} alt={organization.name} key={organization.name} />)}</div>
+                <p><strong>{role}</strong><span className="current-company-links">{group.map((organization, index) => <span key={organization.name}>{index > 0 && <span className="current-company-separator"> and </span>}<CompanyLink href={organization.website} className="current-company-link">{organization.shortName || organization.name}</CompanyLink></span>)}</span></p>
+              </div>)}
             </div>
 
             <div className="hero-action-cluster">
@@ -348,7 +344,7 @@ export default function Home() {
 
       <section className="section-pad section-surface" id="about">
         <SectionHeader
-          title="About"
+          title={ui.aboutTitle || "About"}
         />
         <div className="about-layout">
           <article className="about-story">
@@ -356,18 +352,14 @@ export default function Home() {
               <p>{profile.summary}</p>
               {profile.aboutDetails && <p>{profile.aboutDetails}</p>}
             </div>
-            <div className="about-focus-grid">
-              <div><strong>Decision-ready BI</strong><span>From scattered data to clear KPIs and reports.</span></div>
-              <div><strong>Financial clarity</strong><span>Budgets, forecasts, performance, and variance analysis.</span></div>
-              <div><strong>Practical teaching</strong><span>Hands-on analytics training built around real work.</span></div>
-            </div>
+            <div className="about-focus-grid">{aboutHighlights.map((item) => <div key={item.title}><strong>{item.title}</strong><span>{item.description}</span></div>)}</div>
           </article>
         </div>
       </section>
 
       <section className="section-pad" id="experience">
         <SectionHeader
-          title="Experience"
+          title={ui.experienceTitle || "Experience"}
           action={<a className="text-link section-action" href={assetUrl(profile.resume)} target="_blank" rel="noreferrer">Open resume <ArrowUpRight size={17} /></a>}
         />
         <div className="experience-timeline">
@@ -400,17 +392,17 @@ export default function Home() {
 
       <section className="section-pad section-surface" id="skills">
         <SectionHeader
-          title="Skills"
+          title={ui.skillsTitle || "Skills"}
         />
         <div className="expertise-grid">
           {expertise.map((item) => {
-            const Icon = expertiseIcons[item.title] || BarChart3;
+            const Icon = expertiseIcons[item.icon || item.title] || BarChart3;
             return (
               <article className="expertise-card" key={item.title}>
                 <div className="expertise-icon"><Icon size={25} /></div>
                 <h3>{item.title}</h3>
                 <p>{item.description}</p>
-                <div className="chip-row expertise-tools">{item.skills.map((skill) => <SkillBadge skill={skill} key={skill} />)}</div>
+                <div className="chip-row expertise-tools">{item.skills.map((skill) => <SkillBadge skill={skill} logos={toolLogos} key={skill} />)}</div>
               </article>
             );
           })}
@@ -419,7 +411,7 @@ export default function Home() {
 
       <section className="section-pad project-explorer" id="projects">
         <SectionHeader
-          title="Projects"
+          title={ui.projectsTitle || "Projects"}
           action={<Link className="text-link section-action" to="/projects">Open dedicated archive <ArrowRight size={17} /></Link>}
         />
         <div className="project-toolbar">
@@ -433,7 +425,7 @@ export default function Home() {
           <label className="search-box"><Search size={18} /><input value={search} onChange={(event) => setSearch(event.target.value)} placeholder="Search projects" /></label>
         </div>
         <div className="project-rail-meta">
-          <div className="project-results-meta">Showing {filteredProjects.length} of {projects.length} projects</div>
+          <div className="project-results-meta">{showFeaturedOnly ? `Showing ${filteredProjects.length} selected projects · ${projects.length} in the archive` : `Showing ${filteredProjects.length} of ${projects.length} projects`}</div>
           <div className="project-rail-controls" aria-label="Project navigation">
             <button type="button" onClick={() => scrollProjects(-1)} aria-label="Previous projects"><ChevronLeft size={19} /></button>
             <button type="button" onClick={() => scrollProjects(1)} aria-label="Next projects"><ChevronRight size={19} /></button>
@@ -447,8 +439,8 @@ export default function Home() {
 
       <section className="section-pad section-surface" id="services">
         <SectionHeader
-          title="Services"
-          description="Analytics work you can hire me for."
+          title={ui.servicesTitle || "Services"}
+          description={ui.servicesDescription || "Analytics work you can hire me for."}
           action={<a className="button button-small section-action" href="#contact">Request a quote <ArrowRight size={16} /></a>}
         />
         <div className="services-grid">
@@ -471,7 +463,7 @@ export default function Home() {
 
       <section className="section-pad" id="articles">
         <SectionHeader
-          title="Articles"
+          title={ui.articlesTitle || "Articles"}
           action={<a className="text-link section-action" href={profile.medium} target="_blank" rel="noreferrer">Visit Medium <ArrowUpRight size={17} /></a>}
         />
         <div className="article-grid">
@@ -485,7 +477,7 @@ export default function Home() {
               <div className="article-details">
                 <span>{new Date(article.pubDate).toLocaleDateString("en-US", { month: "short", year: "numeric" })} · {readingTime(article.content)} min read</span>
                 <h3>{article.title}</h3>
-                <p>{plainTextFromHtml(article.description).slice(0, 180)}…</p>
+                <p>{plainTextFromHtml(article.description || article.content).slice(0, 180)}</p>
                 <Link className="text-link" to={`/articles/${article.slug}`}>Read inside the portfolio <ArrowRight size={16} /></Link>
               </div>
             </article>
@@ -503,8 +495,8 @@ export default function Home() {
         <div className="request-layout">
           <aside className="request-intro">
             <span className="contact-section-title">Contact</span>
-            <h2>Let’s build something useful.</h2>
-            <p>Tell me what you need and I’ll reply with the clearest next step.</p>
+            <h2>{ui.contactTitle || "Let’s build something useful."}</h2>
+            <p>{ui.contactDescription || "Tell me what you need and I’ll reply with the clearest next step."}</p>
             <div className="request-contact-links">
               <a href={profile.linkedin} target="_blank" rel="noreferrer"><Linkedin size={18} /> LinkedIn</a>
               <a href={profile.github} target="_blank" rel="noreferrer"><Github size={18} /> GitHub</a>

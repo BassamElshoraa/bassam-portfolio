@@ -13,17 +13,6 @@ import {
 } from "lucide-react";
 import { usePortfolioContent, useTheme } from "./context.jsx";
 
-const navItems = [
-  { label: "Home", href: "#home" },
-  { label: "About", href: "#about" },
-  { label: "Experience", href: "#experience" },
-  { label: "Skills", href: "#skills" },
-  { label: "Projects", href: "#projects" },
-  { label: "Services", href: "#services" },
-  { label: "Articles", href: "#articles" },
-  { label: "Contact", href: "#contact" },
-];
-
 export function Loader() {
   return (
     <div className="page-loader" role="status" aria-live="polite">
@@ -42,8 +31,17 @@ export function Shell() {
 
   useEffect(() => {
     setMenuOpen(false);
-    window.scrollTo({ top: 0, behavior: "instant" });
-  }, [location.pathname]);
+    if (loading) return undefined;
+    if (!location.hash) {
+      window.scrollTo({ top: 0, behavior: "instant" });
+      return undefined;
+    }
+    const target = decodeURIComponent(location.hash.slice(1));
+    const frame = window.requestAnimationFrame(() => {
+      document.getElementById(target)?.scrollIntoView({ behavior: window.matchMedia("(prefers-reduced-motion: reduce)").matches ? "instant" : "smooth", block: "start" });
+    });
+    return () => window.cancelAnimationFrame(frame);
+  }, [location.pathname, location.hash, loading]);
 
   if (loading) return <Loader />;
 
@@ -57,7 +55,7 @@ export function Shell() {
     );
   }
 
-  const { profile } = site;
+  const { profile, ui = {}, navigation = [] } = site;
 
   return (
     <div className="site-shell">
@@ -67,13 +65,13 @@ export function Shell() {
 
       <header className="site-header">
         <div className="header-inner">
-          <Link className="brand" to="/" aria-label="Bassam El-Shoraa home">
-            <span className="brand-wordmark"><span className="brand-prefix">By</span>Bassam</span>
+          <Link className="brand" to="/" aria-label={`${profile.displayName || profile.name} home`}>
+            <span className="brand-wordmark"><span className="brand-prefix">{(ui.brand || "By Bassam").split(" ")[0]}</span>{(ui.brand || "By Bassam").split(" ").slice(1).join(" ")}</span>
           </Link>
 
           <nav className={menuOpen ? "nav-links is-open" : "nav-links"} aria-label="Primary navigation">
-            {navItems.map((item) => (
-              <a key={item.label} href={`${import.meta.env.BASE_URL}${item.href}`}>
+            {navigation.map((item) => (
+              <a key={item.anchor} href={`${import.meta.env.BASE_URL}#${item.anchor}`}>
                 {item.label}
               </a>
             ))}
@@ -105,14 +103,14 @@ export function Shell() {
 
       <footer className="site-footer">
         <div className="footer-identity">
-          <strong className="footer-name-mark"><span>Bassam</span> El-Shoraa</strong>
-          <p>Data made clear. Decisions made better.</p>
+          <strong className="footer-name-mark"><span>{(profile.displayName || profile.name).split(" ")[0]}</span> {(profile.displayName || profile.name).split(" ").slice(1).join(" ")}</strong>
+          <p>{ui.footerTagline || "Data made clear. Decisions made better."}</p>
         </div>
         <div className="footer-links">
           <a href={`mailto:${profile.email}`} aria-label="Email Bassam"><Mail size={18} /></a>
           <a href={profile.linkedin} target="_blank" rel="noreferrer" aria-label="LinkedIn"><Linkedin size={18} /></a>
           <a href={profile.github} target="_blank" rel="noreferrer" aria-label="GitHub"><Github size={18} /></a>
-          {import.meta.env.BASE_URL === "/" && <Link to="/dashboard" className="admin-link">Local dashboard</Link>}
+          <Link to="/dashboard" className="admin-link">Content dashboard</Link>
         </div>
       </footer>
     </div>

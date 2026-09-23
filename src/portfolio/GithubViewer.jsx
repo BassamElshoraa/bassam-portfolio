@@ -2,6 +2,7 @@ import { useEffect, useMemo, useRef, useState } from "react";
 import { AlertCircle, BookOpen, Code2, ExternalLink, FileCode2, LoaderCircle } from "lucide-react";
 import codeFileIndex from "./codeFileIndex.json";
 import { decodeGithubContent, parseGithubUrl } from "./utils.js";
+import { assetUrl } from "./utils.js";
 
 const supportedExtensions = [".ipynb", ".sql", ".py"];
 
@@ -92,7 +93,7 @@ function NotebookOutput({ output }) {
   return null;
 }
 
-function Notebook({ source }) {
+function Notebook({ source, fallbackImage = "", title = "" }) {
   const notebook = useMemo(() => {
     try {
       return JSON.parse(source);
@@ -104,10 +105,12 @@ function Notebook({ source }) {
   if (!notebook) return <CodeBlock value={source} language="json" />;
 
   const cells = notebook.cells || [];
+  const hasSavedOutputs = cells.some((cell) => cell.cell_type === "code" && (cell.outputs || []).length > 0);
   if (!cells.length) return <div className="viewer-empty"><p>This notebook is empty.</p></div>;
 
   return (
     <div className="notebook-view">
+      {!hasSavedOutputs && <div className="notebook-output-note notebook-source-note"><p>This source notebook has no saved execution outputs. The code is shown as published; results would require running it with its source data.</p>{fallbackImage && <img src={assetUrl(fallbackImage)} alt={`${title} project visual`} loading="lazy" />}</div>}
       {cells.map((cell, index) => {
         const cellSource = notebookText(cell.source);
         if (cell.cell_type === "markdown") {
@@ -128,7 +131,7 @@ function Notebook({ source }) {
   );
 }
 
-export default function GithubViewer({ url, title, slug, kind = "", compactHeader = false }) {
+export default function GithubViewer({ url, title, slug, kind = "", compactHeader = false, fallbackImage = "" }) {
   const [files, setFiles] = useState([]);
   const [selectedFile, setSelectedFile] = useState(null);
   const [source, setSource] = useState("");
@@ -202,9 +205,15 @@ export default function GithubViewer({ url, title, slug, kind = "", compactHeade
       setLoadingSource(true);
       setError("");
       const encodedPath = selectedFile.path.split("/").map(encodeURIComponent).join("/");
-      const rawUrl = `https://raw.githubusercontent.com/${parsed.owner}/${parsed.repo}/${encodeURIComponent(selectedFile.branch)}/${encodedPath}`;
-      const rawResponse = await fetch(rawUrl);
-      let fileSource = rawResponse.ok ? await rawResponse.text() : "";
+      let fileSource = "";
+      for (const branch of [...new Set([selectedFile.branch, "main", "master"])]) {
+        const rawUrl = `https://raw.githubusercontent.com/${parsed.owner}/${parsed.repo}/${encodeURIComponent(branch)}/${encodedPath}`;
+        const rawResponse = await fetch(rawUrl).catch(() => null);
+        if (rawResponse?.ok) {
+          fileSource = await rawResponse.text();
+          break;
+        }
+      }
       if (!fileSource) {
         const endpoint = `https://api.github.com/repos/${parsed.owner}/${parsed.repo}/contents/${encodedPath}?ref=${encodeURIComponent(selectedFile.branch)}`;
         const response = await fetch(endpoint);
@@ -247,8 +256,8 @@ export default function GithubViewer({ url, title, slug, kind = "", compactHeade
         <div className="file-preview">
           <div className="file-preview-head"><span>{selectedFile?.path || "Select a file"}</span>{selectedFile?.size ? <small>{Math.round(selectedFile.size / 1024)} KB</small> : null}</div>
           {loadingSource && <div className="viewer-empty"><LoaderCircle className="spin" size={28} /><p>Loading file from GitHub…</p></div>}
-          {!loadingSource && error && <div className="viewer-empty viewer-error"><AlertCircle size={28} /><p>{error}</p><a className="button button-small" href={url} target="_blank" rel="noreferrer">Open repository <ExternalLink size={15} /></a></div>}
-          {!loadingSource && !error && source && (isNotebook ? <Notebook source={source} /> : <CodeBlock value={source} language={language} />)}
+          {!loadingSource && error && <div className="viewer-empty viewer-error">{fallbackImage ? <img className="viewer-fallback-image" src={assetUrl(fallbackImage)} alt={`${title} project preview`} /> : <AlertCircle size={28} />}<p>{error}</p><a className="button button-small" href={url} target="_blank" rel="noreferrer">Open repository <ExternalLink size={15} /></a></div>}
+          {!loadingSource && !error && source && (isNotebook ? <Notebook source={source} fallbackImage={fallbackImage} title={title} /> : <CodeBlock value={source} language={language} />)}
         </div>
       </div>
     </div>

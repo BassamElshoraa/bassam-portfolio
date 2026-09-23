@@ -4,30 +4,50 @@
     "slug": "bank-loan-data-analysis-report",
     "image": "image/project/pr27_710BE012DE26B437956D.png",
     "title": "Bank Loan Data Analysis Report",
-    "badges": ["Power Bi"],
+    "badges": [
+      "Power Bi"
+    ],
     "description": "The Advanced Loan Data Analysis Dashboard is designed to provide deep insights into lending operations, borrower behavior, and financial performance. By leveraging Power BI, DAX calculations, and interactive visualizations, it helps financial analysts and decision-makers optimize loan strategies.",
     "demo": "https://app.powerbi.com/view?r=eyJrIjoiZWE0YmE5ZWItYWEwYy00ODQ2LTk5MzQtZDdlZDE5NWZlNGEyIiwidCI6IjBkODkwMmEzLTE1OGYtNGM3MC04MTI4LTFlM2JiNGFiMzk3ZCIsImMiOjh9&pageName=d58eb427d81af13a5503",
-    "github": "https://github.com/BassamElshoraa/Bank-Loan-Insights"
+    "github": "https://github.com/BassamElshoraa/Bank-Loan-Insights",
+    "challenge": "Lending activity, borrower profiles, and financial performance were difficult to assess in one view.",
+    "approach": "Organized lending measures and DAX calculations into an interactive Power BI report with borrower and performance views.",
+    "impact": "The report gives analysts a clearer way to compare loan patterns and investigate portfolio performance."
   },
   {
     "id": 26,
     "slug": "power-bi-sales-report",
     "image": "image/project/pr26_6D9C2657738BD2F19814.png",
-    "title": "Power Bi Sales Report",
-    "badges": ["Power Bi"],
+    "title": "Power BI Sales Report",
+    "badges": [
+      "Power Bi"
+    ],
     "description": "This project presents an interactive Sales Dashboard built with Power BI to analyze sales performance across countries (Czech Republic, Denmark, Germany) over the years 2014 to 2017.",
     "demo": "https://app.powerbi.com/view?r=eyJrIjoiNTYzMzhiNDEtODQxYS00Mzc1LWE2OTItMDAyMTQ5N2Y2MWVmIiwidCI6IjBkODkwMmEzLTE1OGYtNGM3MC04MTI4LTFlM2JiNGFiMzk3ZCIsImMiOjh9",
-    "github": "https://github.com/BassamElshoraa/Power-Bi-Sales-Report"
+    "github": "https://github.com/BassamElshoraa/Power-Bi-Sales-Report",
+    "challenge": "Compare sales performance across three countries over the 2014–2017 period.",
+    "approach": "Built an interactive Power BI dashboard with country and time-based sales views.",
+    "impact": "Makes geographic and year-over-year sales patterns easier to examine."
   },
   {
     "id": 25,
     "slug": "mo-salah-premier-league-matches-analysis",
     "image": "image/project/pr25_41291997DF2898804EA8.png",
     "title": "Mo Salah Premier League Matches Analysis",
-    "badges": ["Python", "Pandas", "Numpy", "Matplotlib", "seaborn", "sklearn"],
+    "badges": [
+      "Python",
+      "Pandas",
+      "Numpy",
+      "Matplotlib",
+      "seaborn",
+      "sklearn"
+    ],
     "description": "This project focuses on analyzing the performance of Mohamed Salah in the English Premier League. It aims to extract insights from his match history such as goals, assists, appearances, and overall contribution per season.",
     "demo": "",
-    "github": "https://github.com/BassamElshoraa/Mo-Salah-PL-Matches-analysis-using-python"
+    "github": "https://github.com/BassamElshoraa/Mo-Salah-PL-Matches-analysis-using-python",
+    "challenge": "Understand how Mohamed Salah's match contributions vary across Premier League seasons.",
+    "approach": "Analyzed match-level goals, assists, appearances, and other performance measures in Python.",
+    "impact": "Presents seasonal comparisons and evidence-led views of his on-field contribution."
   },
   {
     "id": 24,
@@ -44,7 +64,10 @@
     ],
     "description": "This project focuses on analyzing diamond prices based on their characteristics (carat, cut, color, clarity, etc.) and building a predictive model to estimate diamond prices.",
     "demo": "",
-    "github": "https://github.com/BassamElshoraa/Diamond-Price-Analysis-Using-Python"
+    "github": "https://github.com/BassamElshoraa/Diamond-Price-Analysis-Using-Python",
+    "challenge": "Explore how diamond characteristics relate to price and estimate prices from those attributes.",
+    "approach": "Used Python to examine carat, cut, color, and clarity before building a predictive model.",
+    "impact": "Provides an exploratory view of price drivers alongside a model-based estimate."
   },
   {
     "id": 23,
@@ -61,7 +84,10 @@
     ],
     "description": "This project develops a time series forecasting model to predict website traffic for TheCleverProgrammer.com. The analysis covers visitor data from June 2021 to June 2022, with the goal of understanding traffic patterns and building accurate predictions for future periods.",
     "demo": "",
-    "github": "https://github.com/BassamElshoraa/Forecasting-Website-Traffic-Case-Study"
+    "github": "https://github.com/BassamElshoraa/Forecasting-Website-Traffic-Case-Study",
+    "challenge": "Forecast future website visits from a year of historical traffic observations.",
+    "approach": "Prepared the June 2021–June 2022 visitor series and applied time-series analysis with Python and Statsmodels.",
+    "impact": "Shows historical traffic patterns and a reproducible forecasting workflow."
   },
   {
     "id": 22,
@@ -79,7 +105,10 @@
     ],
     "description": "This project analyzes a vehicle listing dataset, focusing on various factors such as price, condition, fuel type, transmission, and location. It includes visualizing the distribution of vehicles by year and country and providing insights into market trends.",
     "demo": "",
-    "github": "https://github.com/BassamElshoraa/Craigslist_used_cars_EDA/tree/main"
+    "github": "https://github.com/BassamElshoraa/Craigslist_used_cars_EDA/tree/main",
+    "challenge": "Make a large used-vehicle listings dataset easier to compare by price and specification.",
+    "approach": "Explored prices, condition, fuel type, transmission, year, and location using Python visualizations.",
+    "impact": "Surfaces listing distributions and market patterns for further investigation."
   },
   {
     "id": 21,
@@ -95,19 +124,28 @@
       "Matplotlib",
       "Seaborn"
     ],
-    "description": "Medical Insurance is a contract that requires an insurer to pay some or all of a person's healthcare costs in exchange for a premium, with the insurance typicallly pays for medical expenses incured by the insured. Insurance cost differs from each individual, certain variable may affect a person insurance cost to be higher or lower. This project will analyze medical insurance cost in a dataset and exploring variables that may affect it. Further, this project will showcase data analysis skills to provide meaningful insight.",
+    "description": "An exploratory analysis of a US health-insurance dataset, comparing charges across recorded demographic and behavioral factors to understand patterns in cost variation.",
     "demo": "",
-    "github": "https://github.com/BassamElshoraa/2024-10-US-Health-Insurance-EDA"
+    "github": "https://github.com/BassamElshoraa/2024-10-US-Health-Insurance-EDA",
+    "challenge": "Identify which recorded attributes are associated with differences in health-insurance charges.",
+    "approach": "Cleaned and explored the insurance dataset, then compared costs across its demographic and behavioral variables.",
+    "impact": "Provides a clearer descriptive view of cost variation; it does not make clinical or pricing decisions."
   },
   {
     "id": 18,
     "slug": "reddit-daily-public-opinions-analysis-on-the-palestinian-israel-7th-oct-war",
     "image": "image/project/pr18_E2EA96D65F64FB4CB284.jpg",
     "title": "Reddit Daily Public Opinions Analysis on the Palestinian-Israel 7th Oct War",
-    "badges": ["Python", "Jupyter Notebooks"],
+    "badges": [
+      "Python",
+      "Jupyter Notebooks"
+    ],
     "description": "The objective of this project is to analyze Reddit comments related to the Israel-Palestine conflict using sentiment analysis techniques to understand public opinion trends. The dataset includes columns such as comment text, subreddit, timestamp, sentiment score, and sentiment label. Using Python, I processed the comments to extract sentiment insights, identify popular discussion times, and categorize comments based on their emotional tone (positive, negative, neutral). The analysis also explored the most active subreddits and controversial discussions, providing a comprehensive view of online sentiment around this issue.",
     "demo": "",
-    "github": "https://github.com/BassamElshoraa/Daily_Public_Opinion_on_Pse-Isr_War"
+    "github": "https://github.com/BassamElshoraa/Daily_Public_Opinion_on_Pse-Isr_War",
+    "challenge": "Describe how discussion sentiment varied across Reddit conversations about the conflict.",
+    "approach": "Processed comment text, timestamps, subreddit labels, and sentiment fields in Python.",
+    "impact": "Summarizes discussion timing, activity, and sentiment in the sampled online comments—not public opinion as a whole."
   },
   {
     "id": 19,
@@ -124,174 +162,284 @@
     ],
     "description": "The MPG dataset is technical specifications of cars originally provided from UCI Machine Learning Repository and can be found on Kaggle here. The data concerns city-cycle fuel consumption in miles per gallon to be analyzed in terms of 3 multivalued discrete and 5 continuous attributes.",
     "demo": "",
-    "github": "https://github.com/BassamElshoraa/Auto-MPG-Cars-Dataset-Analysis?tab=readme-ov-file#auto-mpg-dataset-analysis"
+    "github": "https://github.com/BassamElshoraa/Auto-MPG-Cars-Dataset-Analysis?tab=readme-ov-file#auto-mpg-dataset-analysis",
+    "challenge": "Investigate how car specifications relate to fuel consumption in the Auto MPG dataset.",
+    "approach": "Used Python to compare vehicle attributes with miles-per-gallon values through exploratory charts and statistics.",
+    "impact": "Makes the dataset's consumption patterns and candidate explanatory variables easier to inspect."
   },
   {
     "id": 8,
     "slug": "restoring-maji-ndogos-water-access-exploreai-academy-data-science-program-project",
     "image": "image/project/pr8_8B2791E33F515DB356D1.png",
     "title": "Restoring Maji Ndogo's Water Access - ExploreAI Academy Data science Program project",
-    "badges": ["SQL", "My SQL"],
+    "badges": [
+      "SQL",
+      "My SQL"
+    ],
     "description": "This section explores the water crisis in Maji Ndogo through SQL analysis, focusing on database exploration, schema overview, query samples, project-related questions, and instructions for use.",
     "demo": "",
-    "github": "https://github.com/BassamElshoraa/SQL_Integrated_Project_Maji_Ndogo-ExploreAI_Academy_DS_Program/tree/main"
+    "github": "https://github.com/BassamElshoraa/SQL_Integrated_Project_Maji_Ndogo-ExploreAI_Academy_DS_Program/tree/main",
+    "challenge": "Explore a relational dataset describing water access and service conditions in Maji Ndogo.",
+    "approach": "Inspected schemas and wrote SQL queries across the project's staged water-service analysis.",
+    "impact": "Documents the questions and query results used to investigate access and service problems."
   },
   {
     "id": 9,
     "slug": "tmdb-movie-database-exploreai-academy-data-science-program-project",
     "image": "image/project/pr9_00B949CD03F5BCBAD105.jpg",
     "title": "TMDB Movie Database - ExploreAI Academy Data science Program project",
-    "badges": ["SQL", "My SQL"],
+    "badges": [
+      "SQL",
+      "My SQL"
+    ],
     "description": "This project centers around a movie database containing comprehensive information about movies, including details such as titles, release dates, actors, genres, awards, and more.",
     "demo": "",
-    "github": "https://github.com/BassamElshoraa/TMDB_Movie_Database-ExploreAI_Academy_DSProgram"
+    "github": "https://github.com/BassamElshoraa/TMDB_Movie_Database-ExploreAI_Academy_DSProgram",
+    "challenge": "Answer analytical questions from a movie database with related titles, people, genres, and dates.",
+    "approach": "Used SQL to query and connect movie records across the database structure.",
+    "impact": "Provides a reusable set of movie-database queries and analytical examples."
   },
   {
     "id": 6,
     "slug": "calidon-report-meem-ain-for-educational-consulting",
     "image": "image/project/pr6_1F9E03A61184C6864FC1.png",
     "title": "Calidon Report - Meem Ain for educational consulting",
-    "badges": ["Power BI", "Microsoft Excel", "Power Query", "Data Validation"],
+    "badges": [
+      "Power BI",
+      "Microsoft Excel",
+      "Power Query",
+      "Data Validation"
+    ],
     "description": "Using Power BI, Power Query, and Excel, this report links the results of a survey given to children aged 7 to 10 years to the results of their playing the Calidon game, which measures children’s interaction in different situations to measure 8 basic skills for children.",
     "demo": "https://app.powerbi.com/view?r=eyJrIjoiYjYyOTAwNGYtZTU0My00YzNmLWI3YTAtM2M2OWJkMGZmNmEyIiwidCI6IjBkODkwMmEzLTE1OGYtNGM3MC04MTI4LTFlM2JiNGFiMzk3ZCIsImMiOjh9&pageName=ReportSection46093a60a9339977b32a",
-    "github": ""
+    "github": "",
+    "challenge": "Compare children's survey answers with their interactions in the Calidon game.",
+    "approach": "Linked survey and game results in Excel and Power BI, then organized views around eight measured skills.",
+    "impact": "Creates a joined view of survey responses and gameplay indicators for educational review."
   },
   {
     "id": 1,
     "slug": "us-bike-share-udacity-data-analyst-graduation-project",
     "image": "image/project/pr1_64BFAE8033FFECBD8C30.jpg",
     "title": "US Bike-share - Udacity data analyst graduation project",
-    "badges": ["Python", "Jupyter Notebooks"],
+    "badges": [
+      "Python",
+      "Jupyter Notebooks"
+    ],
     "description": "Using Python, analyze US bike-share data, compute descriptive statistics to address dataset questions. Create a script for terminal interaction, offering a user-friendly, interactive stats presentation.",
     "demo": "",
-    "github": "https://github.com/BassamElshoraa/Udacity_data_analyst_nanodegree/tree/main/1st%20project%20-%20Bike%20share"
+    "github": "https://github.com/BassamElshoraa/Udacity_data_analyst_nanodegree/tree/main/1st%20project%20-%20Bike%20share",
+    "challenge": "Make US bike-share trip data explorable through a simple terminal interface.",
+    "approach": "Wrote a Python program that filters trip records and calculates descriptive statistics from user selections.",
+    "impact": "Lets users request and review bike-share statistics interactively."
   },
   {
     "id": 0,
     "slug": "investigate-a-dataset-udacity-data-analyst-graduation-project",
     "image": "image/project/pr0_EA72FB36E28B2EE91E16.jpg",
     "title": "Investigate a Dataset - Udacity data analyst graduation project",
-    "badges": ["Python", "Jupyter Notebooks"],
+    "badges": [
+      "Python",
+      "Jupyter Notebooks"
+    ],
     "description": "Analyzing a TMDb dataset of 10,000 movies with Jupyter Notebook & Python, specifically investigating user ratings and revenue patterns via statistical techniques for comprehensive insights.",
     "demo": "",
-    "github": "https://github.com/BassamElshoraa/Udacity_data_analyst_nanodegree/tree/main/2nd%20project%20-%20Investigate%20a%20Dataset"
+    "github": "https://github.com/BassamElshoraa/Udacity_data_analyst_nanodegree/tree/main/2nd%20project%20-%20Investigate%20a%20Dataset",
+    "challenge": "Explore how movie ratings and revenue vary across a 10,000-title TMDb dataset.",
+    "approach": "Used a Jupyter Notebook and Python to clean, compare, and visualize the chosen movie fields.",
+    "impact": "Presents descriptive patterns and questions for further investigation without asserting causation."
   },
   {
     "id": 12,
     "slug": "diabetes-prediction-model-using-regression-meriskill-internship",
     "image": "image/project/pr12_B68B5C2C233AB8826240.png",
-    "title": "Diabetes Prediction Model using Regression - MeriSKILL Internship",
-    "badges": ["Python", "Regression"],
+    "title": "Diabetes Status Prediction Model - MeriSKILL Internship",
+    "badges": [
+      "Python",
+      "Regression"
+    ],
     "description": "This project aims to develop a predictive model to determine whether a patient has diabetes based on certain diagnostic measurements. The dataset used for this analysis is originally from the National Institute of Diabetes and Digestive and Kidney Diseases. The objective is to diagnostically predict whether a patient has diabetes using various medical predictor variables. ",
     "demo": "",
-    "github": "https://github.com/BassamElshoraa/Diabetes-Prediction-Model-using-Regression"
+    "github": "https://github.com/BassamElshoraa/Diabetes-Prediction-Model-using-Regression",
+    "challenge": "Examine whether diagnostic measurements can distinguish diabetes status in the source dataset.",
+    "approach": "Prepared predictor variables and developed a classification-oriented modeling workflow in Python.",
+    "impact": "Demonstrates an analytical model on historical data; it is not a medical diagnostic tool."
   },
   {
     "id": 11,
     "slug": "hr-employee-attrition-report-meriskill-internship",
     "image": "image/project/pr11_2B958087211B637B136E.png",
     "title": "HR Employee Attrition Report - MeriSKILL Internship",
-    "badges": ["Power Bi", "Excel", "Power Query"],
+    "badges": [
+      "Power Bi",
+      "Excel",
+      "Power Query"
+    ],
     "description": "A demographic report summarizes employee statistics, including age groups, gender, distance from home, and marital status, providing insights into workforce diversity and commuting patterns for informed decision-making.",
     "demo": "https://app.powerbi.com/view?r=eyJrIjoiZWU0MTVlNzEtZmQxMi00ZGFjLTk2YjItODFkOTY1ZWUyZGI2IiwidCI6IjBkODkwMmEzLTE1OGYtNGM3MC04MTI4LTFlM2JiNGFiMzk3ZCIsImMiOjh9&pageName=ReportSection7c6add785b55d0a75e60",
-    "github": ""
+    "github": "",
+    "challenge": "Make workforce demographics and commute-related indicators easier to understand.",
+    "approach": "Built report views for age, gender, distance from home, and marital-status breakdowns.",
+    "impact": "Gives HR viewers a structured descriptive overview of employee segments."
   },
   {
     "id": 10,
     "slug": "sales-report-dashboard-meriskill-internship",
     "image": "image/project/pr10_79257D4288FAABBB5A48.png",
     "title": "Sales Report Dashboard - MeriSKILL Internship",
-    "badges": ["Power Query", "Power Bi"],
+    "badges": [
+      "Power Query",
+      "Power Bi"
+    ],
     "description": "The report aims to analyze sales data to extract valuable insights for business decision-making. It includes various visuals such as Sales By Month, Sales By Orders, Top 5 Cities by Sales, Top 5 Selling Products by Quantity, Weekly Sales Distribution, and Top 5 Products by Sales Count. Additionally, it provides slicers for filtering data by City, Product, Month, and Day name. Key metrics such as Revenue, Sales Margin, and Sales Quantity are also highlighted. The data was cleaned using Power Query, and advanced techniques like DAX language and toggle buttons were employed for data manipulation and visualization, showcasing proficiency in handling large datasets and making data-driven recommendations for optimizing sales strategies.",
     "demo": "https://app.powerbi.com/view?r=eyJrIjoiMGE0MWMzYjAtODc4Mi00MmQxLWI0ZWUtNzM1YjllMjk2NDJkIiwidCI6IjBkODkwMmEzLTE1OGYtNGM3MC04MTI4LTFlM2JiNGFiMzk3ZCIsImMiOjh9&pageName=ReportSection",
-    "github": ""
+    "github": "",
+    "challenge": "Bring sales volume, revenue, margin, products, locations, and time trends into one report.",
+    "approach": "Cleaned data in Power Query and designed Power BI views with DAX measures and interactive filters.",
+    "impact": "Makes sales performance and product-level comparisons available in one dashboard."
   },
   {
     "id": 17,
     "slug": "alibaba-sql-project-placementdost-internship",
     "image": "image/project/pr17_60383DBC3FFE81EEE0E1.jpg",
     "title": "Alibaba SQL Project - placementdost Internship",
-    "badges": ["Microsoft SQL Server SSMS"],
+    "badges": [
+      "Microsoft SQL Server SSMS"
+    ],
     "description": "The objective of this project is to analyze an Alibaba dataset using SQL to extract meaningful insights related to product sales, pricing trends, and customer preferences. The dataset includes columns such as S_no, Name, Category, Cost_Price, Item_Price, Special_Price, Quantity, Payment_Method, and Shipping_City.",
     "demo": "",
-    "github": "https://github.com/BassamElshoraa/SQL-Alibaba-placementdost-Internship/tree/main"
+    "github": "https://github.com/BassamElshoraa/SQL-Alibaba-placementdost-Internship/tree/main",
+    "challenge": "Investigate product sales, pricing, and customer preferences in an Alibaba-style retail dataset.",
+    "approach": "Wrote SQL queries across product, quantity, payment, and shipping-city fields.",
+    "impact": "Produces query-based views of transaction and pricing patterns."
   },
   {
     "id": 15,
     "slug": "restaurant-orders-placementdost-internship",
     "image": "image/project/pr15_7CA95F4229EB109A1D65.png",
     "title": "Restaurant orders - PlacementDost Internship",
-    "badges": ["My SQL"],
+    "badges": [
+      "My SQL"
+    ],
     "description": "The project aimed to develop a comprehensive restaurant management system using MS SQL. The dataset provided consisted of menu details and order details, which were utilized to create and populate tables within the SQL database. Various SQL queries and operations were performed to retrieve, analyze, modify, and manage restaurant data effectively.",
     "demo": "",
-    "github": "https://github.com/BassamElshoraa/Data-Analyst-PlacementDost-Internship/tree/main/DA%20%20Restaurant%20orders"
+    "github": "https://github.com/BassamElshoraa/Data-Analyst-PlacementDost-Internship/tree/main/DA%20%20Restaurant%20orders",
+    "challenge": "Organize menu and order records so restaurant activity can be queried consistently.",
+    "approach": "Created and populated relational tables, then used SQL operations to retrieve and analyze orders.",
+    "impact": "Provides a queryable foundation for menu and order analysis."
   },
   {
     "id": 14,
     "slug": "hr-employee-survey-responses-placementdost-internship",
     "image": "image/project/pr14_20ED00EE0AC44E66414F.png",
     "title": "HR Employee Survey Responses - PlacementDost Internship",
-    "badges": ["Excel", "Power Query"],
+    "badges": [
+      "Excel",
+      "Power Query"
+    ],
     "description": "The project aimed to analyze employee survey data using Microsoft Excel. The dataset included responses from employees across different departments, with varying levels of agreement/disagreement on several statements. The goal was to import, clean, analyze, and visualize the data to derive meaningful insights regarding employee satisfaction and areas for improvement within the organization.",
     "demo": "",
-    "github": "https://github.com/BassamElshoraa/Data-Analyst-PlacementDost-Internship/tree/main/DA%20employee%20survey"
+    "github": "https://github.com/BassamElshoraa/Data-Analyst-PlacementDost-Internship/tree/main/DA%20employee%20survey",
+    "challenge": "Find patterns in employee satisfaction across departments and survey statements.",
+    "approach": "Imported and cleaned Excel survey responses, then summarized agreement levels and visualized comparisons.",
+    "impact": "Highlights areas that warrant closer discussion with employees."
   },
   {
     "id": 13,
     "slug": "airlines-loyalty-placementdost-internship",
     "image": "image/project/pr13_6EF46C14952231D37412.png",
     "title": "Airlines loyalty - PlacementDost Internship",
-    "badges": ["Power BI", "Microsoft Excel", "Power Query"],
+    "badges": [
+      "Power BI",
+      "Microsoft Excel",
+      "Power Query"
+    ],
     "description": "This project involved analyzing data related to customer behavior, flight activity, loyalty history, and calendar events for PlacementDost Internship using Power BI and MS Excel. The objective was to derive actionable insights to optimize customer engagement, loyalty programs, and revenue generation.",
     "demo": "https://app.powerbi.com/view?r=eyJrIjoiZmRkMmNkNjctN2M1ZC00YTRhLTk4OTItZmU5YWQ3ZTUyNDMwIiwidCI6IjBkODkwMmEzLTE1OGYtNGM3MC04MTI4LTFlM2JiNGFiMzk3ZCIsImMiOjh9&pageName=ReportSectioneb1779126859865c3200",
-    "github": "https://github.com/BassamElshoraa/Data-Analyst-PlacementDost-Internship/tree/main/DA%20Airlines%20loyalty"
+    "github": "https://github.com/BassamElshoraa/Data-Analyst-PlacementDost-Internship/tree/main/DA%20Airlines%20loyalty",
+    "challenge": "Understand customer behavior and flight activity alongside loyalty-program history.",
+    "approach": "Combined relevant airline and loyalty records in Excel and Power BI for interactive analysis.",
+    "impact": "Provides a consolidated view of loyalty and engagement patterns."
   },
   {
     "id": 16,
     "slug": "hotel-reservation-analysis-mentorness-internship",
     "image": "image/project/pr16_46CB510FEC907D135F1D.jpg",
     "title": "Hotel Reservation Analysis - Mentorness Internship",
-    "badges": ["Microsoft SQL Server SSMS"],
+    "badges": [
+      "Microsoft SQL Server SSMS"
+    ],
     "description": "In this project, the goal was to analyze a hotel reservation dataset using SQL to gain insights into guest preferences, booking trends, and other key factors affecting the hotel's operations. The dataset contained various columns such as Booking_ID, no_of_adults, no_of_children, type_of_meal_plan, room_type_reserved, lead_time, arrival_date, market_segment_type, avg_price_per_room, and booking_status.",
     "demo": "",
-    "github": "https://github.com/BassamElshoraa/Hotel-Reservation-Analysis_Mentorness-internship"
+    "github": "https://github.com/BassamElshoraa/Hotel-Reservation-Analysis_Mentorness-internship",
+    "challenge": "Explore which booking characteristics and guest preferences appear in hotel reservations.",
+    "approach": "Wrote SQL queries over room, meal-plan, lead-time, arrival, price, and booking-status fields.",
+    "impact": "Makes reservation mix and booking trends easier to review."
   },
   {
     "id": 3,
     "slug": "employees-dashboard-personal-project",
     "image": "image/project/pr3_B5839FE09B427CA9BD41.png",
     "title": "Employees Dashboard - Personal Project",
-    "badges": ["Power Bi", "Power Query", "Excel", "Data Validation"],
+    "badges": [
+      "Power Bi",
+      "Power Query",
+      "Excel",
+      "Data Validation"
+    ],
     "description": "Built as a dashboard using Power BI and Power Query, it utilizes employee data from an Excel sheet to offer insights on salaries, ratings, and gender distribution, enabling streamlined analysis of employee-related metrics.",
     "demo": "https://app.powerbi.com/view?r=eyJrIjoiZDQzODU1MGYtNzkzZC00ODc2LWE1ZDgtZDYyZjUyMzRjZmNmIiwidCI6IjBkODkwMmEzLTE1OGYtNGM3MC04MTI4LTFlM2JiNGFiMzk3ZCIsImMiOjh9&pageName=ReportSection",
-    "github": ""
+    "github": "",
+    "challenge": "Compare employee salaries, performance ratings, and gender distribution in one report.",
+    "approach": "Prepared Excel employee data in Power Query and built Power BI views for the main workforce measures.",
+    "impact": "Offers a compact descriptive dashboard for employee-related metrics."
   },
   {
     "id": 4,
     "slug": "sales-report-dashboard-personal-project",
     "image": "image/project/pr4_7AF562B30BE1EB1EA80D.png",
     "title": "Sales Report Dashboard - Personal Project",
-    "badges": ["Power Bi", "Power Query", "Excel", "Data Validation"],
+    "badges": [
+      "Power Bi",
+      "Power Query",
+      "Excel",
+      "Data Validation"
+    ],
     "description": "This Power BI dashboard, powered by data from Excel sales reports, showcases monthly and daily selling values, total sales, and profits. Offering an intuitive interface, it enables users to effortlessly analyze and glean insights into sales performance.",
     "demo": "https://app.powerbi.com/view?r=eyJrIjoiOTNmMmVjNjYtZWQ4NS00ZjY2LWIyYWMtOGY2MWUzYWI3OWRjIiwidCI6IjBkODkwMmEzLTE1OGYtNGM3MC04MTI4LTFlM2JiNGFiMzk3ZCIsImMiOjh9&pageName=ReportSection",
-    "github": ""
+    "github": "",
+    "challenge": "Track sales and profit at monthly and daily levels from Excel report data.",
+    "approach": "Transformed the source in Power Query and designed a Power BI dashboard for time-based performance views.",
+    "impact": "Allows users to inspect sales and profit trends interactively."
   },
   {
     "id": 2,
     "slug": "al-omar-for-import-and-export-2016-2018-dashboard",
     "image": "image/project/pr2_CCFC6B769BB82BE7DB6D.png",
     "title": "Al-Omar for Import and Export 2016-2018 Dashboard",
-    "badges": ["Power Bi", "Power Query", "Excel", "Data Validation"],
+    "badges": [
+      "Power Bi",
+      "Power Query",
+      "Excel",
+      "Data Validation"
+    ],
     "description": "Creating an Al-Omar for Import and Export 2016-2018 Dashboard via Power BI and Power Query, using data from the company's datasheet. Offers key insights into company performance, showcasing exporting country count, remaining and paid amounts, and detailed export country breakdowns.",
     "demo": "https://app.powerbi.com/view?r=eyJrIjoiOTYyZTk2MDktMGRiYy00OGQwLWExYjEtYTgxMzVkZmI4YTY4IiwidCI6IjBkODkwMmEzLTE1OGYtNGM3MC04MTI4LTFlM2JiNGFiMzk3ZCIsImMiOjh9&pageName=ReportSection7871f7830d454a4ea35b",
-    "github": ""
+    "github": "",
+    "challenge": "Bring export destinations and receivables into a single view for 2016–2018.",
+    "approach": "Used company worksheet data, Power Query, and Power BI to display country counts, paid and remaining amounts, and destination breakdowns.",
+    "impact": "Makes export activity and payment status easier to review by country."
   },
   {
     "id": 33,
     "slug": "adventureworks-sql-business-analysis-project",
     "image": "image/project/pr33_1BD1DA5AC10F515B2C59.png",
     "title": "AdventureWorks SQL Business Analysis Project",
-    "badges": ["SQL", "Business Analysis", "AdventureWorks"],
+    "badges": [
+      "SQL",
+      "Business Analysis",
+      "AdventureWorks"
+    ],
     "description": "A complete SQL business analysis answering 15 decision-focused questions across sales, customers, products, inventory, and geographic performance.",
     "challenge": "Turn a large relational business database into clear answers for commercial and operational stakeholders.",
     "approach": "Designed structured SQL queries around revenue, customer behavior, product performance, inventory, and geography, with reusable logic and documented outputs.",
@@ -305,7 +453,12 @@
     "slug": "adventure-works-sales-customer-insights-report",
     "image": "image/project/pr28_91C1F12462B4DE2E3A3E.png",
     "title": "Adventure Works Sales & Customer Insights Report",
-    "badges": ["Power BI", "DAX", "Power Query", "Data Modeling"],
+    "badges": [
+      "Power BI",
+      "DAX",
+      "Power Query",
+      "Data Modeling"
+    ],
     "description": "An interactive Power BI analysis of Adventure Works sales, profit, returns, products, pricing, and customer behavior.",
     "challenge": "Create one executive view that connects commercial performance with product, customer, pricing, and returns behavior.",
     "approach": "Built a semantic model with executive KPIs, trend analysis, what-if scenarios, drill-through pages, and natural-language Q&A.",
@@ -319,7 +472,12 @@
     "slug": "al-amreyah-cement-budget-analysis-report",
     "image": "image/project/pr29_473664C9745FEE6491A5.png",
     "title": "Al Amreyah Cement Budget Analysis Report",
-    "badges": ["Power BI", "Financial Analysis", "Excel", "Power Query"],
+    "badges": [
+      "Power BI",
+      "Financial Analysis",
+      "Excel",
+      "Power Query"
+    ],
     "description": "An interactive financial diagnosis covering revenue, expenses, profitability, budget variance, liquidity, and working capital.",
     "challenge": "Bring budget, actuals, balance-sheet position, and profitability into one coherent management view.",
     "approach": "Modeled financial statements and variance logic, then designed drillable views for period, location, level, and budget type.",
@@ -333,7 +491,12 @@
     "slug": "ab-testing-and-sql-analysis-with-python",
     "image": "image/project/pr31_6C520967178546241AE4.png",
     "title": "A/B Testing and SQL Analysis with Python",
-    "badges": ["Python", "SQL", "Statistics", "Pandas"],
+    "badges": [
+      "Python",
+      "SQL",
+      "Statistics",
+      "Pandas"
+    ],
     "description": "A reproducible A/B testing workflow combining data cleaning, SQL, and statistical testing to compare CTR performance between test and control groups.",
     "challenge": "Determine whether an observed click-through-rate difference is a real treatment effect or normal variation.",
     "approach": "Validated experiment data, queried the analytical sample, defined hypotheses, and tested the difference with transparent statistical logic.",
@@ -347,7 +510,12 @@
     "slug": "breadfast-automated-discount-monitoring-dashboard",
     "image": "image/project/pr32_8186F47AFC7F030AE988.png",
     "title": "Breadfast Automated Discount Monitoring Dashboard",
-    "badges": ["Power BI", "Retail Analytics", "DAX", "Automation"],
+    "badges": [
+      "Power BI",
+      "Retail Analytics",
+      "DAX",
+      "Automation"
+    ],
     "description": "An interactive report monitoring automated discounts, OOV inventory, discounted sales, and waste-reduction performance.",
     "challenge": "Evaluate whether automated discounting reduces waste without creating excessive discount spend or availability risk.",
     "approach": "Connected discount, sales, waste, and out-of-stock indicators into an exception-led monitoring experience.",
@@ -361,7 +529,12 @@
     "slug": "medical-appointment-no-show-dataset-analysis",
     "image": "image/project/pr20_449A452C6C6736C2748F.png",
     "title": "Medical Appointment No Show Dataset Analysis",
-    "badges": ["Python", "Pandas", "EDA", "Healthcare Analytics"],
+    "badges": [
+      "Python",
+      "Pandas",
+      "EDA",
+      "Healthcare Analytics"
+    ],
     "description": "An exploratory analysis of more than 100,000 medical appointments in Brazil focused on patterns behind missed visits.",
     "challenge": "Identify the patient, scheduling, and communication factors associated with appointment no-shows.",
     "approach": "Cleaned the data, profiled attendance patterns, compared segments, and visualized the strongest behavioral signals.",
@@ -374,7 +547,12 @@
     "slug": "covid-19-dashboard-personal-project",
     "image": "image/project/pr5_274CC6D2AC1CF625D346.png",
     "title": "Covid-19 Dashboard - Personal Project",
-    "badges": ["Power BI", "Power Query", "Excel", "Data Visualization"],
+    "badges": [
+      "Power BI",
+      "Power Query",
+      "Excel",
+      "Data Visualization"
+    ],
     "description": "A global Covid-19 monitoring report covering confirmed cases, recoveries, geographic concentration, and comparative trends.",
     "challenge": "Make a fast-changing global dataset understandable across countries and headline indicators.",
     "approach": "Imported web data, cleaned it in Power Query, and designed an interactive geographic and KPI-led report.",

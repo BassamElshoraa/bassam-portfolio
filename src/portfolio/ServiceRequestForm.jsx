@@ -1,5 +1,5 @@
 import { useMemo, useState } from "react";
-import { Mail, Send } from "lucide-react";
+import { Copy, Mail, Send } from "lucide-react";
 
 const initialForm = {
   name: "",
@@ -13,18 +13,17 @@ const initialForm = {
 
 export default function ServiceRequestForm({ email, services = [], initialService = "" }) {
   const [form, setForm] = useState(() => ({ ...initialForm, service: initialService }));
-  const [ready, setReady] = useState(false);
+  const [status, setStatus] = useState("");
 
   const serviceOptions = useMemo(() => services.map((service) => service.title), [services]);
 
   const update = (event) => {
     const { name, value } = event.target;
     setForm((current) => ({ ...current, [name]: value }));
-    setReady(false);
+    setStatus("");
   };
 
-  const submit = (event) => {
-    event.preventDefault();
+  const requestText = () => {
     const subject = `Service request: ${form.service}, ${form.name}`;
     const body = [
       `Name: ${form.name}`,
@@ -38,8 +37,25 @@ export default function ServiceRequestForm({ email, services = [], initialServic
       form.details,
     ].join("\n");
 
-    setReady(true);
+    return { subject, body };
+  };
+
+  const submit = (event) => {
+    event.preventDefault();
+    const { subject, body } = requestText();
+    setStatus("Your email app should open. Please press Send there; nothing has been submitted yet. If it does not open, use Copy request.");
     window.location.href = `mailto:${email}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+  };
+
+  const copyRequest = async (event) => {
+    if (!event.currentTarget.form.reportValidity()) return;
+    const { subject, body } = requestText();
+    try {
+      await navigator.clipboard.writeText(`To: ${email}\nSubject: ${subject}\n\n${body}`);
+      setStatus("Request copied. Paste it into your email app and send it to the address above.");
+    } catch {
+      setStatus(`Could not copy automatically. Please email ${email} directly.`);
+    }
   };
 
   return (
@@ -91,9 +107,10 @@ export default function ServiceRequestForm({ email, services = [], initialServic
       </div>
 
       <div className="request-form-footer">
-        <button className="button" type="submit"><Send size={17} /> Prepare email request</button>
+        <button className="button" type="submit"><Send size={17} /> Open email request</button>
+        <button className="button button-ghost" type="button" onClick={copyRequest}><Copy size={17} /> Copy request</button>
       </div>
-      {ready && <p className="request-ready" role="status">Your request is ready in your email app.</p>}
+      {status && <p className="request-ready" role="status">{status}</p>}
     </form>
   );
 }
