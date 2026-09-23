@@ -1,5 +1,5 @@
 import { createContext, useCallback, useContext, useEffect, useMemo, useState } from "react";
-import { connectGithub as openGithub, saveGithubContent, uploadGithubAsset } from "./githubContent.js";
+import { connectGithub as openGithub, listGithubSourceFiles, readGithubSourceFile, saveGithubContent, saveGithubSourceFile, uploadGithubAsset } from "./githubContent.js";
 
 const ContentContext = createContext(null);
 const ThemeContext = createContext(null);
@@ -85,6 +85,26 @@ export function ContentProvider({ children }) {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
   const [githubSession, setGithubSession] = useState(null);
+
+  useEffect(() => {
+    const design = site?.ui?.design || {};
+    const root = document.documentElement;
+    const accent = /^#[0-9a-f]{6}$/i.test(design.accent || "") ? design.accent : "";
+    if (accent) {
+      root.style.setProperty("--accent", accent);
+      root.style.setProperty("--accent-strong", `color-mix(in srgb, ${accent} 78%, var(--text))`);
+      root.style.setProperty("--accent-soft", `color-mix(in srgb, ${accent} 12%, transparent)`);
+    } else {
+      for (const property of ["--accent", "--accent-strong", "--accent-soft"]) root.style.removeProperty(property);
+    }
+    root.style.setProperty("--card-radius", `${Math.max(8, Math.min(32, Number(design.cardRadius) || 18))}px`);
+    root.style.setProperty("--section-space", `${Math.max(60, Math.min(150, Number(design.sectionSpace) || 110))}px`);
+    root.style.fontSize = `${Math.max(90, Math.min(115, Number(design.fontScale) || 100))}%`;
+    return () => {
+      for (const property of ["--accent", "--accent-strong", "--accent-soft", "--card-radius", "--section-space"]) root.style.removeProperty(property);
+      root.style.fontSize = "";
+    };
+  }, [site]);
 
   useEffect(() => {
     let active = true;
@@ -177,6 +197,31 @@ export function ContentProvider({ children }) {
     return items;
   }, [site]);
 
+  const sourceRequest = useCallback(async (endpoint, options) => {
+    const response = await fetch(endpoint, options);
+    const payload = await response.json().catch(() => ({}));
+    if (!response.ok) throw new Error(payload.error || "The local source workspace is unavailable.");
+    return payload;
+  }, []);
+
+  const listSourceFiles = useCallback(() => {
+    if (githubSession?.token) return listGithubSourceFiles(githubSession.token);
+    if (mode === "workspace") return sourceRequest("/api/local-source-files");
+    throw new Error("Connect GitHub to edit source files.");
+  }, [githubSession, mode, sourceRequest]);
+
+  const readSourceFile = useCallback((path) => {
+    if (githubSession?.token) return readGithubSourceFile(githubSession.token, path);
+    if (mode === "workspace") return sourceRequest(`/api/local-source?file=${encodeURIComponent(path)}`);
+    throw new Error("Connect GitHub to edit source files.");
+  }, [githubSession, mode, sourceRequest]);
+
+  const saveSourceFile = useCallback((path, content, expectedSha) => {
+    if (githubSession?.token) return saveGithubSourceFile(githubSession.token, path, content, expectedSha);
+    if (mode === "workspace") return sourceRequest("/api/local-source", { method: "PUT", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ path, content, expectedSha }) });
+    throw new Error("Connect GitHub to edit source files.");
+  }, [githubSession, mode, sourceRequest]);
+
   const value = useMemo(
     () => ({
       site,
@@ -191,8 +236,11 @@ export function ContentProvider({ children }) {
       disconnectGithub,
       githubUser: githubSession?.user || "",
       uploadAsset,
+      listSourceFiles,
+      readSourceFile,
+      saveSourceFile,
     }),
-    [site, projects, articles, loading, error, mode, saveContent, refreshArticles, connectGithub, disconnectGithub, githubSession, uploadAsset],
+    [site, projects, articles, loading, error, mode, saveContent, refreshArticles, connectGithub, disconnectGithub, githubSession, uploadAsset, listSourceFiles, readSourceFile, saveSourceFile],
   );
 
   return <ContentContext.Provider value={value}>{children}</ContentContext.Provider>;

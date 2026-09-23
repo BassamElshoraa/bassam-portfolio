@@ -1,6 +1,7 @@
 import { createServer } from "node:http";
 import { promises as fs } from "node:fs";
 import { Buffer } from "node:buffer";
+import { createHash } from "node:crypto";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 
@@ -9,6 +10,37 @@ const distRoot = path.join(root, "dist");
 const publicRoot = path.join(root, "public");
 const portArgument = process.argv.find((argument) => argument.startsWith("--port="));
 const port = Number(portArgument?.split("=")[1] || process.env.PORT || 4173);
+const sourceHash = (content) => createHash("sha256").update(content).digest("hex");
+const editableTopLevel = new Set(["index.html", "vite.config.js", "package.json", "README.md"]);
+const editableExtensions = /\.(?:jsx?|tsx?|css|html?|json|md|svg|txt|xml|webmanifest)$/i;
+function editableSourcePath(filePath) {
+  return Boolean(filePath) && !filePath.includes("..") && !filePath.includes("\\") && !filePath.startsWith("/") && !/^public\/(?:data|image|files)\//.test(filePath) &&
+    (editableTopLevel.has(filePath) || (["src/", "scripts/", "public/"].some((prefix) => filePath.startsWith(prefix)) && editableExtensions.test(filePath)));
+}
+function sourceFile(filePath) {
+  if (!editableSourcePath(filePath)) throw new Error("This source path is not editable.");
+  return path.join(root, ...filePath.split("/"));
+}
+async function listSourceFiles() {
+  const files = [];
+  async function visit(directory, prefix) {
+    for (const entry of await fs.readdir(directory, { withFileTypes: true }).catch(() => [])) {
+      const filePath = `${prefix}${entry.name}`;
+      if (entry.isDirectory()) {
+        if (!/^public\/(?:data|image|files)\//.test(`${filePath}/`)) await visit(path.join(directory, entry.name), `${filePath}/`);
+      } else if (entry.isFile() && editableSourcePath(filePath)) {
+        const size = (await fs.stat(path.join(directory, entry.name))).size;
+        if (size <= 600 * 1024) files.push({ path: filePath, size });
+      }
+    }
+  }
+  for (const prefix of ["src", "scripts", "public"]) await visit(path.join(root, prefix), `${prefix}/`);
+  for (const filePath of editableTopLevel) {
+    const size = (await fs.stat(sourceFile(filePath)).catch(() => null))?.size;
+    if (size != null && size <= 600 * 1024) files.push({ path: filePath, size });
+  }
+  return files.sort((a, b) => a.path.localeCompare(b.path));
+}
 
 const mimeTypes = {
   ".css": "text/css; charset=utf-8",
@@ -67,6 +99,32 @@ async function serveFile(response, filePath) {
 
 const server = createServer(async (request, response) => {
   const pathname = new URL(request.url, `http://${request.headers.host}`).pathname;
+
+  if (pathname === "/api/local-source-files" && request.method === "GET") {
+    try { return sendJson(response, 200, await listSourceFiles()); }
+    catch (error) { return sendJson(response, 500, { error: error.message }); }
+  }
+
+  if (pathname === "/api/local-source" && request.method === "GET") {
+    try {
+      const filePath = new URL(request.url, `http://${request.headers.host}`).searchParams.get("file");
+      const content = await fs.readFile(sourceFile(filePath), "utf8");
+      if (Buffer.byteLength(content) > 600 * 1024) throw new Error("This file is too large to edit here.");
+      return sendJson(response, 200, { path: filePath, content, sha: sourceHash(content) });
+    } catch (error) { return sendJson(response, 400, { error: error.message }); }
+  }
+
+  if (pathname === "/api/local-source" && request.method === "PUT") {
+    try {
+      const payload = JSON.parse(await readBody(request, 700 * 1024));
+      const target = sourceFile(payload.path);
+      const current = await fs.readFile(target, "utf8");
+      if (sourceHash(current) !== payload.expectedSha) throw new Error("This file changed since you opened it. Reload before saving.");
+      if (typeof payload.content !== "string" || Buffer.byteLength(payload.content) > 600 * 1024) throw new Error("Keep source files under 600 KB.");
+      await fs.writeFile(target, payload.content, "utf8");
+      return sendJson(response, 200, { path: payload.path, content: payload.content, sha: sourceHash(payload.content) });
+    } catch (error) { return sendJson(response, 400, { error: error.message }); }
+  }
 
   if (pathname === "/api/local-content" && request.method === "GET") {
     try {

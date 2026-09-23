@@ -24,6 +24,7 @@
     "roleGroups": [
       {
         "label": "Analyze",
+        "description": "Finding the signal in complex data.",
         "roles": [
           "Data Analyst",
           "Financial Analyst",
@@ -32,6 +33,7 @@
       },
       {
         "label": "Build",
+        "description": "Clear systems for better decisions.",
         "roles": [
           "Business Intelligence Analyst",
           "Reporting Analyst"
@@ -39,6 +41,7 @@
       },
       {
         "label": "Teach",
+        "description": "Turning insight into lasting capability.",
         "roles": [
           "Data Analysis Instructor"
         ]

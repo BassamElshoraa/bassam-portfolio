@@ -28,6 +28,7 @@ import {
 } from "lucide-react";
 import { Link } from "react-router-dom";
 import { usePortfolioContent, useTheme } from "./context.jsx";
+import SourceEditor from "./SourceEditor.jsx";
 import { assetUrl, projectCategory, slugify } from "./utils.js";
 
 const blankProject = {
@@ -125,7 +126,7 @@ function ProjectEditor({ project, onClose, onSave, onImageUpload }) {
 }
 
 export default function Dashboard() {
-  const { site, projects, articles, mode, saveContent, loading, connectGithub, disconnectGithub, githubUser, uploadAsset } = usePortfolioContent();
+  const { site, projects, articles, mode, saveContent, loading, connectGithub, disconnectGithub, githubUser, uploadAsset, listSourceFiles, readSourceFile, saveSourceFile } = usePortfolioContent();
   const { theme, toggleTheme } = useTheme();
   const [activeTab, setActiveTab] = useState("projects");
   const [draftSite, setDraftSite] = useState(() => site ? copy(site) : null);
@@ -263,6 +264,7 @@ export default function Dashboard() {
   const setArticle = (index, name, value) => setDraftArticles((current) => current.map((item, itemIndex) => itemIndex === index ? { ...item, [name]: value } : item));
   const setSiteArray = (key, index, name, value) => setDraftSite((current) => ({ ...current, [key]: (current[key] || []).map((item, itemIndex) => itemIndex === index ? { ...item, [name]: value } : item) }));
   const setUi = (name, value) => setDraftSite((current) => ({ ...current, ui: { ...(current.ui || {}), [name]: value } }));
+  const setDesign = (name, value) => setDraftSite((current) => ({ ...current, ui: { ...(current.ui || {}), design: { ...(current.ui?.design || {}), [name]: value } } }));
 
   const nav = [
     { id: "projects", label: "Projects", icon: <FolderKanban size={18} /> },
@@ -273,6 +275,7 @@ export default function Dashboard() {
     { id: "experience", label: "Experience", icon: <LayoutDashboard size={18} /> },
     { id: "credentials", label: "Credentials", icon: <Award size={18} /> },
     { id: "presentation", label: "Presentation", icon: <Settings2 size={18} /> },
+    { id: "source", label: "Site source", icon: <Edit3 size={18} /> },
     { id: "media", label: "Media", icon: <ImagePlus size={18} /> },
     { id: "advanced", label: "Advanced content", icon: <FileJson size={18} /> },
     { id: "data", label: "Backups", icon: <Database size={18} /> },
@@ -378,6 +381,7 @@ export default function Dashboard() {
         {activeTab === "services" && (
           <section className="admin-section form-section">
             <div className="admin-section-head"><div><h2>Paid services</h2><p>Edit the services clients can request from the public website.</p></div><div><button className="button button-ghost" type="button" onClick={addService}><Plus size={17} /> Add service</button><button className="button" type="button" onClick={() => persist()}><Save size={17} /> Save services</button></div></div>
+            <p className="admin-help">The request form now sends through FormSubmit. Open the one-time activation email sent to <strong>{draftSite.profile.email}</strong> and confirm it so new requests reach your inbox. You can change the recipient under Profile.</p>
             <div className="experience-editor-list">
               {(draftSite.services || []).map((item, index) => (
                 <article className="experience-editor" key={item.id}>
@@ -493,11 +497,17 @@ export default function Dashboard() {
         {activeTab === "presentation" && (
           <section className="admin-section form-section">
             <div className="admin-section-head"><div><h2>Site presentation</h2><p>Control the hero roles, about highlights, section titles, footer, and search preview.</p></div><button className="button" type="button" onClick={() => persist()} disabled={saving}><Save size={17} /> Save presentation</button></div>
+            <div className="dashboard-subsection"><div className="admin-section-head"><div><span className="eyebrow">Visual direction</span><h3>Design controls</h3><p>Adjust the accent, text size, spacing, and card shape without editing code.</p></div></div><div className="design-controls">
+              <label className="field"><span>Accent color</span><input type="color" value={draftSite.ui?.design?.accent || "#1769d5"} onChange={(event) => setDesign("accent", event.target.value)} /></label>
+              <label className="field"><span>Text scale · {draftSite.ui?.design?.fontScale || 100}%</span><input type="range" min="90" max="115" step="1" value={draftSite.ui?.design?.fontScale || 100} onChange={(event) => setDesign("fontScale", Number(event.target.value))} /></label>
+              <label className="field"><span>Card corners · {draftSite.ui?.design?.cardRadius || 18}px</span><input type="range" min="8" max="32" step="1" value={draftSite.ui?.design?.cardRadius || 18} onChange={(event) => setDesign("cardRadius", Number(event.target.value))} /></label>
+              <label className="field"><span>Section spacing · {draftSite.ui?.design?.sectionSpace || 110}px</span><input type="range" min="60" max="150" step="5" value={draftSite.ui?.design?.sectionSpace || 110} onChange={(event) => setDesign("sectionSpace", Number(event.target.value))} /></label>
+            </div><div className="design-preview" style={{ "--preview-accent": draftSite.ui?.design?.accent || "#1769d5", borderRadius: `${draftSite.ui?.design?.cardRadius || 18}px` }}><span>Live style sample</span><strong>Clear analysis, confident decisions.</strong><p>The selected settings apply to the public site after you save.</p></div></div>
             <div className="dashboard-subsection"><h3>Names and page copy</h3><div className="editor-grid">
               {Object.entries({ brand: "Header brand", footerTagline: "Footer tagline", aboutTitle: "About heading", experienceTitle: "Experience heading", skillsTitle: "Skills heading", projectsTitle: "Projects heading", servicesTitle: "Services heading", servicesDescription: "Services introduction", articlesTitle: "Articles heading", contactTitle: "Contact headline", contactDescription: "Contact introduction", seoTitle: "Search title", seoDescription: "Search description", seoImage: "Social share image" }).map(([key, label]) => <label className={key.endsWith("Description") ? "field field-span-2" : "field"} key={key}><span>{label}</span><input value={draftSite.ui?.[key] || ""} onChange={(event) => setUi(key, event.target.value)} /></label>)}
             </div></div>
-            <div className="dashboard-subsection"><div className="admin-section-head"><div><span className="eyebrow">Hero</span><h3>Professional role groups</h3></div><button className="button button-ghost button-small" type="button" onClick={() => setProfile("roleGroups", [...(draftSite.profile.roleGroups || []), { label: "New group", roles: [] }])}><Plus size={16} /> Add group</button></div>
-              <div className="experience-editor-list">{(draftSite.profile.roleGroups || []).map((group, index) => <article className="experience-editor" key={`${group.label}-${index}`}><div className="experience-editor-head"><strong>{group.label}</strong><button className="icon-button danger" type="button" onClick={() => setProfile("roleGroups", draftSite.profile.roleGroups.filter((_, itemIndex) => itemIndex !== index))} aria-label="Remove role group"><Trash2 size={16} /></button></div><div className="editor-grid"><label className="field"><span>Group label</span><input value={group.label || ""} onChange={(event) => setProfile("roleGroups", draftSite.profile.roleGroups.map((item, itemIndex) => itemIndex === index ? { ...item, label: event.target.value } : item))} /></label><label className="field field-span-2"><span>Roles, one per line</span><textarea rows="4" value={(group.roles || []).join("\n")} onChange={(event) => setProfile("roleGroups", draftSite.profile.roleGroups.map((item, itemIndex) => itemIndex === index ? { ...item, roles: event.target.value.split("\n").map((value) => value.trim()).filter(Boolean) } : item))} /></label></div></article>)}</div>
+            <div className="dashboard-subsection"><div className="admin-section-head"><div><span className="eyebrow">Hero</span><h3>Professional role groups</h3></div><button className="button button-ghost button-small" type="button" onClick={() => setProfile("roleGroups", [...(draftSite.profile.roleGroups || []), { label: "New group", description: "", roles: [] }])}><Plus size={16} /> Add group</button></div>
+              <div className="experience-editor-list">{(draftSite.profile.roleGroups || []).map((group, index) => <article className="experience-editor" key={`${group.label}-${index}`}><div className="experience-editor-head"><strong>{group.label}</strong><button className="icon-button danger" type="button" onClick={() => setProfile("roleGroups", draftSite.profile.roleGroups.filter((_, itemIndex) => itemIndex !== index))} aria-label="Remove role group"><Trash2 size={16} /></button></div><div className="editor-grid"><label className="field"><span>Group label</span><input value={group.label || ""} onChange={(event) => setProfile("roleGroups", draftSite.profile.roleGroups.map((item, itemIndex) => itemIndex === index ? { ...item, label: event.target.value } : item))} /></label><label className="field"><span>Short supporting line</span><input value={group.description || ""} onChange={(event) => setProfile("roleGroups", draftSite.profile.roleGroups.map((item, itemIndex) => itemIndex === index ? { ...item, description: event.target.value } : item))} /></label><label className="field field-span-2"><span>Roles, one per line</span><textarea rows="4" value={(group.roles || []).join("\n")} onChange={(event) => setProfile("roleGroups", draftSite.profile.roleGroups.map((item, itemIndex) => itemIndex === index ? { ...item, roles: event.target.value.split("\n").map((value) => value.trim()).filter(Boolean) } : item))} /></label></div></article>)}</div>
             </div>
             <div className="dashboard-subsection"><div className="admin-section-head"><div><span className="eyebrow">About</span><h3>Highlight cards</h3></div><button className="button button-ghost button-small" type="button" onClick={() => setDraftSite((current) => ({ ...current, aboutHighlights: [...(current.aboutHighlights || []), { title: "New highlight", description: "" }] }))}><Plus size={16} /> Add highlight</button></div>
               <div className="experience-editor-list">{(draftSite.aboutHighlights || []).map((item, index) => <article className="experience-editor" key={`${item.title}-${index}`}><div className="experience-editor-head"><strong>{item.title}</strong><button className="icon-button danger" type="button" onClick={() => setDraftSite((current) => ({ ...current, aboutHighlights: current.aboutHighlights.filter((_, itemIndex) => itemIndex !== index) }))} aria-label="Remove highlight"><Trash2 size={16} /></button></div><div className="editor-grid"><label className="field"><span>Title</span><input value={item.title || ""} onChange={(event) => setSiteArray("aboutHighlights", index, "title", event.target.value)} /></label><label className="field field-span-2"><span>Description</span><input value={item.description || ""} onChange={(event) => setSiteArray("aboutHighlights", index, "description", event.target.value)} /></label></div></article>)}</div>
@@ -516,6 +526,8 @@ export default function Dashboard() {
             <p className="admin-help">On the published site, the upload creates a GitHub commit and Pages publishes it. Add its path to a profile, project, article, company, or credential field and save that section too.</p>
           </section>
         )}
+
+        {activeTab === "source" && <SourceEditor mode={mode} listSourceFiles={listSourceFiles} readSourceFile={readSourceFile} saveSourceFile={saveSourceFile} />}
 
         {activeTab === "advanced" && (
           <section className="admin-section form-section"><div className="admin-section-head"><div><h2>Complete site data</h2><p>For fields that do not have a dedicated control, edit the complete site content safely as JSON. Projects and articles have separate editors.</p></div><button className="button button-ghost" type="button" onClick={() => setAdvancedJson(JSON.stringify(draftSite, null, 2))}>Load current form draft</button></div>

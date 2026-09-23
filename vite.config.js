@@ -1,6 +1,7 @@
 import { defineConfig } from "vite";
 import react from "@vitejs/plugin-react-swc";
 import { Buffer } from "buffer";
+import { createHash } from "crypto";
 import path from "path";
 import { promises as fs } from "fs";
 import { fileURLToPath } from "url";
@@ -11,6 +12,35 @@ function localPortfolioContent() {
   const siteFile = path.join(dataDirectory, "siteContent.json");
   const projectsFile = path.join(dataDirectory, "portfolioProjects.json");
   const articlesFile = path.join(dataDirectory, "articles.json");
+  const editableTopLevel = new Set(["index.html", "vite.config.js", "package.json", "README.md"]);
+  const sourceHash = (content) => createHash("sha256").update(content).digest("hex");
+  const editableExtensions = /\.(?:jsx?|tsx?|css|html?|json|md|svg|txt|xml|webmanifest)$/i;
+  const isEditableSourcePath = (filePath) => Boolean(filePath) && !filePath.includes("..") && !filePath.includes("\\") && !filePath.startsWith("/") && !/^public\/(?:data|image|files)\//.test(filePath) &&
+    (editableTopLevel.has(filePath) || (["src/", "scripts/", "public/"].some((root) => filePath.startsWith(root)) && editableExtensions.test(filePath)));
+  const resolveSource = (filePath) => {
+    if (!isEditableSourcePath(filePath)) throw new Error("This source path is not editable.");
+    return path.join(__dirname, ...filePath.split("/"));
+  };
+  const listSourceFiles = async () => {
+    const files = [];
+    async function visit(directory, prefix) {
+      for (const entry of await fs.readdir(directory, { withFileTypes: true }).catch(() => [])) {
+        const filePath = `${prefix}${entry.name}`;
+        if (entry.isDirectory()) {
+          if (!/^public\/(?:data|image|files)\//.test(`${filePath}/`)) await visit(path.join(directory, entry.name), `${filePath}/`);
+        } else if (entry.isFile() && isEditableSourcePath(filePath)) {
+          const size = (await fs.stat(path.join(directory, entry.name))).size;
+          if (size <= 600 * 1024) files.push({ path: filePath, size });
+        }
+      }
+    }
+    for (const root of ["src", "scripts", "public"]) await visit(path.join(__dirname, root), `${root}/`);
+    for (const filePath of editableTopLevel) {
+      const size = (await fs.stat(resolveSource(filePath)).catch(() => null))?.size;
+      if (size != null && size <= 600 * 1024) files.push({ path: filePath, size });
+    }
+    return files.sort((a, b) => a.path.localeCompare(b.path));
+  };
 
   const sendJson = (response, statusCode, payload) => {
     response.statusCode = statusCode;
@@ -51,6 +81,32 @@ function localPortfolioContent() {
           } catch (error) {
             return sendJson(response, 500, { error: error.message });
           }
+        }
+
+        if (pathname === "/api/local-source-files" && request.method === "GET") {
+          try { return sendJson(response, 200, await listSourceFiles()); }
+          catch (error) { return sendJson(response, 500, { error: error.message }); }
+        }
+
+        if (pathname === "/api/local-source" && request.method === "GET") {
+          try {
+            const filePath = new URL(request.url, "http://localhost").searchParams.get("file");
+            const content = await fs.readFile(resolveSource(filePath), "utf8");
+            if (Buffer.byteLength(content) > 600 * 1024) throw new Error("This file is too large to edit here.");
+            return sendJson(response, 200, { path: filePath, content, sha: sourceHash(content) });
+          } catch (error) { return sendJson(response, 400, { error: error.message }); }
+        }
+
+        if (pathname === "/api/local-source" && request.method === "PUT") {
+          try {
+            const payload = JSON.parse(await readBody(request, 700 * 1024));
+            const target = resolveSource(payload.path);
+            const current = await fs.readFile(target, "utf8");
+            if (sourceHash(current) !== payload.expectedSha) throw new Error("This file changed since you opened it. Reload before saving.");
+            if (typeof payload.content !== "string" || Buffer.byteLength(payload.content) > 600 * 1024) throw new Error("Keep source files under 600 KB.");
+            await fs.writeFile(target, payload.content, "utf8");
+            return sendJson(response, 200, { path: payload.path, content: payload.content, sha: sourceHash(payload.content) });
+          } catch (error) { return sendJson(response, 400, { error: error.message }); }
         }
 
         if (pathname === "/api/local-content" && request.method === "PUT") {

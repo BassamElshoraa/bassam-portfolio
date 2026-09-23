@@ -15,12 +15,12 @@ The production site is deployed automatically to GitHub Pages:
 - Responsive dark and light themes using the Cairo font.
 - 32 analytics and business intelligence projects.
 - Embedded interactive Power BI reports.
-- GitHub-style viewers for `.ipynb`, `.py`, and `.sql` project files.
+- GitHub-backed viewers for `.ipynb`, `.py`, and `.sql` project files, with saved notebook results shown before the code.
 - Project search and technology filters.
 - Professional experience, education, and certification sections.
 - Locally cached article reader, independent of Medium availability.
-- Paid-services catalogue and structured email request form.
-- Content dashboard for projects, articles, skills, services, experience, credentials, presentation, media, and backups.
+- Paid-services catalogue and a direct FormSubmit request form with email fallback.
+- Content dashboard for projects, articles, skills, services, experience, credentials, visual design, source files, media, and backups.
 - Direct route documents and metadata for every project and article.
 - Automated GitHub Pages deployment after every push to `main`.
 
@@ -63,7 +63,7 @@ npm run dev
 1. Open the [published dashboard](https://bassamelshoraa.github.io/bassam-portfolio/dashboard/).
 2. Create a **fine-grained personal access token** in GitHub Settings. Limit repository access to `BassamElshoraa/bassam-portfolio` and set **Contents: Read and write**. No broader scope is needed.
 3. Enter the token in the dashboard. It stays in page memory only, not local storage or repository files. Refreshing or closing the tab ends the session.
-4. Edit the content and save. The dashboard creates a Git commit on `main`; GitHub Pages publishes it shortly afterward. A save message means the commit succeeded, not that deployment has already finished.
+4. Edit the content, visual settings, media, or source files and save. The dashboard creates a Git commit on `main`; GitHub Pages publishes it shortly afterward. A save message means the commit succeeded, not that deployment has already finished. Source edits can break a build, so check the Actions status and change one file at a time.
 5. Sign out when done, and revoke the token in GitHub Settings if you no longer need it.
 
 Do not paste a token into messages, screenshots, or shared devices. Publishing from the dashboard requires permission to push to this repository. If the branch is protected, GitHub will reject the commit instead of silently storing changes in the browser.
@@ -91,13 +91,13 @@ The local dashboard and published dashboard edit the same JSON content schema. G
 ## Project presentation rules
 
 - **Power BI:** the live report is embedded directly in the project page.
-- **Python:** only notebook and Python code files are shown.
+- **Python:** saved notebook results, charts, tables, and optional code are shown without running arbitrary Python on the website.
 - **SQL:** only SQL files are shown.
 - **Other projects:** a focused case-study overview is shown.
 
 ## Service requests
 
-The request form prepares a structured email addressed to `Bassam.m.elshoraa@gmail.com` and opens the visitor's email application. It does **not** claim that a request was sent. Visitors can also copy the request text if no email application opens. Direct background delivery requires a form provider or backend.
+The request form sends directly through [FormSubmit](https://formsubmit.co/documentation) without opening a visitor's email application. The first request triggers a one-time activation email to `Bassam.m.elshoraa@gmail.com`; Bassam must confirm that address before delivery is active. The form shows a success message only after FormSubmit confirms the request, retains the visitor's input on failure, and offers direct email and copy options as fallbacks. Form submissions pass through the FormSubmit service; no private key is stored in the site.
 
 ## Quality checks
 

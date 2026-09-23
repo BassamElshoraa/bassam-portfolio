@@ -6353,3 +6353,166 @@ img {
     font-size: 0.83rem;
   }
 }
+
+/* Design controls and the separate editorial role cards */
+.section-pad { padding-block: var(--section-space, 110px); }
+.project-card, .service-card, .expertise-card, .article-card, .role-portfolio-group { border-radius: var(--card-radius, 18px); }
+
+.role-portfolio {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 0.75rem;
+}
+.role-portfolio-group,
+.role-portfolio-group-3 {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  min-height: 204px;
+  padding: 1.05rem;
+  overflow: hidden;
+  background: var(--surface);
+  border: 1px solid color-mix(in srgb, var(--accent) 26%, var(--line));
+  box-shadow: 0 14px 32px rgba(17, 71, 138, 0.065);
+}
+.role-portfolio-group::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 4px;
+  background: var(--role-accent, var(--accent));
+}
+.role-portfolio-group-1 { --role-accent: #1769d5; }
+.role-portfolio-group-2 { --role-accent: #0b9f9a; }
+.role-portfolio-group-3 { --role-accent: #8a68d5; }
+.role-portfolio-group > .role-portfolio-top {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 0.85rem;
+}
+.role-portfolio-label {
+  margin: 0;
+  color: var(--role-accent, var(--accent));
+  font-size: 0.76rem;
+  letter-spacing: 0.11em;
+}
+.role-portfolio-mark {
+  display: grid;
+  place-items: center;
+  width: 27px;
+  height: 27px;
+  border: 1px solid color-mix(in srgb, var(--role-accent, var(--accent)) 30%, var(--line));
+  border-radius: 50%;
+  color: var(--role-accent, var(--accent));
+  font-family: system-ui, sans-serif;
+  font-size: 0.9rem;
+}
+.role-portfolio-group > .role-portfolio-roles {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.4rem;
+}
+.role-portfolio-item {
+  width: 100%;
+  padding: 0.37rem 0.55rem;
+  border: 1px solid color-mix(in srgb, var(--role-accent, var(--accent)) 13%, var(--line));
+  border-left: 2px solid var(--role-accent, var(--accent));
+  border-radius: 7px;
+  background: color-mix(in srgb, var(--role-accent, var(--accent)) 4%, var(--surface));
+  font-size: 0.8rem;
+  font-weight: 650;
+}
+.role-portfolio-description {
+  margin: auto 0 0;
+  padding-top: 0.8rem;
+  color: var(--muted);
+  font-size: 0.74rem;
+  line-height: 1.5;
+}
+:root[data-theme="dark"] .role-portfolio-group {
+  background: color-mix(in srgb, var(--role-accent, var(--accent)) 6%, var(--surface));
+  border-color: color-mix(in srgb, var(--role-accent, var(--accent)) 35%, var(--line));
+}
+:root[data-theme="dark"] .role-portfolio-group-1 { --role-accent: #73b5ff; }
+:root[data-theme="dark"] .role-portfolio-group-2 { --role-accent: #6bddc8; }
+:root[data-theme="dark"] .role-portfolio-group-3 { --role-accent: #c0a5ff; }
+
+.request-honeypot { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
+.request-privacy { margin: 0.9rem 0 0; color: var(--muted); font-size: 0.76rem; }
+.request-privacy a { color: var(--accent-strong); text-decoration: underline; }
+.request-ready-error { color: var(--danger); }
+.request-ready-success { color: var(--accent-strong); }
+
+.notebook-view-toolbar {
+  position: sticky;
+  top: 0;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  margin: -1.1rem -1.1rem 1.2rem;
+  padding: 0.85rem 1.1rem;
+  border-bottom: 1px solid rgba(255,255,255,0.12);
+  background: #11243a;
+  color: #eff6ff;
+}
+.notebook-view-toolbar > div:first-child { display: flex; flex-direction: column; }
+.notebook-view-toolbar strong { font-size: 0.83rem; }
+.notebook-view-toolbar span { color: #a8c4df; font-size: 0.66rem; }
+.notebook-view-switch { display: flex; gap: 0.25rem; padding: 0.2rem; border: 1px solid rgba(255,255,255,0.14); border-radius: 10px; }
+.notebook-view-switch button { padding: 0.4rem 0.65rem; border: 0; border-radius: 7px; background: transparent; color: #c9d6e6; font: inherit; font-size: 0.68rem; cursor: pointer; }
+.notebook-view-switch button.active { background: #dcebff; color: #102843; font-weight: 800; }
+.notebook-code-toggle { margin: 0.1rem 0 0.55rem; color: #a5c8ee; font-size: 0.72rem; }
+.notebook-code-toggle summary { cursor: pointer; }
+.notebook-code-toggle .code-block { margin-top: 0.45rem; }
+.notebook-cell-result { padding-bottom: 0.45rem; border-bottom: 1px solid rgba(255,255,255,0.08); }
+.notebook-table-more { margin-top: 0.55rem; padding: 0.35rem 0.7rem; border: 1px solid #547ba8; border-radius: 7px; background: #182d43; color: #d7e8fa; font: inherit; cursor: pointer; }
+
+.design-controls { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0.85rem; }
+.design-controls input[type="range"] { width: 100%; accent-color: var(--accent); }
+.design-controls input[type="color"] { width: 100%; height: 48px; padding: 5px; cursor: pointer; }
+.design-preview { display: flex; flex-direction: column; gap: 0.2rem; margin-top: 1rem; padding: 1.15rem; border: 1px solid var(--preview-accent); background: color-mix(in srgb, var(--preview-accent) 7%, var(--surface)); }
+.design-preview span { color: var(--preview-accent); font-size: 0.7rem; font-weight: 800; letter-spacing: 0.08em; text-transform: uppercase; }
+.design-preview strong { font-size: 1.15rem; }
+.design-preview p { margin: 0; color: var(--text-soft); font-size: 0.8rem; }
+
+.source-workspace-grid { display: grid; grid-template-columns: minmax(210px, 0.28fr) minmax(0, 0.72fr); gap: 1rem; min-height: 640px; }
+.source-file-list, .source-editor-panel { min-width: 0; overflow: hidden; border: 1px solid var(--line); border-radius: 15px; background: var(--surface); }
+.source-file-list { display: flex; flex-direction: column; padding: 0.7rem; }
+.source-file-list .search-box { margin-bottom: 0.5rem; }
+.source-file-list > div { flex: 1; max-height: 600px; overflow: auto; }
+.source-file-list button { display: flex; align-items: center; gap: 0.5rem; width: 100%; padding: 0.5rem; border: 0; border-radius: 8px; background: transparent; color: var(--text-soft); font: inherit; font-size: 0.68rem; text-align: left; cursor: pointer; }
+.source-file-list button span { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.source-file-list button:hover, .source-file-list button.active { background: var(--accent-soft); color: var(--accent-strong); }
+.source-file-list small { padding: 0.7rem 0.25rem 0; color: var(--muted); font-size: 0.65rem; }
+.source-editor-panel { display: flex; flex-direction: column; }
+.source-editor-toolbar { display: flex; align-items: center; justify-content: space-between; gap: 0.7rem; padding: 0.8rem; border-bottom: 1px solid var(--line); }
+.source-editor-toolbar > div:first-child { display: flex; min-width: 0; flex-direction: column; }
+.source-editor-toolbar strong { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-size: 0.8rem; }
+.source-editor-toolbar span { color: var(--muted); font-size: 0.67rem; }
+.source-editor-toolbar > div:last-child { display: flex; flex-wrap: wrap; gap: 0.4rem; }
+.source-code-editor { flex: 1; width: 100%; min-height: 550px; padding: 1rem; border: 0; outline: 0; background: #101c2d; color: #e6f0fb; font: 0.75rem/1.6 ui-monospace, Consolas, monospace; resize: vertical; tab-size: 2; }
+.source-empty { display: grid; flex: 1; place-items: center; padding: 2rem; color: var(--muted); text-align: center; }
+.source-message { margin: 0; padding: 0.65rem 0.9rem; border-top: 1px solid var(--line); color: var(--text-soft); font-size: 0.76rem; }
+
+@media (max-width: 720px) {
+  .section-pad { padding-block: calc(var(--section-space, 110px) * 0.7); }
+  .role-portfolio { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .role-portfolio-group-3 { grid-column: 1 / -1; min-height: 145px; }
+  .notebook-view-toolbar { align-items: flex-start; flex-direction: column; }
+  .source-workspace-grid { grid-template-columns: 1fr; }
+  .source-file-list > div { max-height: 180px; }
+  .source-editor-toolbar { align-items: flex-start; flex-direction: column; }
+  .design-controls { grid-template-columns: 1fr; }
+}
+@media (max-width: 430px) {
+  .role-portfolio { grid-template-columns: 1fr; }
+  .role-portfolio-group-3 { grid-column: auto; }
+  .role-portfolio-group, .role-portfolio-group-3 { min-height: 0; }
+  .role-portfolio-group > .role-portfolio-roles { display: flex; }
+}

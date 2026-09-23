@@ -2,6 +2,20 @@ const owner = "BassamElshoraa";
 const repository = "bassam-portfolio";
 const apiRoot = `https://api.github.com/repos/${owner}/${repository}`;
 
+const editableRoots = ["src/", "scripts/", "public/"];
+const editableTopLevel = new Set(["index.html", "vite.config.js", "package.json", "README.md"]);
+const editableExtensions = /\.(?:jsx?|tsx?|css|html?|json|md|svg|txt|xml|webmanifest)$/i;
+
+export function isEditableSourcePath(path) {
+  if (!path || path.includes("..") || path.includes("\\") || path.startsWith("/") || path.startsWith("public/data/") || path.startsWith("public/image/") || path.startsWith("public/files/")) return false;
+  return editableTopLevel.has(path) || (editableRoots.some((root) => path.startsWith(root)) && editableExtensions.test(path));
+}
+
+function sourceEndpoint(path) {
+  if (!isEditableSourcePath(path)) throw new Error("This file is not editable in the source workspace.");
+  return `/contents/${path.split("/").map(encodeURIComponent).join("/")}`;
+}
+
 async function githubRequest(token, path, options = {}) {
   const response = await fetch(path.startsWith("https://") ? path : `${apiRoot}${path}`, {
     ...options,
@@ -51,9 +65,10 @@ export async function readGithubContent(token) {
 
 // Create one commit for all edited content and uploaded media. A non-forced ref update
 // prevents silently overwriting changes made from another device.
-export async function commitGithubFiles(token, files, message) {
+export async function commitGithubFiles(token, files, message, expectedHead = "") {
   const ref = await githubRequest(token, "/git/ref/heads/main");
   const parentSha = ref.object.sha;
+  if (expectedHead && parentSha !== expectedHead) throw new Error("The repository changed while you were editing. Reload this file before publishing.");
   const parent = await githubRequest(token, `/git/commits/${parentSha}`);
   const blobs = await Promise.all(files.map(async (file) => {
     const blob = await githubRequest(token, "/git/blobs", {
@@ -90,4 +105,26 @@ export async function uploadGithubAsset(token, path, dataUrl) {
   const content = dataUrl.split(",")[1];
   if (!content) throw new Error("The selected file could not be read.");
   return commitGithubFiles(token, [{ path: `public/${path}`, content }], `Upload portfolio asset: ${path}`);
+}
+
+export async function listGithubSourceFiles(token) {
+  const tree = await githubRequest(token, "/git/trees/main?recursive=1");
+  if (tree.truncated) throw new Error("GitHub returned an incomplete file list. Try again later.");
+  return (tree.tree || []).filter((item) => item.type === "blob" && item.size <= 600 * 1024 && isEditableSourcePath(item.path))
+    .map((item) => ({ path: item.path, size: item.size })).sort((a, b) => a.path.localeCompare(b.path));
+}
+
+export async function readGithubSourceFile(token, path) {
+  const file = await githubRequest(token, `${sourceEndpoint(path)}?ref=main`);
+  if (!file.content || file.size > 600 * 1024) throw new Error("This source file is too large to edit here.");
+  return { path, content: decodeBase64(file.content), sha: file.sha };
+}
+
+export async function saveGithubSourceFile(token, path, content, expectedSha) {
+  if (typeof content !== "string" || new TextEncoder().encode(content).length > 600 * 1024) throw new Error("Keep source files under 600 KB.");
+  const head = (await githubRequest(token, "/git/ref/heads/main")).object.sha;
+  const current = await githubRequest(token, `${sourceEndpoint(path)}?ref=${head}`);
+  if (current.sha !== expectedSha) throw new Error("This file changed on GitHub since you opened it. Reload it before saving so no changes are overwritten.");
+  await commitGithubFiles(token, [{ path, content: encodeBase64(content) }], `Update portfolio source: ${path}`, head);
+  return readGithubSourceFile(token, path);
 }

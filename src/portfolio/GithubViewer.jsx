@@ -68,16 +68,18 @@ function PlotlyFigure({ figure }) {
 }
 
 function NotebookTable({ html }) {
-  const { rows, totalRows } = useMemo(() => {
+  const [expanded, setExpanded] = useState(false);
+  const rows = useMemo(() => {
     const doc = new DOMParser().parseFromString(notebookText(html), "text/html");
     const tableRows = [...doc.querySelectorAll("table tr")];
-    return { totalRows: tableRows.length, rows: tableRows.slice(0, 30).map((row) => ({
+    return tableRows.map((row) => ({
       header: Boolean(row.querySelector("th")),
       cells: [...row.querySelectorAll("th, td")].slice(0, 18).map((cell) => cell.textContent?.trim() || ""),
-    })) };
+    }));
   }, [html]);
   if (!rows.length) return null;
-  return <div className="notebook-table-wrap"><table className="notebook-table"><tbody>{rows.map((row, index) => <tr key={index}>{row.cells.map((cell, cellIndex) => row.header ? <th key={cellIndex}>{cell}</th> : <td key={cellIndex}>{cell}</td>)}</tr>)}</tbody></table>{totalRows > rows.length && <small>Showing the first {rows.length} of {totalRows} rows.</small>}</div>;
+  const visibleRows = expanded ? rows : rows.slice(0, 50);
+  return <div className="notebook-table-wrap"><table className="notebook-table"><tbody>{visibleRows.map((row, index) => <tr key={index}>{row.cells.map((cell, cellIndex) => row.header ? <th key={cellIndex}>{cell}</th> : <td key={cellIndex}>{cell}</td>)}</tr>)}</tbody></table>{rows.length > 50 && <button className="notebook-table-more" type="button" onClick={() => setExpanded((current) => !current)}>{expanded ? "Show fewer rows" : `Show all ${rows.length} rows`}</button>}</div>;
 }
 
 function NotebookOutput({ output }) {
@@ -94,6 +96,7 @@ function NotebookOutput({ output }) {
 }
 
 function Notebook({ source, fallbackImage = "", title = "" }) {
+  const [view, setView] = useState("results");
   const notebook = useMemo(() => {
     try {
       return JSON.parse(source);
@@ -106,23 +109,27 @@ function Notebook({ source, fallbackImage = "", title = "" }) {
 
   const cells = notebook.cells || [];
   const hasSavedOutputs = cells.some((cell) => cell.cell_type === "code" && (cell.outputs || []).length > 0);
+  const outputCount = cells.reduce((count, cell) => count + (cell.outputs || []).length, 0);
+  const codeCount = cells.filter((cell) => cell.cell_type === "code").length;
   if (!cells.length) return <div className="viewer-empty"><p>This notebook is empty.</p></div>;
 
   return (
     <div className="notebook-view">
+      <div className="notebook-view-toolbar"><div><strong>Saved notebook results</strong><span>{outputCount} outputs from {codeCount} code cells · shown directly from GitHub</span></div><div className="notebook-view-switch" role="group" aria-label="Notebook display mode"><button type="button" className={view === "results" ? "active" : ""} onClick={() => setView("results")}>Results first</button><button type="button" className={view === "full" ? "active" : ""} onClick={() => setView("full")}>Code & results</button></div></div>
       {!hasSavedOutputs && <div className="notebook-output-note notebook-source-note"><p>This source notebook has no saved execution outputs. The code is shown as published; results would require running it with its source data.</p>{fallbackImage && <img src={assetUrl(fallbackImage)} alt={`${title} project visual`} loading="lazy" />}</div>}
       {cells.map((cell, index) => {
         const cellSource = notebookText(cell.source);
         if (cell.cell_type === "markdown") {
           const paragraphs = cellSource.split(/\n\s*\n/).map(notebookMarkdown).filter(Boolean);
           const summary = paragraphs[0] || "Notebook notes";
-          return <details className="notebook-markdown" key={index}><summary>{summary.slice(0, 115)}{summary.length > 115 ? "…" : ""}</summary><div>{paragraphs.map((paragraph, paragraphIndex) => <p key={paragraphIndex}>{paragraph}</p>)}</div></details>;
+          return <details className="notebook-markdown" key={index} open={view === "full" || index === 0}><summary>{summary.slice(0, 115)}{summary.length > 115 ? "…" : ""}</summary><div>{paragraphs.map((paragraph, paragraphIndex) => <p key={paragraphIndex}>{paragraph}</p>)}</div></details>;
         }
         if (cell.cell_type !== "code") return null;
+        if (view === "results" && !(cell.outputs || []).length) return null;
         return (
-          <div className="notebook-cell" key={index}>
-            <span className="cell-prompt">In [{cell.execution_count ?? " "}]</span>
-            <CodeBlock value={cellSource} language="python" />
+          <div className="notebook-cell notebook-cell-result" key={index}>
+            <span className="cell-prompt">[{cell.execution_count ?? " "}]</span>
+            {view === "full" ? <CodeBlock value={cellSource} language="python" /> : <details className="notebook-code-toggle"><summary>View Python code for this result</summary><CodeBlock value={cellSource} language="python" /></details>}
             {(cell.outputs || []).map((output, outputIndex) => <NotebookOutput output={output} key={outputIndex} />)}
           </div>
         );

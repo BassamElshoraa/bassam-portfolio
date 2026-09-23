@@ -294,8 +294,9 @@ export default function Home() {
             <div className="role-portfolio" aria-label="Professional roles">
               {(profile.roleGroups || [{ label: "Expertise", roles: profile.roleKeywords || [] }]).map((group, index) => (
                 <div className={`role-portfolio-group role-portfolio-group-${index + 1}`} key={group.label}>
-                  <span className="role-portfolio-label"><i /> {group.label}</span>
-                  <div>{(group.roles || []).map((role) => <span className="role-portfolio-item" key={role}>{role}</span>)}</div>
+                  <div className="role-portfolio-top"><span className="role-portfolio-label">{group.label}</span><span className="role-portfolio-mark" aria-hidden="true">↗</span></div>
+                  <div className="role-portfolio-roles">{(group.roles || []).map((role) => <span className="role-portfolio-item" key={role}>{role}</span>)}</div>
+                  {group.description && <p className="role-portfolio-description">{group.description}</p>}
                 </div>
               ))}
             </div>

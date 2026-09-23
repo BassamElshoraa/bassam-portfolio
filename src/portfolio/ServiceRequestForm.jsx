@@ -9,11 +9,14 @@ const initialForm = {
   budget: "",
   timeline: "",
   details: "",
+  website: "",
 };
 
 export default function ServiceRequestForm({ email, services = [], initialService = "" }) {
   const [form, setForm] = useState(() => ({ ...initialForm, service: initialService }));
   const [status, setStatus] = useState("");
+  const [statusKind, setStatusKind] = useState("info");
+  const [sending, setSending] = useState(false);
 
   const serviceOptions = useMemo(() => services.map((service) => service.title), [services]);
 
@@ -40,11 +43,41 @@ export default function ServiceRequestForm({ email, services = [], initialServic
     return { subject, body };
   };
 
-  const submit = (event) => {
+  const submit = async (event) => {
     event.preventDefault();
-    const { subject, body } = requestText();
-    setStatus("Your email app should open. Please press Send there; nothing has been submitted yet. If it does not open, use Copy request.");
-    window.location.href = `mailto:${email}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+    const { subject } = requestText();
+    setSending(true);
+    setStatus("");
+    try {
+      const response = await fetch(`https://formsubmit.co/ajax/${encodeURIComponent(email)}`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json", Accept: "application/json" },
+        body: JSON.stringify({
+          name: form.name.trim(),
+          email: form.email.trim(),
+          company: form.company.trim(),
+          service: form.service,
+          budget: form.budget,
+          timeline: form.timeline.trim(),
+          message: form.details.trim(),
+          _subject: subject,
+          _template: "table",
+          _honey: form.website,
+        }),
+      });
+      const result = await response.json().catch(() => ({}));
+      if (!response.ok || (result.success !== undefined && result.success !== true && result.success !== "true")) {
+        throw new Error(result.message || "The form service did not confirm delivery.");
+      }
+      setStatus("Your request was submitted. Thank you — I’ll follow up by email.");
+      setStatusKind("success");
+      setForm({ ...initialForm, service: initialService });
+    } catch {
+      setStatus("The request could not be confirmed. Your details are still here; please retry or use the email link below. Sending by email requires you to press Send in your email app.");
+      setStatusKind("error");
+    } finally {
+      setSending(false);
+    }
   };
 
   const copyRequest = async (event) => {
@@ -53,8 +86,10 @@ export default function ServiceRequestForm({ email, services = [], initialServic
     try {
       await navigator.clipboard.writeText(`To: ${email}\nSubject: ${subject}\n\n${body}`);
       setStatus("Request copied. Paste it into your email app and send it to the address above.");
+      setStatusKind("info");
     } catch {
       setStatus(`Could not copy automatically. Please email ${email} directly.`);
+      setStatusKind("error");
     }
   };
 
@@ -67,6 +102,7 @@ export default function ServiceRequestForm({ email, services = [], initialServic
       </div>
 
       <div className="request-form-grid">
+        <label className="request-honeypot" aria-hidden="true">Website<input name="website" tabIndex="-1" autoComplete="off" value={form.website || ""} onChange={update} /></label>
         <label className="request-field">
           <span>Your name</span>
           <input required name="name" value={form.name} onChange={update} autoComplete="name" placeholder="Full name" />
@@ -107,10 +143,11 @@ export default function ServiceRequestForm({ email, services = [], initialServic
       </div>
 
       <div className="request-form-footer">
-        <button className="button" type="submit"><Send size={17} /> Open email request</button>
+        <button className="button" type="submit" disabled={sending}><Send size={17} /> {sending ? "Sending…" : "Send request"}</button>
         <button className="button button-ghost" type="button" onClick={copyRequest}><Copy size={17} /> Copy request</button>
       </div>
-      {status && <p className="request-ready" role="status">{status}</p>}
+      {status && <p className={`request-ready request-ready-${statusKind}`} role="status">{status}</p>}
+      <p className="request-privacy">This form uses FormSubmit to deliver your message. Prefer email? <a href={`mailto:${email}`}>Write to me directly</a>.</p>
     </form>
   );
 }
