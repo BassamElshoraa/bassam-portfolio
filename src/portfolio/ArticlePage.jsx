@@ -24,7 +24,7 @@ function articleBlocks(html = "") {
     const tag = element.tagName.toLowerCase();
     if (tag === "figure") {
       const image = element.querySelector("img");
-      return image ? { type: "image", src: image.src, alt: image.alt || "Article visual", key: index } : null;
+      return image ? { type: "image", src: image.getAttribute("src") || "", alt: image.alt || "Article visual", key: index } : null;
     }
     if (tag === "ul" || tag === "ol") {
       return { type: "list", ordered: tag === "ol", items: [...element.querySelectorAll(":scope > li")].map((item) => [...item.childNodes].map((child, childIndex) => renderInline(child, `${index}-${childIndex}`))), key: index };

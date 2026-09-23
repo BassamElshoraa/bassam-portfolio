@@ -35,6 +35,9 @@ for (const article of articles) {
   if (slugs.has(article.slug)) failures.push(`Duplicate article slug: ${article.slug}`);
   slugs.add(article.slug);
   await checkAsset(article.thumbnail, `${article.slug} cover`);
+  for (const match of article.content.matchAll(/<img\b[^>]*src="([^"]+)"/g)) {
+    await checkAsset(match[1], `${article.slug} inline image`);
+  }
   try { await access(path.join(dist, "articles", article.slug, "index.html")); }
   catch { failures.push(`Missing article route: ${article.slug}`); }
 }
