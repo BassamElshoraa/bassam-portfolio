@@ -6357,6 +6357,8 @@ img {
 /* Design controls and the separate editorial role cards */
 .section-pad { padding-block: var(--section-space, 110px); }
 .project-card, .service-card, .expertise-card, .article-card, .role-portfolio-group { border-radius: var(--card-radius, 18px); }
+@media (min-width: 1121px) { .nav-links a { font-size: 0.88rem; } }
+@media (min-width: 861px) and (max-width: 1120px) { .nav-links a { font-size: 0.79rem; } }
 
 .role-portfolio {
   grid-template-columns: repeat(3, minmax(0, 1fr));
@@ -6432,6 +6434,33 @@ img {
   color: var(--muted);
   font-size: 0.74rem;
   line-height: 1.5;
+}
+.project-card-impact {
+  margin: 0.2rem 0 1rem;
+  padding: 0.7rem 0.8rem;
+  border-left: 3px solid var(--accent);
+  border-radius: 0 9px 9px 0;
+  background: var(--accent-soft);
+}
+.project-card-impact span {
+  display: block;
+  margin-bottom: 0.12rem;
+  color: var(--accent-strong);
+  font-size: 0.64rem;
+  font-weight: 850;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+.project-card .project-card-impact p {
+  display: -webkit-box;
+  min-height: 0;
+  margin: 0;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  color: var(--text-soft);
+  font-size: 0.73rem;
+  line-height: 1.55;
 }
 :root[data-theme="dark"] .role-portfolio-group {
   background: color-mix(in srgb, var(--role-accent, var(--accent)) 6%, var(--surface));

@@ -41,6 +41,7 @@ export default function ProjectCard({ project, featured = false }) {
         </div>
         <h3><Link to={`/projects/${project.slug}`}>{project.title}</Link></h3>
         <p>{project.description}</p>
+        {project.featured && project.impact && <div className="project-card-impact"><span>Why it matters</span><p>{project.impact}</p></div>}
         <Link className="text-link" to={`/projects/${project.slug}`}>Explore case study <ArrowUpRight size={16} /></Link>
       </div>
     </article>
