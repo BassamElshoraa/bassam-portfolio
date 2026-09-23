@@ -13,6 +13,7 @@ function localPortfolioContent() {
   const projectsFile = path.join(dataDirectory, "portfolioProjects.json");
   const articlesFile = path.join(dataDirectory, "articles.json");
   const editableTopLevel = new Set(["index.html", "vite.config.js", "package.json", "README.md"]);
+  const generatedDirectoryNames = new Set(["node_modules", "dist", "build", ".sanity", ".git", "tmp"]);
   const sourceHash = (content) => createHash("sha256").update(content).digest("hex");
   const editableExtensions = /\.(?:jsx?|tsx?|css|html?|json|md|svg|txt|xml|webmanifest)$/i;
   const isEditableSourcePath = (filePath) => Boolean(filePath) && !filePath.includes("..") && !filePath.includes("\\") && !filePath.startsWith("/") && !/^public\/(?:data|image|files)\//.test(filePath) &&
@@ -27,7 +28,7 @@ function localPortfolioContent() {
       for (const entry of await fs.readdir(directory, { withFileTypes: true }).catch(() => [])) {
         const filePath = `${prefix}${entry.name}`;
         if (entry.isDirectory()) {
-          if (!/^public\/(?:data|image|files)\//.test(`${filePath}/`)) await visit(path.join(directory, entry.name), `${filePath}/`);
+          if (!generatedDirectoryNames.has(entry.name) && !/^public\/(?:data|image|files)\//.test(`${filePath}/`)) await visit(path.join(directory, entry.name), `${filePath}/`);
         } else if (entry.isFile() && isEditableSourcePath(filePath)) {
           const size = (await fs.stat(path.join(directory, entry.name))).size;
           if (size <= 600 * 1024) files.push({ path: filePath, size });

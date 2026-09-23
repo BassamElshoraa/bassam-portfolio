@@ -12,6 +12,7 @@ const portArgument = process.argv.find((argument) => argument.startsWith("--port
 const port = Number(portArgument?.split("=")[1] || process.env.PORT || 4173);
 const sourceHash = (content) => createHash("sha256").update(content).digest("hex");
 const editableTopLevel = new Set(["index.html", "vite.config.js", "package.json", "README.md"]);
+const generatedDirectoryNames = new Set(["node_modules", "dist", "build", ".sanity", ".git", "tmp"]);
 const editableExtensions = /\.(?:jsx?|tsx?|css|html?|json|md|svg|txt|xml|webmanifest)$/i;
 function editableSourcePath(filePath) {
   return Boolean(filePath) && !filePath.includes("..") && !filePath.includes("\\") && !filePath.startsWith("/") && !/^public\/(?:data|image|files)\//.test(filePath) &&
@@ -27,7 +28,7 @@ async function listSourceFiles() {
     for (const entry of await fs.readdir(directory, { withFileTypes: true }).catch(() => [])) {
       const filePath = `${prefix}${entry.name}`;
       if (entry.isDirectory()) {
-        if (!/^public\/(?:data|image|files)\//.test(`${filePath}/`)) await visit(path.join(directory, entry.name), `${filePath}/`);
+        if (!generatedDirectoryNames.has(entry.name) && !/^public\/(?:data|image|files)\//.test(`${filePath}/`)) await visit(path.join(directory, entry.name), `${filePath}/`);
       } else if (entry.isFile() && editableSourcePath(filePath)) {
         const size = (await fs.stat(path.join(directory, entry.name))).size;
         if (size <= 600 * 1024) files.push({ path: filePath, size });
