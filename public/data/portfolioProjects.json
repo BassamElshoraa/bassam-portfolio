@@ -92,7 +92,7 @@
   {
     "id": 22,
     "slug": "craigslist-used-vehicles-dataset-analysis",
-    "image": "image/project/pr22_73FF7767A891ECBD6342.png",
+    "image": "image/project/craigslist-vehicles-cover.svg",
     "title": "Craigslist Used Vehicles Dataset Analysis",
     "badges": [
       "Jupyter",
@@ -150,7 +150,7 @@
   {
     "id": 19,
     "slug": "auto-mpg-dataset-analysis",
-    "image": "image/project/pr19_D2C351A9695F25D7912D.jpg",
+    "image": "image/project/auto-mpg-cover.svg",
     "title": "Auto MPG Dataset Analysis",
     "badges": [
       "Python",
@@ -364,7 +364,7 @@
   {
     "id": 16,
     "slug": "hotel-reservation-analysis-mentorness-internship",
-    "image": "image/project/pr16_46CB510FEC907D135F1D.jpg",
+    "image": "image/project/hotel-reservations-cover.svg",
     "title": "Hotel Reservation Analysis - Mentorness Internship",
     "badges": [
       "Microsoft SQL Server SSMS"

@@ -1,0 +1,28 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 420" role="img" aria-label="Hotel reservations analysis illustration">
+  <defs>
+    <linearGradient id="bg" x2="1" y2="1"><stop stop-color="#123442"/><stop offset="1" stop-color="#24796e"/></linearGradient>
+    <filter id="shadow"><feDropShadow dx="0" dy="13" stdDeviation="17" flood-color="#031b25" flood-opacity=".33"/></filter>
+  </defs>
+  <rect width="1200" height="420" fill="url(#bg)"/>
+  <path d="M0 339c205-92 319 32 536-39s389-80 664-6v126H0Z" fill="#2a8479" opacity=".6"/>
+  <g opacity=".1" stroke="#e6fff9"><path d="M0 80h1200M0 160h1200M0 240h1200M0 320h1200M150 0v420M300 0v420M450 0v420M600 0v420M750 0v420M900 0v420M1050 0v420"/></g>
+  <text x="70" y="79" fill="#a6f0d9" font-family="Arial,sans-serif" font-weight="700" font-size="27" letter-spacing="4">HOTEL RESERVATIONS</text>
+  <text x="69" y="131" fill="#fff" font-family="Arial,sans-serif" font-weight="700" font-size="37">Booking patterns</text>
+  <g filter="url(#shadow)">
+    <rect x="70" y="185" width="406" height="183" rx="24" fill="#ecfcf4"/>
+    <path d="M122 333V226l51-24h205l49 24v107Z" fill="#81d6ba"/>
+    <rect x="168" y="244" width="35" height="31" rx="4" fill="#e6fff7"/><rect x="220" y="244" width="35" height="31" rx="4" fill="#e6fff7"/><rect x="272" y="244" width="35" height="31" rx="4" fill="#e6fff7"/><rect x="324" y="244" width="35" height="31" rx="4" fill="#e6fff7"/>
+    <rect x="168" y="288" width="35" height="31" rx="4" fill="#e6fff7"/><rect x="220" y="288" width="35" height="31" rx="4" fill="#e6fff7"/><rect x="272" y="288" width="35" height="31" rx="4" fill="#e6fff7"/><rect x="324" y="288" width="35" height="31" rx="4" fill="#e6fff7"/>
+    <rect x="117" y="331" width="315" height="16" rx="5" fill="#276d6a"/>
+    <path d="M166 224h217" stroke="#276d6a" stroke-width="8" stroke-linecap="round"/>
+  </g>
+  <g filter="url(#shadow)">
+    <rect x="523" y="73" width="608" height="296" rx="25" fill="#effaf6"/>
+    <text x="558" y="117" fill="#285648" font-family="Arial,sans-serif" font-size="23" font-weight="700">Demand across the booking window</text>
+    <path d="M561 307h530M561 254h530M561 201h530M561 148h530" stroke="#d0e5db" stroke-width="2"/>
+    <path d="M570 276C621 267 640 226 694 239s69-76 120-68 65 92 113 72 73-76 153-95" fill="none" stroke="#28a387" stroke-width="7" stroke-linecap="round"/>
+    <g fill="#126f63"><circle cx="570" cy="276" r="9"/><circle cx="694" cy="239" r="9"/><circle cx="814" cy="171" r="9"/><circle cx="927" cy="243" r="9"/><circle cx="1080" cy="148" r="9"/></g>
+    <text x="562" y="344" fill="#688d7e" font-family="Arial,sans-serif" font-size="17">LEAD TIME</text>
+    <text x="972" y="344" fill="#688d7e" font-family="Arial,sans-serif" font-size="17">ARRIVAL</text>
+  </g>
+</svg>
