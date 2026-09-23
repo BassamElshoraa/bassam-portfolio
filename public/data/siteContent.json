@@ -4,17 +4,54 @@
     "displayName": "Bassam Elshoraa",
     "eyebrow": "",
     "headline": "Turning complex data into",
-    "rotatingWords": ["decision-ready BI.", "financial clarity.", "reliable forecasts.", "business impact."],
+    "rotatingWords": [
+      "decision-ready BI.",
+      "financial clarity.",
+      "reliable forecasts.",
+      "business impact."
+    ],
     "subheadline": "I uncover the story behind the numbers and turn it into dashboards, insights, and practical decisions.",
     "summary": "Detail-oriented Data Analyst with expertise in SQL, Excel, Power BI, and Python, dedicated to translating complex datasets into clear, impactful insights.",
     "aboutDetails": "Skilled in data visualization, simplifying technical findings for diverse audiences, and uncovering hidden patterns beyond raw numbers. Adept at storytelling with data, crafting compelling narratives that drive informed decision-making. Experienced in designing interactive dashboards, conducting training sessions, and collaborating across teams to enhance data-driven strategies. Passionate about delivering actionable insights that bridge the gap between data and decision-makers.",
-    "roleKeywords": ["Data Analyst", "Business Intelligence Analyst", "Financial Analyst", "Data Analysis Instructor", "Reporting Analyst", "Business Analyst"],
-    "roleGroups": [
-      { "label": "Analyze", "roles": ["Data Analyst", "Financial Analyst", "Business Analyst"] },
-      { "label": "Build", "roles": ["Business Intelligence Analyst", "Reporting Analyst"] },
-      { "label": "Teach", "roles": ["Data Analysis Instructor"] }
+    "roleKeywords": [
+      "Data Analyst",
+      "Business Intelligence Analyst",
+      "Financial Analyst",
+      "Data Analysis Instructor",
+      "Reporting Analyst",
+      "Business Analyst"
     ],
-    "toolKeywords": ["Power BI", "SQL", "Python", "Excel", "Tableau", "Looker Studio"],
+    "roleGroups": [
+      {
+        "label": "Analyze",
+        "roles": [
+          "Data Analyst",
+          "Financial Analyst",
+          "Business Analyst"
+        ]
+      },
+      {
+        "label": "Build",
+        "roles": [
+          "Business Intelligence Analyst",
+          "Reporting Analyst"
+        ]
+      },
+      {
+        "label": "Teach",
+        "roles": [
+          "Data Analysis Instructor"
+        ]
+      }
+    ],
+    "toolKeywords": [
+      "Power BI",
+      "SQL",
+      "Python",
+      "Excel",
+      "Tableau",
+      "Looker Studio"
+    ],
     "location": "Cairo, Egypt",
     "email": "Bassam.m.elshoraa@gmail.com",
     "phone": "+201004298013",
@@ -43,14 +80,38 @@
     "seoImage": "image/personal/bassam-elshoraa-portrait-2026-optimized.jpg"
   },
   "navigation": [
-    { "label": "Home", "anchor": "home" },
-    { "label": "About", "anchor": "about" },
-    { "label": "Experience", "anchor": "experience" },
-    { "label": "Skills", "anchor": "skills" },
-    { "label": "Projects", "anchor": "projects" },
-    { "label": "Services", "anchor": "services" },
-    { "label": "Articles", "anchor": "articles" },
-    { "label": "Contact", "anchor": "contact" }
+    {
+      "label": "Home",
+      "anchor": "home"
+    },
+    {
+      "label": "About",
+      "anchor": "about"
+    },
+    {
+      "label": "Experience",
+      "anchor": "experience"
+    },
+    {
+      "label": "Skills",
+      "anchor": "skills"
+    },
+    {
+      "label": "Projects",
+      "anchor": "projects"
+    },
+    {
+      "label": "Services",
+      "anchor": "services"
+    },
+    {
+      "label": "Articles",
+      "anchor": "articles"
+    },
+    {
+      "label": "Contact",
+      "anchor": "contact"
+    }
   ],
   "toolLogos": {
     "Power BI": "image/tools/powerbi.svg",
@@ -62,9 +123,18 @@
     "Looker Studio": "image/tools/looker.svg"
   },
   "aboutHighlights": [
-    { "title": "Decision-ready BI", "description": "From scattered data to clear KPIs and reports." },
-    { "title": "Financial clarity", "description": "Budgets, forecasts, performance, and variance analysis." },
-    { "title": "Practical teaching", "description": "Hands-on analytics training built around real work." }
+    {
+      "title": "Decision-ready BI",
+      "description": "From scattered data to clear KPIs and reports."
+    },
+    {
+      "title": "Financial clarity",
+      "description": "Budgets, forecasts, performance, and variance analysis."
+    },
+    {
+      "title": "Practical teaching",
+      "description": "Hands-on analytics training built around real work."
+    }
   ],
   "organizations": [
     {
@@ -92,25 +162,45 @@
       "title": "Business Intelligence",
       "icon": "dashboard",
       "description": "Executive dashboards, semantic models, Power Query, KPI systems, and decision-focused reporting.",
-      "skills": ["Power BI", "Power Query", "Excel", "Tableau", "Looker Studio"]
+      "skills": [
+        "Power BI",
+        "Power Query",
+        "Excel",
+        "Tableau",
+        "Looker Studio"
+      ]
     },
     {
       "title": "Analytics & Forecasting",
       "icon": "activity",
       "description": "Exploratory analysis, statistical testing, forecasting, segmentation, and predictive modeling with reproducible workflows.",
-      "skills": ["Python", "Statsmodels", "Statistics"]
+      "skills": [
+        "Python",
+        "Statsmodels",
+        "Statistics"
+      ]
     },
     {
       "title": "Data Engineering & Automation",
       "icon": "workflow",
       "description": "SQL analysis, relational modeling, ETL workflows, reporting automation, and connected operational processes.",
-      "skills": ["SQL", "SQL Server", "SSIS", "Power Automate", "n8n"]
+      "skills": [
+        "SQL",
+        "SQL Server",
+        "SSIS",
+        "Power Automate",
+        "n8n"
+      ]
     },
     {
       "title": "Analytics Education",
       "icon": "teaching",
       "description": "End-to-end curricula, practical labs, capstone mentoring, and accessible storytelling for career changers and professionals.",
-      "skills": ["Curriculum Design", "Mentoring", "Assessment"]
+      "skills": [
+        "Curriculum Design",
+        "Mentoring",
+        "Assessment"
+      ]
     }
   ],
   "experience": [
@@ -191,12 +281,21 @@
     },
     {
       "id": "freelance",
-      "logos": ["/image/organizations/upwork.svg", "/image/organizations/khamsat.png"],
+      "logos": [
+        "/image/organizations/upwork.svg",
+        "/image/organizations/khamsat.png"
+      ],
       "role": "Freelance Data Analyst",
       "company": "Upwork & Khamsat",
       "companyLinks": [
-        { "label": "Upwork", "website": "https://www.upwork.com/" },
-        { "label": "Khamsat", "website": "https://khamsat.com/" }
+        {
+          "label": "Upwork",
+          "website": "https://www.upwork.com/"
+        },
+        {
+          "label": "Khamsat",
+          "website": "https://khamsat.com/"
+        }
       ],
       "period": "December 2022 to May 2025",
       "location": "Remote",
@@ -257,10 +356,28 @@
     }
   ],
   "certifications": [
-    { "title": "Data Visualization in Power BI", "issuer": "DataCamp", "period": "Professional learning" },
-    { "title": "Data Analysis Professional Track", "issuer": "FWD & Udacity", "period": "Issued October 2021", "image": "/image/udacity_analysis_track_page_1.jpg" },
-    { "title": "Data Analysis Challenger Track", "issuer": "FWD & Udacity", "period": "Issued June 2021", "image": "/image/udacity_data_analysis_challenger_page_1.jpg" },
-    { "title": "Intro to Descriptive Statistics", "issuer": "Udacity", "period": "Issued September 2022" }
+    {
+      "title": "Data Visualization in Power BI",
+      "issuer": "DataCamp",
+      "period": "Professional learning"
+    },
+    {
+      "title": "Data Analysis Professional Track",
+      "issuer": "FWD & Udacity",
+      "period": "Issued October 2021",
+      "image": "/image/udacity_analysis_track_page_1.jpg"
+    },
+    {
+      "title": "Data Analysis Challenger Track",
+      "issuer": "FWD & Udacity",
+      "period": "Issued June 2021",
+      "image": "/image/udacity_data_analysis_challenger_page_1.jpg"
+    },
+    {
+      "title": "Intro to Descriptive Statistics",
+      "issuer": "Udacity",
+      "period": "Issued September 2022"
+    }
   ],
   "services": [
     {
@@ -268,42 +385,66 @@
       "icon": "dashboard",
       "title": "Power BI Dashboards",
       "description": "Interactive executive and operational reports designed around the decisions your team needs to make.",
-      "deliverables": ["Data model and Power Query", "DAX measures and KPI design", "Interactive report and handover"]
+      "deliverables": [
+        "Data model and Power Query",
+        "DAX measures and KPI design",
+        "Interactive report and handover"
+      ]
     },
     {
       "id": "financial-reporting",
       "icon": "finance",
       "title": "Financial & Operational Reporting",
       "description": "Clear reporting for budgets, profitability, variance, performance, and day-to-day operational control.",
-      "deliverables": ["Budget and variance analysis", "P&L and KPI reporting", "Management-ready insights"]
+      "deliverables": [
+        "Budget and variance analysis",
+        "P&L and KPI reporting",
+        "Management-ready insights"
+      ]
     },
     {
       "id": "reporting-automation",
       "icon": "automation",
       "title": "Reporting Automation",
       "description": "Replace repetitive spreadsheet and reporting work with reliable Power Query, SQL, Python, or workflow automation.",
-      "deliverables": ["Process and data audit", "Automated refresh workflow", "Documentation and handover"]
+      "deliverables": [
+        "Process and data audit",
+        "Automated refresh workflow",
+        "Documentation and handover"
+      ]
     },
     {
       "id": "data-analysis",
       "icon": "analysis",
       "title": "SQL & Python Analysis",
       "description": "Clean, explore, and analyze business or research data to answer specific questions with reproducible code.",
-      "deliverables": ["Data cleaning and validation", "SQL or Python analysis", "Findings and visual summary"]
+      "deliverables": [
+        "Data cleaning and validation",
+        "SQL or Python analysis",
+        "Findings and visual summary"
+      ]
     },
     {
       "id": "learner-project-mentoring",
       "icon": "mentoring",
       "title": "Learner Mentoring & Project Follow-up",
       "description": "Structured follow-up for learners and project teams, from choosing the right question to presenting a finished dashboard, notebook, or analysis with confidence.",
-      "deliverables": ["Project planning and milestones", "Technical review and practical feedback", "Portfolio and presentation readiness"]
+      "deliverables": [
+        "Project planning and milestones",
+        "Technical review and practical feedback",
+        "Portfolio and presentation readiness"
+      ]
     },
     {
       "id": "analytics-training",
       "icon": "training",
       "title": "Analytics Training & Workshops",
       "description": "Practical programs for teams and learners across Excel, SQL, Power BI, Python, and data storytelling.",
-      "deliverables": ["Tailored curriculum", "Hands-on exercises", "Assessment or capstone support"]
+      "deliverables": [
+        "Tailored curriculum",
+        "Hands-on exercises",
+        "Assessment or capstone support"
+      ]
     }
   ]
 }
