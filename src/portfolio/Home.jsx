@@ -175,6 +175,7 @@ function CredentialSpotlight({ items = [] }) {
   return (
     <div className="hero-credentials reveal">
       <div className="credential-strip-heading">
+        <span className="credential-strip-label">Certificates & education</span>
         <div className="credential-controls" aria-label="Certificate navigation">
           <button type="button" onClick={() => move(-1)} aria-label="Previous certificate"><ChevronLeft size={19} /></button>
           <button type="button" onClick={() => move(1)} aria-label="Next certificate"><ChevronRight size={19} /></button>
@@ -291,13 +292,9 @@ export default function Home() {
             </h1>
             <p className="hero-subtitle">{profile.subheadline}</p>
 
-            <div className="role-portfolio" aria-label="Professional roles">
-              {(profile.roleGroups || [{ label: "Expertise", roles: profile.roleKeywords || [] }]).map((group, index) => (
-                <div className={`role-portfolio-group role-portfolio-group-${index + 1}`} key={group.label}>
-                  <div className="role-portfolio-top"><span className="role-portfolio-label">{group.label}</span><span className="role-portfolio-mark" aria-hidden="true">↗</span></div>
-                  <div className="role-portfolio-roles">{(group.roles || []).map((role) => <span className="role-portfolio-item" key={role}>{role}</span>)}</div>
-                  {group.description && <p className="role-portfolio-description">{group.description}</p>}
-                </div>
+            <div className="role-lineup" aria-label="Professional roles">
+              {(profile.roleKeywords || profile.roleGroups?.flatMap((group) => group.roles || []) || []).filter((role) => role?.trim()).map((role) => (
+                <span className="role-lineup-item" key={role}>{role}</span>
               ))}
             </div>
 

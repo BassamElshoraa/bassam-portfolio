@@ -1,9 +1,11 @@
 import { useMemo, useState } from "react";
-import { Copy, Mail, Send } from "lucide-react";
+import { Copy, Mail, Phone, Send } from "lucide-react";
 
 const initialForm = {
   name: "",
+  contactMethod: "email",
   email: "",
+  phone: "",
   company: "",
   service: "",
   budget: "",
@@ -27,10 +29,11 @@ export default function ServiceRequestForm({ email, services = [], initialServic
   };
 
   const requestText = () => {
-    const subject = `Service request: ${form.service}, ${form.name}`;
+    const subject = `Service request (${form.contactMethod}): ${form.service}, ${form.name}`;
     const body = [
       `Name: ${form.name}`,
-      `Email: ${form.email}`,
+      `Preferred contact method: ${form.contactMethod === "phone" ? "Phone" : "Email"}`,
+      `${form.contactMethod === "phone" ? "Phone" : "Email"}: ${form.contactMethod === "phone" ? form.phone : form.email}`,
       `Company: ${form.company || "Not provided"}`,
       `Service: ${form.service}`,
       `Budget range: ${form.budget || "Not specified"}`,
@@ -54,7 +57,8 @@ export default function ServiceRequestForm({ email, services = [], initialServic
         headers: { "Content-Type": "application/json", Accept: "application/json" },
         body: JSON.stringify({
           name: form.name.trim(),
-          email: form.email.trim(),
+          preferred_contact_method: form.contactMethod === "phone" ? "Phone" : "Email",
+          ...(form.contactMethod === "phone" ? { phone: form.phone.trim() } : { email: form.email.trim() }),
           company: form.company.trim(),
           service: form.service,
           budget: form.budget,
@@ -69,7 +73,7 @@ export default function ServiceRequestForm({ email, services = [], initialServic
       if (!response.ok || (result.success !== undefined && result.success !== true && result.success !== "true")) {
         throw new Error(result.message || "The form service did not confirm delivery.");
       }
-      setStatus("Your request was submitted. Thank you — I’ll follow up by email.");
+      setStatus(`Your request was submitted. Thank you — I’ll follow up by ${form.contactMethod === "phone" ? "phone" : "email"}.`);
       setStatusKind("success");
       setForm({ ...initialForm, service: initialService });
     } catch {
@@ -107,10 +111,24 @@ export default function ServiceRequestForm({ email, services = [], initialServic
           <span>Your name</span>
           <input required name="name" value={form.name} onChange={update} autoComplete="name" placeholder="Full name" />
         </label>
-        <label className="request-field">
-          <span>Email</span>
-          <input required type="email" name="email" value={form.email} onChange={update} autoComplete="email" placeholder="you@company.com" />
-        </label>
+        <fieldset className="request-contact-method request-field-wide">
+          <legend>How should I contact you?</legend>
+          <div className="request-contact-options">
+            <label><input type="radio" name="contactMethod" value="email" checked={form.contactMethod === "email"} onChange={update} /><Mail size={17} /> Email</label>
+            <label><input type="radio" name="contactMethod" value="phone" checked={form.contactMethod === "phone"} onChange={update} /><Phone size={17} /> Phone</label>
+          </div>
+        </fieldset>
+        {form.contactMethod === "phone" ? (
+          <label className="request-field">
+            <span>Phone number</span>
+            <input required type="tel" inputMode="tel" minLength="7" name="phone" value={form.phone} onChange={update} autoComplete="tel" placeholder="Include your country code" />
+          </label>
+        ) : (
+          <label className="request-field">
+            <span>Email address</span>
+            <input required type="email" name="email" value={form.email} onChange={update} autoComplete="email" placeholder="you@company.com" />
+          </label>
+        )}
         <label className="request-field">
           <span>Company <small>optional</small></span>
           <input name="company" value={form.company} onChange={update} autoComplete="organization" placeholder="Company or organization" />
